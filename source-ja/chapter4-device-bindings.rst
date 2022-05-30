@@ -2,19 +2,28 @@
 
 .. _chapter-device-bindings:
 
-Device Bindings
+..
+   Device Bindings
+デバイスバインディング
 ===============
 
-This chapter contains requirements, known as bindings, for how specific
-types and classes of devices are represented in the devicetree. The
-compatible property of a device node describes the specific binding (or
-bindings) to which the node complies.
+..
+   This chapter contains requirements, known as bindings, for how specific
+   types and classes of devices are represented in the devicetree. The
+   compatible property of a device node describes the specific binding (or
+   bindings) to which the node complies.
+この章には、特定のタイプおよびクラスのデバイスがデバイスツリーでどのように表されるかについての、バインディングと呼ばれる要件が含まれています。
+デバイスノードの互換性プロパティは、ノードが準拠する特定のバインディング（または複数のバインディング）を記述します。
 
-Bindings may be defined as extensions of other each. For example a new
-bus type could be defined as an extension of the simple-bus binding. In
-this case, the compatible property would contain several strings
-identifying each binding—from the most specific to the most general (see
-:numref:`sect-standard-properties-compatible`, compatible).
+..
+   Bindings may be defined as extensions of other each. For example a new
+   bus type could be defined as an extension of the simple-bus binding. In
+   this case, the compatible property would contain several strings
+   identifying each binding—from the most specific to the most general (see
+   :numref:`sect-standard-properties-compatible`, compatible).
+バインディングは、他のそれぞれの拡張として定義できます。
+たとえば、新しいバスタイプは、シンプルバスバインディングの拡張として定義できます。
+この場合、互換性のあるプロパティには、各バインディングを識別するいくつかの文字列が含まれます（最も具体的なものから最も一般的なものまで）（:numref:`sect-standard-properties-compatible`, compatible を参照）。
 
 Binding Guidelines
 ------------------

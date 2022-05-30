@@ -2,45 +2,71 @@
 
 .. _chapter-devicetree:
 
-The Devicetree
+..
+   The Devicetree
+デバイスツリー
 ==============
 
-Overview
+..
+   Overview
+概要
 --------
 
-|spec| specifies a construct called a *devicetree* to describe
-system hardware. A boot program loads a devicetree into a client
-program’s memory and passes a pointer to the devicetree to the client.
+..
+   |spec| specifies a construct called a *devicetree* to describe
+   system hardware. A boot program loads a devicetree into a client
+   program’s memory and passes a pointer to the devicetree to the client.
+|spec|システムハードウェアを記述するための *デバイスツリー* と呼ばれる構造を指定します。
+ブートプログラムは、デバイスツリーをクライアントプログラムのメモリにロードし、デバイスツリーへのポインタをクライアントに渡します。
 
-This chapter describes the logical structure of the devicetree and
-specifies a base set of properties for use in describing device nodes.
-:numref:`Chapter %s <chapter-device-node-requirements>` specifies certain device nodes
-required by a |spec|-compliant
-devicetree. :numref:`Chapter %s <chapter-device-bindings>` describes the
-|spec|-defined device bindings -- the requirements for representing
-certain device types or classes of devices.
-:numref:`Chapter %s <chapter-fdt-structure>` describes the in-memory encoding of the devicetree.
+..
+   This chapter describes the logical structure of the devicetree and
+   specifies a base set of properties for use in describing device nodes.
+   :numref:`Chapter %s <chapter-device-node-requirements>` specifies certain device nodes
+   required by a |spec|-compliant
+   devicetree. :numref:`Chapter %s <chapter-device-bindings>` describes the
+   |spec|-defined device bindings -- the requirements for representing
+   certain device types or classes of devices.
+   :numref:`Chapter %s <chapter-fdt-structure>` describes the in-memory encoding of the devicetree.
+この章では、デバイスツリーの論理構造について説明し、デバイスノードの説明に使用するプロパティの基本セットを指定します。
+:numref:`Chapter %s <chapter-device-node-requirements>` は、|spec|準拠のデバイスツリーに必要な特定のデバイスノードを指定します。
+:numref:`Chapter %s <chapter-device-bindings>` は、|spec|で定義されたデバイスバインディング（特定のデバイスタイプまたはデバイスのクラスを表すための要件）について説明しています。
+:numref:`Chapter %s <chapter-fdt-structure>` は、デバイスツリーのメモリ内エンコーディングについて説明しています。
 
-A devicetree is a tree data structure with nodes that describe the
-devices in a system. Each node has property/value pairs that describe
-the characteristics of the device being represented. Each node has
-exactly one parent except for the root node, which has no parent.
+..
+   A devicetree is a tree data structure with nodes that describe the
+   devices in a system. Each node has property/value pairs that describe
+   the characteristics of the device being represented. Each node has
+   exactly one parent except for the root node, which has no parent.
+デバイスツリーは、システム内のデバイスを記述するノードを持つツリーデータ構造です。
+各ノードには、表現されているデバイスの特性を説明するプロパティと値のペアがあります。
+親がないルートノードを除いて、各ノードには1つの親があります。
 
-A |spec|-compliant devicetree describes device information in a system
-that cannot necessarily be dynamically detected by a client program. For
-example, the architecture of PCI enables a client to probe and detect
-attached devices, and thus devicetree nodes describing PCI devices
-might not be required. However, a device node is required to describe a
-PCI host bridge device in the system if it cannot be detected by
-probing.
+..
+   A |spec|-compliant devicetree describes device information in a system
+   that cannot necessarily be dynamically detected by a client program. For
+   example, the architecture of PCI enables a client to probe and detect
+   attached devices, and thus devicetree nodes describing PCI devices
+   might not be required. However, a device node is required to describe a
+   PCI host bridge device in the system if it cannot be detected by
+   probing.
+|spec|準拠のデバイスツリーは、クライアントプログラムによって必ずしも動的に検出されるとは限らないシステム内のデバイス情報を記述します。
+たとえば、PCIのアーキテクチャにより、クライアントは接続されたデバイスを探索および検出できるため、PCIデバイスを記述するデバイスツリーノードは必要ない場合があります。
+ただし、探索で検出できない場合は、システム内のPCIホストブリッジデバイスを記述するためにデバイスノードが必要です。
 
-**Example**
 
-:numref:`example-simple-devicetree` shows an example representation of a
-simple devicetree that is nearly
-complete enough to boot a simple operating system, with the platform
-type, CPU, memory and a single UART described. Device nodes are shown
-with properties and values inside each node.
+..
+   **Example**
+**例**
+
+..
+   :numref:`example-simple-devicetree` shows an example representation of a
+   simple devicetree that is nearly
+   complete enough to boot a simple operating system, with the platform
+   type, CPU, memory and a single UART described. Device nodes are shown
+   with properties and values inside each node.
+:numref:`example-simple-devicetree` は、プラットフォームタイプ、CPU、メモリ、および一つのUARTが記述された、単純なオペレーティングシステムを起動するのにほぼ完全な単純なデバイスツリーの表現例を示しています。
+デバイスノードは、各ノード内のプロパティと値とともに表示されます。
 
 .. _example-simple-devicetree:
 .. digraph:: tree
@@ -95,25 +121,36 @@ with properties and values inside each node.
    "/":e    -> "chosen":w
    "/":e    -> "aliases":w
 
-Devicetree Structure and Conventions
+..
+   Devicetree Structure and Conventions
+デバイスツリーの構造と規則
 ------------------------------------
 
 .. _sect-node-names:
 
-Node Names
+..
+   Node Names
+ノード名
 ~~~~~~~~~~
 
-Node Name Requirements
+..
+   Node Name Requirements
+ノード名の要件
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Each node in the devicetree is named according to the following
-convention:
+..
+   Each node in the devicetree is named according to the following
+   convention:
+デバイスツリーの各ノードには、次の規則に従って名前が付けられます。
 
    ``node-name@unit-address``
 
-The *node-name* component specifies the name of the node. It shall be 1
-to 31 characters in length and consist solely of characters from the set
-of characters in :numref:`node-name-characters`.
+..
+   The *node-name* component specifies the name of the node. It shall be 1
+   to 31 characters in length and consist solely of characters from the set
+   of characters in :numref:`node-name-characters`.
+*node-name* コンポーネントは、ノードの名前を指定します。
+長さは1〜31文字で、:numref:`node-name-characters` の文字セットの文字のみで構成されます。
 
 .. tabularcolumns:: | c p{8cm} |
 .. _node-name-characters:
@@ -132,25 +169,37 @@ of characters in :numref:`node-name-characters`.
    ``-``     dash
    ========= ================
 
-The *node-name* shall start with a lower or uppercase character and
-should describe the general class of device.
+..
+   The *node-name* shall start with a lower or uppercase character and
+   should describe the general class of device.
+*node-name* は小文字または大文字で始まり、デバイスの一般的なクラスを説明する必要があります。
 
-The *unit-address* component of the name is specific to the bus type on
-which the node sits. It consists of one or more ASCII characters from
-the set of characters in :numref:`node-name-characters`. The
-unit-address must match the first
-address specified in the *reg* property of the node. If the node has no
-*reg* property, the *@unit-address* must be omitted and the
-*node-name* alone differentiates the node from other nodes at the same
-level in the tree. The binding for a particular bus may specify
-additional, more specific requirements for the format of *reg* and the
-*unit-address*.
+..
+   The *unit-address* component of the name is specific to the bus type on
+   which the node sits. It consists of one or more ASCII characters from
+   the set of characters in :numref:`node-name-characters`. The
+   unit-address must match the first
+   address specified in the *reg* property of the node. If the node has no
+   *reg* property, the *@unit-address* must be omitted and the
+   *node-name* alone differentiates the node from other nodes at the same
+   level in the tree. The binding for a particular bus may specify
+   additional, more specific requirements for the format of *reg* and the
+   *unit-address*.
+名前の *unit-address* コンポーネントは、ノードが置かれているバスタイプに固有です。
+これは、 :numref:`node-name-characters` の文字セットからの1つ以上のASCII文字で構成されます。
+unit-address は、ノードの *reg* プロパティで指定された最初のアドレスと一致する必要があります。
+ノードに *reg* プロパティがない場合は、 *@unit-address* を省略し、 *node-name* だけで、ツリー内の同じレベルにある他のノードとノードを区別します。
+特定のバスのバインディングでは、*reg* の形式と *unit-address* に関する追加のより具体的な要件を指定できます。
 
-In the case of *node-name* without an *@unit-address* the *node-name* shall
-be unique from any property names at the same level in the tree.
+..
+   In the case of *node-name* without an *@unit-address* the *node-name* shall
+   be unique from any property names at the same level in the tree.
+*@unit-address* のない *node-name* の場合、 *node-name* は、ツリー内の同じレベルにあるすべてのプロパティ名から一意である必要があります。
 
-The root node does not have a node-name or unit-address. It is
-identified by a forward slash (/).
+..
+   The root node does not have a node-name or unit-address. It is
+   identified by a forward slash (/).
+ルートノードには、ノード名またはユニットアドレスがありません。スラッシュ（/）で識別されます。
 
 .. _example-nodenames:
 .. digraph:: tree
@@ -171,17 +220,25 @@ identified by a forward slash (/).
 
 In :numref:`example-nodenames`:
 
-* The nodes with the name ``cpu`` are distinguished by their unit-address
-  values of 0 and 1.
-* The nodes with the name ``ethernet`` are distinguished by their
-  unit-address values of ``fe002000`` and ``fe003000``.
+..
+   * The nodes with the name ``cpu`` are distinguished by their unit-address
+   values of 0 and 1.
+   * The nodes with the name ``ethernet`` are distinguished by their
+   unit-address values of ``fe002000`` and ``fe003000``.
+* ``cpu`` という名前のノードは、0と1のユニットアドレス値によって区別されます。
+* ``ethernet`` という名前のノードは、ユニットアドレス値 ``fe002000`` および ``fe003000`` によって区別されます。
 
-Generic Names Recommendation
+..
+   Generic Names Recommendation
+一般名の推奨事項
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The name of a node should be somewhat generic, reflecting the function
-of the device and not its precise programming model. If appropriate, the
-name should be one of the following choices:
+..
+   The name of a node should be somewhat generic, reflecting the function
+   of the device and not its precise programming model. If appropriate, the
+   name should be one of the following choices:
+ノードの名前は、正確なプログラミングモデルではなく、デバイスの機能を反映して、ある程度一般的なものにする必要があります。
+必要に応じて、名前は次のいずれかの選択肢になります。
 
 .. FIXME should describe when each node name is appropriate
 
@@ -289,40 +346,63 @@ name should be one of the following choices:
    * watchdog
    * wifi
 
-Path Names
+..
+   Path Names
+パス名
 ~~~~~~~~~~
 
-A node in the devicetree can be uniquely identified by specifying the
-full path from the root node, through all descendant nodes, to the
-desired node.
+..
+   A node in the devicetree can be uniquely identified by specifying the
+   full path from the root node, through all descendant nodes, to the
+   desired node.
+デバイスツリー内のノードは、ルートノードからすべての子孫ノードを経由して目的のノードまでのフルパスを指定することで一意に識別できます。
 
-The convention for specifying a device path is:
+..
+   The convention for specifying a device path is:
+デバイスパスを指定するための規則は次のとおりです。
 
     ``/node-name-1/node-name-2/node-name-N``
 
-For example, in :numref:`example-nodenames`, the device path to cpu #1 would be:
+..
+   For example, in :numref:`example-nodenames`, the device path to cpu #1 would be:
+たとえば、 :numref:`example-nodenames` では、CPU#1 へのデバイスパスは次のようになります。
 
     ``/cpus/cpu@1``
 
-The path to the root node is /.
+..
+   The path to the root node is /.
+ルートノードへのパスは/です。
 
-A unit address may be omitted if the full path to the node is
-unambiguous.
+..
+   A unit address may be omitted if the full path to the node is
+   unambiguous.
+ノードへのフルパスが明確な場合は、ユニットアドレスを省略できます。 
 
-If a client program encounters an ambiguous path, its behavior is
-undefined.
+..
+   If a client program encounters an ambiguous path, its behavior is
+   undefined.
+クライアントプログラムがあいまいなパスに遭遇した場合、その動作は定義されていません。
 
-Properties
+..
+   Properties
+プロパティ
 ~~~~~~~~~~
 
-Each node in the devicetree has properties that describe the
-characteristics of the node. Properties consist of a name and a value.
+..
+   Each node in the devicetree has properties that describe the
+   characteristics of the node. Properties consist of a name and a value.
+デバイスツリーの各ノードには、ノードの特性を説明するプロパティがあります。
+プロパティは、名前と値で構成されます。
 
-Property Names
+..
+   Property Names
+プロパティ名
 ^^^^^^^^^^^^^^
 
-Property names are strings of 1 to 31 characters from the characters show in
-:numref:`property-name-characters`
+..
+   Property names are strings of 1 to 31 characters from the characters show in
+   :numref:`property-name-characters`
+プロパティ名は、 :numref:`property-name-characters` に表示される文字の1〜31文字の文字列です。
 
 .. tabularcolumns:: | c p{8cm} |
 .. _property-name-characters:
@@ -343,9 +423,12 @@ Property names are strings of 1 to 31 characters from the characters show in
    ``-``     dash
    ========= ================
 
-Nonstandard property names should specify a unique string prefix, such
-as a stock ticker symbol, identifying the name of the company or
-organization that defined the property. Examples:
+..
+   Nonstandard property names should specify a unique string prefix, such
+   as a stock ticker symbol, identifying the name of the company or
+   organization that defined the property. Examples:
+非標準のプロパティ名では、プロパティを定義した会社または組織の名前を識別する、株式相場記号などの一意の文字列プレフィックスを指定する必要があります。
+例：
 
    | ``fsl,channel-fifo-len``
    | ``ibm,ppc-interrupt-server#s``
@@ -353,15 +436,22 @@ organization that defined the property. Examples:
 
 .. _sect-property-values:
 
-Property Values
+..
+   Property Values
+プロパティ値
 ^^^^^^^^^^^^^^^
 
-A property value is an array of zero or more bytes that contain
-information associated with the property.
+..
+   A property value is an array of zero or more bytes that contain
+   information associated with the property.
+プロパティ値は、プロパティに関連付けられた情報を含む0バイト以上の配列です。
 
-Properties might have an empty value if conveying true-false
-information. In this case, the presence or absence of the property is
-sufficiently descriptive.
+..
+   Properties might have an empty value if conveying true-false
+   information. In this case, the presence or absence of the property is
+   sufficiently descriptive.
+真偽の情報を伝達する場合、プロパティの値は空になる可能性があります。
+この場合、プロパティの有無は十分に説明的です。
 
 :numref:`property-values-table` describes the set of basic value types defined by the |spec|.
 
@@ -373,11 +463,15 @@ sufficiently descriptive.
    ======================== ==================================================================
    Value                    Description
    ======================== ==================================================================
-   ``<empty>``              Value is empty. Used for conveying true-false information, when
-                            the presence or absence of the property itself is sufficiently
-                            descriptive.
-   ``<u32>``                A 32-bit integer in big-endian format. Example: the 32-bit value
-                            0x11223344 would be represented in memory as:
+   .. ``<empty>``              Value is empty. Used for conveying true-false information, when
+   ..                          the presence or absence of the property itself is sufficiently
+   ..                          descriptive.
+   ``<empty>``              値は空です。
+                            プロパティ自体の有無が十分に説明的である場合に、真偽の情報を伝達するために使用されます。
+   .. ``<u32>``                A 32-bit integer in big-endian format. Example: the 32-bit value
+   ..                          0x11223344 would be represented in memory as:
+   ``<u32>``                ビッグエンディアン形式の32ビット整数。
+                            例: 32ビット値0x11223344は、メモリ内で次のように表されます。
 
                                ::
 
@@ -445,58 +539,90 @@ sufficiently descriptive.
 
 .. _sect-standard-properties:
 
-Standard Properties
+..
+   Standard Properties
+標準プロパティ
 -------------------
 
-|spec| specifies a set of standard properties for device nodes. These
-properties are described in detail in this section.
-Device nodes defined by |spec|
-(see :numref:`Chapter %s <chapter-device-node-requirements>`) may specify
-additional requirements or constraints regarding the use of the standard
-properties.
-:numref:`Chapter %s <chapter-device-bindings>` describes the representation
-of specific devices and may also specify additional requirements.
+..
+   |spec| specifies a set of standard properties for device nodes. These
+   properties are described in detail in this section.
+   Device nodes defined by |spec|
+   (see :numref:`Chapter %s <chapter-device-node-requirements>`) may specify
+   additional requirements or constraints regarding the use of the standard
+   properties.
+   :numref:`Chapter %s <chapter-device-bindings>` describes the representation
+   of specific devices and may also specify additional requirements.
+|spec|はデバイスノードの標準プロパティのセットを指定します。
+これらのプロパティについては、このセクションで詳しく説明します。
+|spec|で定義されたデバイスノード（:numref:`Chapter %s <chapter-device-node-requirements>` を参照）は、標準プロパティの使用に関する追加の要件または制約を指定する場合があります。
+ :numref:`Chapter %s <chapter-device-bindings>` は、特定のデバイスの表現を説明し、追加の要件を指定する場合もあります。
 
-.. note:: All examples of devicetree nodes in this document use the
-   :abbr:`DTS (Devicetree Source)` format for specifying nodes and properties.
-
+..
+   .. note:: All examples of devicetree nodes in this document use the
+      :abbr:`DTS (Devicetree Source)` format for specifying nodes and properties.
+.. note:: このドキュメントのデバイスツリーノードのすべての例では、ノードとプロパティを指定するために :abbr:`DTS (Devicetree Source)` 形式を使用しています。
 
 .. _sect-standard-properties-compatible:
 
 compatible
 ~~~~~~~~~~
 
-Property name: ``compatible``
+..
+   Property name: ``compatible``
+プロパティ名: ``compatible``
 
 Value type: ``<stringlist>``
 
-Description:
+..
+   Description:
 
-   The *compatible* property value consists of one or more strings that
-   define the specific programming model for the device. This list of
-   strings should be used by a client program for device driver selection.
-   The property value consists of a concatenated list of null terminated
-   strings, from most specific to most general. They allow a device to
-   express its compatibility with a family of similar devices, potentially
-   allowing a single device driver to match against several devices.
+      The *compatible* property value consists of one or more strings that
+      define the specific programming model for the device. This list of
+      strings should be used by a client program for device driver selection.
+      The property value consists of a concatenated list of null terminated
+      strings, from most specific to most general. They allow a device to
+      express its compatibility with a family of similar devices, potentially
+      allowing a single device driver to match against several devices.
 
-   The recommended format is ``"manufacturer,model"``, where
-   ``manufacturer`` is a string describing the name of the manufacturer
-   (such as a stock ticker symbol), and ``model`` specifies the model
-   number.
+      The recommended format is ``"manufacturer,model"``, where
+      ``manufacturer`` is a string describing the name of the manufacturer
+      (such as a stock ticker symbol), and ``model`` specifies the model
+      number.
 
-   The compatible string should consist only of lowercase letters, digits and
-   dashes, and should start with a letter. A single comma is typically only
-   used following a vendor prefix. Underscores should not be used.
+      The compatible string should consist only of lowercase letters, digits and
+      dashes, and should start with a letter. A single comma is typically only
+      used following a vendor prefix. Underscores should not be used.
 
-Example:
+説明:
+
+   *compatible* プロパティ値は、デバイスの特定のプログラミングモデルを定義する1つ以上の文字列で構成されます。
+   この文字列のリストは、クライアントプログラムがデバイスドライバを選択するために使用する必要があります。
+   プロパティ値は、最も具体的なものから最も一般的なものまで、null終端文字列の連結リストで構成されます。
+   これらにより、デバイスは類似デバイスのファミリーとの互換性を表現できるため、単一のデバイスドライバーを複数のデバイスと照合できる可能性があります。
+
+   推奨される形式は ``"manufacturer,model"`` です。ここで、 ``manufacturer`` は製造元の名前（株式相場記号など）を説明する文字列であり、 ``model`` はモデル番号を指定します。
+
+   compatible の文字列は、小文字、数字、ダッシュのみで構成され、英文字で始まる必要があります。
+   単一のコンマは通常、ベンダープレフィックスの後にのみ使用されます。
+   下線は使用しないでください。   
+
+..
+   Example:
+
+      ``compatible = "fsl,mpc8641", "ns16550";``
+
+      In this example, an operating system would first try to locate a device
+      driver that supported fsl,mpc8641. If a driver was not found, it
+      would then try to locate a driver that supported the more general
+      ns16550 device type.
+
+例:
 
    ``compatible = "fsl,mpc8641", "ns16550";``
 
-   In this example, an operating system would first try to locate a device
-   driver that supported fsl,mpc8641. If a driver was not found, it
-   would then try to locate a driver that supported the more general
-   ns16550 device type.
+この例では、オペレーティングシステムは、最初に fsl,mpc8641 をサポートするデバイスドライバーを見つけようとします。
+ドライバーが見つからなかった場合は、より一般的な ns16550 デバイスタイプをサポートするドライバーを見つけようとします。
 
 model
 ~~~~~
@@ -863,24 +989,34 @@ Description:
 
 .. _sect-interrupts:
 
-Interrupts and Interrupt Mapping
+..
+   Interrupts and Interrupt Mapping
+割り込みと割り込みマッピング
 --------------------------------
 
-|spec| adopts the interrupt tree model of representing interrupts
-specified in *Open Firmware Recommended Practice: Interrupt Mapping,
-Version 0.9* [b7]_. Within the devicetree a logical interrupt tree exists
-that represents the hierarchy and routing of interrupts in the platform
-hardware. While generically referred to as an interrupt tree it is more
-technically a directed acyclic graph.
+..
+   |spec| adopts the interrupt tree model of representing interrupts
+   specified in *Open Firmware Recommended Practice: Interrupt Mapping,
+   Version 0.9* [b7]_. Within the devicetree a logical interrupt tree exists
+   that represents the hierarchy and routing of interrupts in the platform
+   hardware. While generically referred to as an interrupt tree it is more
+   technically a directed acyclic graph.
+|spec| は  *Open Firmware Recommended Practice: Interrupt Mapping, Version 0.9* [b7]_ で指定された割り込みを表す割り込みツリーモデルを採用しています。
+デバイスツリー内には、プラットフォームハードウェアの割り込みの階層とルーティングを表す論理割り込みツリーが存在します。
+一般的に割り込みツリーと呼ばれますが、より技術的には有向非巡回グラフです。
 
-The physical wiring of an interrupt source to an interrupt controller is
-represented in the devicetree with the *interrupt-parent* property.
-Nodes that represent interrupt-generating devices contain an
-*interrupt-parent* property which has a *phandle* value that points to
-the device to which the device’s interrupts are routed, typically an
-interrupt controller. If an interrupt-generating device does not have an
-*interrupt-parent* property, its interrupt parent is assumed to be its
-devicetree parent.
+..
+   The physical wiring of an interrupt source to an interrupt controller is
+   represented in the devicetree with the *interrupt-parent* property.
+   Nodes that represent interrupt-generating devices contain an
+   *interrupt-parent* property which has a *phandle* value that points to
+   the device to which the device’s interrupts are routed, typically an
+   interrupt controller. If an interrupt-generating device does not have an
+   *interrupt-parent* property, its interrupt parent is assumed to be its
+   devicetree parent.
+割り込みソースから割り込みコントローラへの物理的な配線は、 *interrupt-parent* プロパティを持つデバイスツリーで表されます。
+割り込み生成デバイスを表すノードには、デバイスの割り込みがルーティングされるデバイス（通常は割り込みコントローラー）を指す *phandle* 値を持つ *interrupt-parent* プロパティが含まれています。
+割り込み生成デバイスに割り込み親プロパティがない場合、その割り込み親はデバイスツリーの親であると見なされます。
 
 Each interrupt generating device contains an *interrupts* property with
 a value describing one or more interrupt sources for that device. Each
