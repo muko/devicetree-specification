@@ -2,50 +2,84 @@
 
 .. _chapter-introduction:
 
-Introduction
+..
+    Introduction
+序
 ============
 
-Purpose and Scope
+..
+    Purpose and Scope
+目的と範囲
 -----------------
 
-To initialize and boot a computer system, various software components
-interact. Firmware might perform low-level initialization of the system
-hardware before passing control to software such as an operating system,
-bootloader, or hypervisor. Bootloaders and hypervisors can, in turn,
-load and transfer control to operating systems. Standard, consistent
-interfaces and conventions facilitate the interactions between these
-software components.  In this document the term *boot program* is used to
-generically refer to a software component that initializes the system
-state and executes another software component referred to as a *client
-program*. Examples of a boot program include: firmware, bootloaders, and
-hypervisors. Examples of a client program include: bootloaders,
-hypervisors, operating systems, and special purpose programs. A piece of
-software may be both a client program and a boot program  (e.g. a hypervisor).
+..
+    To initialize and boot a computer system, various software components
+    interact. Firmware might perform low-level initialization of the system
+    hardware before passing control to software such as an operating system,
+    bootloader, or hypervisor. Bootloaders and hypervisors can, in turn,
+    load and transfer control to operating systems. Standard, consistent
+    interfaces and conventions facilitate the interactions between these
+    software components.  In this document the term *boot program* is used to
+    generically refer to a software component that initializes the system
+    state and executes another software component referred to as a *client
+    program*. Examples of a boot program include: firmware, bootloaders, and
+    hypervisors. Examples of a client program include: bootloaders,
+    hypervisors, operating systems, and special purpose programs. A piece of
+    software may be both a client program and a boot program  (e.g. a hypervisor).
+コンピュータシステムを初期化して起動するために、さまざまなソフトウェアコンポーネントが相互作用します。
+ファームウェアは、オペレーティングシステム、ブートローダー、ハイパーバイザーなどのソフトウェアに制御を渡す前に、システムハードウェアの低レベルの初期化を実行する場合があります。
+次に、ブートローダーとハイパーバイザーは、制御をロードしてオペレーティングシステムに転送できます。
+標準の一貫したインターフェイスと規則により、これらのソフトウェアコンポーネント間の相互作用が容易になります。
+このドキュメントでは、*ブートプログラム* という用語は、システム状態を初期化し、 *クライアントプログラム* と呼ばれる別のソフトウェアコンポーネントを実行するソフトウェアコンポーネントを総称して指すために使用されます。
+ブートプログラムの例には、ファームウェア、ブートローダー、ハイパーバイザーが含まれます。
+クライアントプログラムの例には、ブートローダー、ハイパーバイザー、オペレーティングシステム、および専用プログラムが含まれます。
+ソフトウェアの一部は、クライアントプログラムとブートプログラム（ハイパーバイザーなど）の両方である可能性があります。
 
-This specification, the |spec-fullname| (|spec|),
-provides a complete boot program to client program
-interface definition, combined with minimum system requirements that
-facilitate the development of a wide variety of systems.
+..
+    This specification, the |spec-fullname| (|spec|),
+    provides a complete boot program to client program
+    interface definition, combined with minimum system requirements that
+    facilitate the development of a wide variety of systems.
+本仕様書、 |spec-fullname| (|spec|) は、様々なシステムの開発を容易にする最小システム要件と組み合わせて、クライアントプログラムインターフェイス定義への完全なブートプログラムを提供します。
 
-This specification is targeted towards the requirements of embedded
-systems. An embedded system typically consists of system hardware, an
-operating system, and application software that are custom designed to
-perform a fixed, specific set of tasks. This is unlike general purpose
-computers, which are designed to be customized by a user with a variety
-of software and I/O devices. Other characteristics of embedded systems
-may include:
+..
+    This specification is targeted towards the requirements of embedded
+    systems. An embedded system typically consists of system hardware, an
+    operating system, and application software that are custom designed to
+    perform a fixed, specific set of tasks. This is unlike general purpose
+    computers, which are designed to be customized by a user with a variety
+    of software and I/O devices. Other characteristics of embedded systems
+    may include:
+本仕様書は、組み込みシステムの要件を対象としています。
+組み込みシステムは通常、固定された特定の一連のタスクを実行するようにカスタム設計されたシステムハードウェア、オペレーティングシステム、およびアプリケーションソフトウェアで構成されます。
+これは、さまざまなソフトウェアやI/Oデバイスを使用してユーザーがカスタマイズできるように設計された汎用コンピューターとは異なります。
+組み込みシステムのその他の特性には、次のものがあります。
 
-*  a fixed set of I/O devices, possibly highly customized for the
-   application
-*  a system board optimized for size and cost
-*  limited user interface
-*  resource constraints like limited memory and limited nonvolatile storage
-*  real-time constraints
-*  use of a wide variety of operating systems, including Linux,
-   real-time operating systems, and custom or proprietary operating
-   systems
+..
+    *  a fixed set of I/O devices, possibly highly customized for the
+    application
+*   I/Oデバイスの固定セット、おそらくアプリケーション用に高度にカスタマイズされたもの
+..
+    *  a system board optimized for size and cost
+*  サイズとコストに最適化されたシステムボード
+..
+    *  limited user interface
+*  限られたユーザーインターフェイス
+..
+    *  resource constraints like limited memory and limited nonvolatile storage
+*  限られたメモリや限られた不揮発性ストレージなどのリソースの制約
+..
+    *  real-time constraints
+*  リアルタイム制約
+.. 
+    *  use of a wide variety of operating systems, including Linux,
+    real-time operating systems, and custom or proprietary operating
+    systems
+*  Linux、リアルタイムオペレーティングシステム、カスタムまたは独自のオペレーティングシステムなど、さまざまなオペレーティングシステムの使用
 
-**Organization of this Document**
+..
+    **Organization of this Document**
+**本文書の構成**
 
 * :numref:`Chapter %s <chapter-introduction>` introduces the architecture being
   specified by |spec|.

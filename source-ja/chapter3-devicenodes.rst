@@ -2,27 +2,44 @@
 
 .. _chapter-device-node-requirements:
 
-Device Node Requirements
+..
+   Device Node Requirements
+デバイスノードの要件
 ========================
 
-Base Device Node Types
+..
+   Base Device Node Types
+基本デバイスノードタイプ
 ----------------------
 
-The sections that follow specify the requirements for the base set of
-device nodes required in a |spec|-compliant devicetree.
+..
+   The sections that follow specify the requirements for the base set of
+   device nodes required in a |spec|-compliant devicetree.
+次のセクションでは、 |spec| 準拠のデバイスツリーに必要なデバイスノードの基本セットの要件を指定します。
 
-All devicetrees shall have a root node and the following nodes shall be
-present at the root of all devicetrees:
+..
+   All devicetrees shall have a root node and the following nodes shall be
+   present at the root of all devicetrees:
+すべてのデバイスツリーにはルートノードがあり、次のノードがすべてのデバイスツリーのルートに存在する必要があります。
 
-*  One ``/cpus`` node
+..
+   *  One ``/cpus`` node
+*  1つの ``/cpus`` ノード 
 
-*  At least one ``/memory`` node
+..
+   *  At least one ``/memory`` node
+*  少なくとも1つの ``/memory`` ノード
 
-Root node
+..
+   Root node
+ルートノード 
 ---------
 
-The devicetree has a single root node of which all other device nodes
-are descendants. The full path to the root node is ``/``.
+..
+   The devicetree has a single root node of which all other device nodes
+   are descendants. The full path to the root node is ``/``.
+デバイスツリーには単一のルートノードがあり、他のすべてのデバイスノードはその子孫です。
+ルートノードへのフルパスは ``/`` です。
 
 .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
 .. table:: Root Node Properties
@@ -116,35 +133,54 @@ Given the alias ``serial0``, a client program can look at the ``/aliases`` node
 and determine the alias refers to the device path
 ``/simple-bus@fe000000/serial@llc500``.
 
-``/memory`` node
+..
+   ``/memory`` node
+``/memory`` ノード
 ----------------
 
-A memory device node is required for all devicetrees and describes the
-physical memory layout for the system. If a system has multiple ranges
-of memory, multiple memory nodes can be created, or the ranges can be
-specified in the *reg* property of a single memory node.
+..
+   A memory device node is required for all devicetrees and describes the
+   physical memory layout for the system. If a system has multiple ranges
+   of memory, multiple memory nodes can be created, or the ranges can be
+   specified in the *reg* property of a single memory node.
+メモリデバイスノードはすべてのデバイスツリーに必要であり、システムの物理メモリレイアウトを記述します。
+システムに複数のメモリ範囲がある場合は、複数のメモリノードを作成するか、単一のメモリノードの *reg* プロパティで範囲を指定できます。
 
-The *unit-name* component of the node name
-(see :numref:`sect-node-names`)
-shall be ``memory``.
+..
+   The *unit-name* component of the node name
+   (see :numref:`sect-node-names`)
+   shall be ``memory``.
+ノード名の *unit-name* コンポーネント (:numref:`sect-node-names` を参照) は ``memory`` でなければなりません。
 
-The client program may access memory not covered by any memory
-reservations (see :numref:`sect-fdt-memory-reservation-block`)
-using any storage attributes it chooses. However, before changing the
-storage attributes used to access a real page, the client program is
-responsible for performing actions required by the architecture and
-implementation, possibly including flushing the real page from the
-caches. The boot program is responsible for ensuring that, without
-taking any action associated with a change in storage attributes, the
-client program can safely access all memory (including memory covered by
-memory reservations) as WIMG = 0b001x. That is:
+..
+   The client program may access memory not covered by any memory
+   reservations (see :numref:`sect-fdt-memory-reservation-block`)
+   using any storage attributes it chooses. However, before changing the
+   storage attributes used to access a real page, the client program is
+   responsible for performing actions required by the architecture and
+   implementation, possibly including flushing the real page from the
+   caches. The boot program is responsible for ensuring that, without
+   taking any action associated with a change in storage attributes, the
+   client program can safely access all memory (including memory covered by
+   memory reservations) as WIMG = 0b001x. That is:
+クライアントプログラムは、選択したストレージ属性を使用して、メモリ予約 (:numref:`sect-fdt-memory-reservation-block` を参照)でカバーされていないメモリにアクセスできます。
+ただし、実際のページへのアクセスに使用されるストレージ属性を変更する前に、クライアントプログラムは、キャッシュからの実際のページのフラッシュなど、アーキテクチャと実装に必要なアクションを実行する責任があります。
+ブートプログラムは、ストレージ属性の変更に関連するアクションを実行せずに、クライアントプログラムが WIMG = 0b001x としてすべてのメモリ（メモリ予約でカバーされるメモリを含む）に安全にアクセスできるようにする責任があります。
+あれは：
 
-* not Write Through Required
-* not Caching Inhibited
-* Memory Coherence
-* Required either not Guarded or Guarded
+..
+   * not Write Through Required
+   * not Caching Inhibited
+   * Memory Coherence
+   * Required either not Guarded or Guarded
+* ライトスルーは必要ありません 
+* キャッシング禁止ではありません  
+* メモリコヒーレンス 
+* 保護されていないか保護されている必要があります
 
-If the VLE storage attribute is supported, with VLE=0.
+..
+   If the VLE storage attribute is supported, with VLE=0.
+VLEストレージ属性がサポートされている場合、VLE=0。
 
 .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
 .. table:: ``/memory`` Node Properties
@@ -220,18 +256,27 @@ memory ranges. The 2 GB I/O region is skipped. Note that the
 value of 2, which means that two 32-bit cells are required to define the
 address and length for the ``reg`` property of the memory node.
 
-``/reserved-memory`` Node
+..
+   ``/reserved-memory`` Node
+``/reserved-memory`` ノード
 -------------------------
 
-Reserved memory is specified as a node under the ``/reserved-memory`` node.
-The operating system shall exclude reserved memory from normal usage.
-One can create child nodes describing particular reserved (excluded from
-normal use) memory regions.
-Such memory regions are usually designed for the special usage by various
-device drivers.
+..
+   Reserved memory is specified as a node under the ``/reserved-memory`` node.
+   The operating system shall exclude reserved memory from normal usage.
+   One can create child nodes describing particular reserved (excluded from
+   normal use) memory regions.
+   Such memory regions are usually designed for the special usage by various
+   device drivers.
+予約メモリは、 ``/reserved-memory`` ノードの下のノードとして指定されます。
+オペレーティングシステムは、予約メモリを通常の使用から除外する必要があります。
+特定の予約済み（通常の使用から除外される）メモリ領域を記述する子ノードを作成できます。
+このようなメモリ領域は通常、さまざまなデバイスドライバによる特別な使用のために設計されています。
 
-Parameters for each memory region can be encoded into the device tree
-with the following nodes:
+..
+   Parameters for each memory region can be encoded into the device tree
+   with the following nodes:
+各メモリ領域のパラメータは、次のノードを使用してデバイスツリーにエンコードできます。
 
 /reserved-memory parent node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -440,9 +485,12 @@ one for multimedia processing (named ``multimedia@77000000``, 64MiB).
 ``/chosen`` Node
 ----------------
 
-The ``/chosen`` node does not represent a real device in the system but
-describes parameters chosen or specified by the system firmware at run
-time. It shall be a child of the root node.
+..
+   The ``/chosen`` node does not represent a real device in the system but
+   describes parameters chosen or specified by the system firmware at run
+   time. It shall be a child of the root node.
+``/chosen`` ノードは、システム内の実際のデバイスを表すものではありませんが、実行時にシステムファームウェアによって選択または指定されたパラメーターを記述します。
+ルートノードの子になります。
 
 .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
 .. table:: ``/chosen`` Node Properties
@@ -482,11 +530,15 @@ time. It shall be a child of the root node.
         bootargs = "root=/dev/nfs rw nfsroot=192.168.1.1 console=ttyS0,115200";
     };
 
-Older versions of devicetrees may be encountered that contain a
-deprecated form of the *stdout-path* property called *linux,stdout-path*.
-For compatibility, a client program might want to support
-*linux,stdout-path* if a *stdout-path* property is not present. The meaning
-and use of the two properties is identical.
+..
+   Older versions of devicetrees may be encountered that contain a
+   deprecated form of the *stdout-path* property called *linux,stdout-path*.
+   For compatibility, a client program might want to support
+   *linux,stdout-path* if a *stdout-path* property is not present. The meaning
+   and use of the two properties is identical.
+*linux,stdout-path* と呼ばれる非推奨の形式の *stdout-path* プロパティを含む古いバージョンのデバイスツリーが検出される場合があります。
+互換性のために、 *stdout-path* プロパティが存在しない場合、クライアントプログラムは *linux,stdout-path* をサポートしたい場合があります。
+2つのプロパティの意味と使用法は同じです。
 
 ``/cpus`` Node Properties
 -------------------------

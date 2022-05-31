@@ -16,7 +16,7 @@
    |spec| specifies a construct called a *devicetree* to describe
    system hardware. A boot program loads a devicetree into a client
    program’s memory and passes a pointer to the devicetree to the client.
-|spec|システムハードウェアを記述するための *デバイスツリー* と呼ばれる構造を指定します。
+|spec| システムハードウェアを記述するための *デバイスツリー* と呼ばれる構造を指定します。
 ブートプログラムは、デバイスツリーをクライアントプログラムのメモリにロードし、デバイスツリーへのポインタをクライアントに渡します。
 
 ..
@@ -29,8 +29,8 @@
    certain device types or classes of devices.
    :numref:`Chapter %s <chapter-fdt-structure>` describes the in-memory encoding of the devicetree.
 この章では、デバイスツリーの論理構造について説明し、デバイスノードの説明に使用するプロパティの基本セットを指定します。
-:numref:`Chapter %s <chapter-device-node-requirements>` は、|spec|準拠のデバイスツリーに必要な特定のデバイスノードを指定します。
-:numref:`Chapter %s <chapter-device-bindings>` は、|spec|で定義されたデバイスバインディング（特定のデバイスタイプまたはデバイスのクラスを表すための要件）について説明しています。
+:numref:`Chapter %s <chapter-device-node-requirements>` は、 |spec| 準拠のデバイスツリーに必要な特定のデバイスノードを指定します。
+:numref:`Chapter %s <chapter-device-bindings>` は、 |spec| で定義されたデバイスバインディング（特定のデバイスタイプまたはデバイスのクラスを表すための要件）について説明しています。
 :numref:`Chapter %s <chapter-fdt-structure>` は、デバイスツリーのメモリ内エンコーディングについて説明しています。
 
 ..
@@ -50,7 +50,7 @@
    might not be required. However, a device node is required to describe a
    PCI host bridge device in the system if it cannot be detected by
    probing.
-|spec|準拠のデバイスツリーは、クライアントプログラムによって必ずしも動的に検出されるとは限らないシステム内のデバイス情報を記述します。
+|spec| 準拠のデバイスツリーは、クライアントプログラムによって必ずしも動的に検出されるとは限らないシステム内のデバイス情報を記述します。
 たとえば、PCIのアーキテクチャにより、クライアントは接続されたデバイスを探索および検出できるため、PCIデバイスを記述するデバイスツリーノードは必要ない場合があります。
 ただし、探索で検出できない場合は、システム内のPCIホストブリッジデバイスを記述するためにデバイスノードが必要です。
 
@@ -453,7 +453,9 @@ In :numref:`example-nodenames`:
 真偽の情報を伝達する場合、プロパティの値は空になる可能性があります。
 この場合、プロパティの有無は十分に説明的です。
 
-:numref:`property-values-table` describes the set of basic value types defined by the |spec|.
+..
+   :numref:`property-values-table` describes the set of basic value types defined by the |spec|.
+:numref:`property-values-table` は、 |spec| で定義された基本的な値型のセットを記述します。
 
 .. tabularcolumns:: | p{4cm} p{12cm} |
 .. _property-values-table:
@@ -461,15 +463,16 @@ In :numref:`example-nodenames`:
    :class: longtable
 
    ======================== ==================================================================
-   Value                    Description
+..   Value                    Description
+   値                       説明
    ======================== ==================================================================
-   .. ``<empty>``              Value is empty. Used for conveying true-false information, when
-   ..                          the presence or absence of the property itself is sufficiently
-   ..                          descriptive.
+..   ``<empty>``              Value is empty. Used for conveying true-false information, when
+..                            the presence or absence of the property itself is sufficiently
+..                            descriptive.
    ``<empty>``              値は空です。
                             プロパティ自体の有無が十分に説明的である場合に、真偽の情報を伝達するために使用されます。
-   .. ``<u32>``                A 32-bit integer in big-endian format. Example: the 32-bit value
-   ..                          0x11223344 would be represented in memory as:
+..   ``<u32>``                A 32-bit integer in big-endian format. Example: the 32-bit value
+..                            0x11223344 would be represented in memory as:
    ``<u32>``                ビッグエンディアン形式の32ビット整数。
                             例: 32ビット値0x11223344は、メモリ内で次のように表されます。
 
@@ -553,9 +556,9 @@ In :numref:`example-nodenames`:
    properties.
    :numref:`Chapter %s <chapter-device-bindings>` describes the representation
    of specific devices and may also specify additional requirements.
-|spec|はデバイスノードの標準プロパティのセットを指定します。
+|spec| はデバイスノードの標準プロパティのセットを指定します。
 これらのプロパティについては、このセクションで詳しく説明します。
-|spec|で定義されたデバイスノード（:numref:`Chapter %s <chapter-device-node-requirements>` を参照）は、標準プロパティの使用に関する追加の要件または制約を指定する場合があります。
+|spec| で定義されたデバイスノード（:numref:`Chapter %s <chapter-device-node-requirements>` を参照）は、標準プロパティの使用に関する追加の要件または制約を指定する場合があります。
  :numref:`Chapter %s <chapter-device-bindings>` は、特定のデバイスの表現を説明し、追加の要件を指定する場合もあります。
 
 ..
@@ -572,7 +575,9 @@ compatible
    Property name: ``compatible``
 プロパティ名: ``compatible``
 
-Value type: ``<stringlist>``
+..
+   Value type: ``<stringlist>``
+値のタイプ: ``<stringlist>``
 
 ..
    Description:
@@ -627,18 +632,28 @@ Value type: ``<stringlist>``
 model
 ~~~~~
 
-Property name: ``model``
+..
+   Property name: ``model``
+プロパティ名: ``model``
 
-Value type: ``<string>``
+..
+   Value type: ``<string>``
+値のタイプ: ``<string>``
 
-Description:
+..
+   Description:
 
-   The model property value is a ``<string>`` that specifies the manufacturer’s
-   model number of the device.
+      The model property value is a ``<string>`` that specifies the manufacturer’s
+      model number of the device.
 
-   The recommended format is: ``"manufacturer,model"``, where
-   ``manufacturer`` is a string describing the name of the manufacturer
-   (such as a stock ticker symbol), and model specifies the model number.
+      The recommended format is: ``"manufacturer,model"``, where
+      ``manufacturer`` is a string describing the name of the manufacturer
+      (such as a stock ticker symbol), and model specifies the model number.
+説明
+   モデルプロパティ値は、デバイスの製造元のモデル番号を指定する ``<string>`` です。 
+
+   推奨される形式は ``"manufacturer,model"`` です。
+   ここで、 ``manufacturer`` は製造元の名前（株式相場記号など）を説明する文字列であり、modelはモデル番号を指定します。
 
 Example:
 
@@ -649,22 +664,32 @@ Example:
 phandle
 ~~~~~~~
 
-Property name: ``phandle``
+..
+   Property name: ``phandle``
+プロパティ名: ``phandle``
 
-Value type: ``<u32>``
+..
+   Value type: ``<u32>``
+値のタイプ: ``<u32>``
 
-Description:
+..
+   Description:
 
    The *phandle* property specifies a numerical identifier for a node that
    is unique within the devicetree. The *phandle* property value is used
    by other nodes that need to refer to the node associated with the
    property.
+説明:
+   説明：
+   *phandle* プロパティは、デバイスツリー内で一意のノードの数値識別子を指定します。
+   *phandle* プロパティ値は、プロパティに関連付けられたノードを参照する必要がある他のノードによって使用されます。
 
-Example:
+..
+   Example:
 
-   See the following devicetree excerpt:
+      See the following devicetree excerpt:
 
-   .. code-block:: dts
+      .. code-block:: dts
 
       pic@10000000 {
          phandle = <1>;
@@ -672,14 +697,37 @@ Example:
          reg = <0x10000000 0x100>;
       };
 
-   A *phandle* value of 1 is defined. Another device node could reference
-   the pic node with a phandle value of 1:
+      A *phandle* value of 1 is defined. Another device node could reference
+      the pic node with a phandle value of 1:
 
-   .. code-block:: dts
+      .. code-block:: dts
 
-      another-device-node {
-        interrupt-parent = <1>;
+         another-device-node {
+         interrupt-parent = <1>;
+         };
+例:
+
+   次のデバイスツリーの抜粋を参照してください。
+
+      .. code-block:: dts
+
+      pic@10000000 {
+         phandle = <1>;
+         interrupt-controller;
+         reg = <0x10000000 0x100>;
       };
+
+..
+         A *phandle* value of 1 is defined. Another device node could reference
+         the pic node with a phandle value of 1:
+      1のphandle値が定義されています。
+      別のデバイスノードは、 *phandle* 値が1のpicノードを参照できます。
+
+      .. code-block:: dts
+
+         another-device-node {
+         interrupt-parent = <1>;
+         };
 
 .. note:: Older versions of devicetrees may be encountered that contain a
    deprecated form of this property called ``linux,phandle``. For
@@ -699,12 +747,17 @@ Property name: ``status``
 
 Value type: ``<string>``
 
-Description:
+..
+   Description:
 
-   The ``status`` property indicates the operational status of a device.  The
-   lack of a ``status`` property should be treated as if the property existed
-   with the value of ``"okay"``.
-   Valid values are listed and defined in :numref:`table-prop-status-values`.
+      The ``status`` property indicates the operational status of a device.  The
+      lack of a ``status`` property should be treated as if the property existed
+      with the value of ``"okay"``.
+      Valid values are listed and defined in :numref:`table-prop-status-values`.
+説明:
+``status`` プロパティは、デバイスの動作ステータスを示します。
+``status`` プロパティの欠如は、プロパティが ``"okay"`` の値で存在するかのように扱われる必要があります。
+有効な値は、 :numref:`table-prop-status-values` にリストされて定義されています。
 
 .. tabularcolumns:: | l J |
 .. _table-prop-status-values:
@@ -713,18 +766,22 @@ Description:
    ============== ==============================================================
    Value          Description
    ============== ==============================================================
-   ``"okay"``     Indicates the device is operational.
+..   ``"okay"``     Indicates the device is operational.
+   ``"okay"``     デバイスが動作可能であることを示します。
    -------------- --------------------------------------------------------------
-   ``"disabled"`` Indicates that the device is not presently operational, but it
-                  might become operational in the future (for example, something
-                  is not plugged in, or switched off).
-
-                  Refer to the device binding for details on what disabled means
-                  for a given device.
+..   ``"disabled"`` Indicates that the device is not presently operational, but it
+..                  might become operational in the future (for example, something
+..                  is not plugged in, or switched off).
+   ``"disabled"`` デバイスが現在動作していないが、将来動作する可能性があることを示します（たとえば、何かが接続されていないか、スイッチがオフになっています）。 
+..                  Refer to the device binding for details on what disabled means
+..                  for a given device.
+                  特定のデバイスの無効化の意味の詳細については、デバイスバインディングを参照してください。
    -------------- --------------------------------------------------------------
-   ``"reserved"`` Indicates that the device is operational, but should not be
-                  used. Typically this is used for devices that are controlled
-                  by another software component, such as platform firmware.
+..   ``"reserved"`` Indicates that the device is operational, but should not be
+..                  used. Typically this is used for devices that are controlled
+..                  by another software component, such as platform firmware.
+   ``"reserved"`` デバイスが動作可能であることを示しますが、使用しないでください。
+                  通常、これは、プラットフォームファームウェアなどの別のソフトウェアコンポーネントによって制御されるデバイスに使用されます。
    -------------- --------------------------------------------------------------
    ``"fail"``     Indicates that the device is not operational. A serious error
                   was detected in the device, and it is unlikely to become
@@ -798,21 +855,30 @@ Property name: ``reg``
 
 Property value: ``<prop-encoded-array>`` encoded as an arbitrary number of (*address*, *length*) pairs.
 
-Description:
+..
+   Description:
 
-   The *reg* property describes the address of the device’s resources
-   within the address space defined by its parent bus. Most commonly this
-   means the offsets and lengths of memory-mapped IO register blocks, but
-   may have a different meaning on some bus types. Addresses in the address
-   space defined by the root node are CPU real addresses.
+      The *reg* property describes the address of the device’s resources
+      within the address space defined by its parent bus. Most commonly this
+      means the offsets and lengths of memory-mapped IO register blocks, but
+      may have a different meaning on some bus types. Addresses in the address
+      space defined by the root node are CPU real addresses.
 
-   The value is a *<prop-encoded-array>*, composed of an arbitrary number
-   of pairs of address and length, *<address length>*. The number of
-   *<u32>* cells required to specify the address and length are
-   bus-specific and are specified by the *#address-cells* and *#size-cells*
-   properties in the parent of the device node. If the parent node
-   specifies a value of 0 for *#size-cells*, the length field in the value
-   of *reg* shall be omitted.
+      The value is a *<prop-encoded-array>*, composed of an arbitrary number
+      of pairs of address and length, *<address length>*. The number of
+      *<u32>* cells required to specify the address and length are
+      bus-specific and are specified by the *#address-cells* and *#size-cells*
+      properties in the parent of the device node. If the parent node
+      specifies a value of 0 for *#size-cells*, the length field in the value
+      of *reg* shall be omitted.
+説明:
+   *reg* プロパティは、親バスによって定義されたアドレス空間内のデバイスのリソースのアドレスを記述します。
+   最も一般的には、これはメモリマップドIOレジスタブロックのオフセットと長さを意味しますが、一部のバスタイプでは異なる意味を持つ場合があります。
+   ルートノードによって定義されたアドレス空間のアドレスは、CPUの実アドレスです。
+
+   値は *<prop-encoded-array>* であり、アドレスと長さの任意の数のペア *<address length>* で構成されます。
+   アドレスと長さを指定するために必要な *<u32>* セルの数はバス固有であり、デバイスノードの親の *#address-cells* プロパティと *#size-cells* プロパティによって指定されます。
+   親ノードが *#size-cells* に値0を指定する場合、 *reg* の値の長さフィールドは省略されます。
 
 Example:
 
@@ -1018,21 +1084,31 @@ Description:
 割り込み生成デバイスを表すノードには、デバイスの割り込みがルーティングされるデバイス（通常は割り込みコントローラー）を指す *phandle* 値を持つ *interrupt-parent* プロパティが含まれています。
 割り込み生成デバイスに割り込み親プロパティがない場合、その割り込み親はデバイスツリーの親であると見なされます。
 
-Each interrupt generating device contains an *interrupts* property with
-a value describing one or more interrupt sources for that device. Each
-source is represented with information called an *interrupt specifier*.
-The format and meaning of an *interrupt specifier* is interrupt domain
-specific, i.e., it is dependent on properties on the node at the root of
-its interrupt domain. The *#interrupt-cells* property is used by the
-root of an interrupt domain to define the number of ``<u32>`` values
-needed to encode an interrupt specifier. For example, for an Open PIC
-interrupt controller, an interrupt-specifer takes two 32-bit values and
-consists of an interrupt number and level/sense information for the
-interrupt.
+..
+   Each interrupt generating device contains an *interrupts* property with
+   a value describing one or more interrupt sources for that device. Each
+   source is represented with information called an *interrupt specifier*.
+   The format and meaning of an *interrupt specifier* is interrupt domain
+   specific, i.e., it is dependent on properties on the node at the root of
+   its interrupt domain. The *#interrupt-cells* property is used by the
+   root of an interrupt domain to define the number of ``<u32>`` values
+   needed to encode an interrupt specifier. For example, for an Open PIC
+   interrupt controller, an interrupt-specifer takes two 32-bit values and
+   consists of an interrupt number and level/sense information for the
+   interrupt.
+各割り込み生成デバイスには、そのデバイスの1つ以上の割り込みソースを説明する値を持つ *interrupts* プロパティが含まれています。
+各ソースは、 *interrupt specifier* と呼ばれる情報で表されます。
+*interrupt specifier* の形式と意味は、割り込みドメイン固有です。
+つまり、割り込みドメインのルートにあるノードのプロパティに依存します。
+ *#interrupt-cells* プロパティは、割り込みドメインのルートによって使用され、割り込み指定子をエンコードするために必要な ``<u32>`` 値の数を定義します。
+ たとえば、Open PIC割り込みコントローラの場合、割り込み指示子は2つの32ビット値を取り、割り込み番号と割り込みのレベル/センス情報で構成されます。
 
-An interrupt domain is the context in which an interrupt specifier is
-interpreted. The root of the domain is either (1) an interrupt
-controller or (2) an interrupt nexus.
+..
+   An interrupt domain is the context in which an interrupt specifier is
+   interpreted. The root of the domain is either (1) an interrupt
+   controller or (2) an interrupt nexus.
+割り込みドメインは、割り込み指定子が解釈されるコンテキストです。
+ドメインのルートは、 (1) 割り込みコントローラーまたは (2) 割り込みネクサスのいずれかです。
 
 #. An *interrupt controller* is a physical device and will need a driver
    to handle interrupts routed through it. It may also cascade into
@@ -1142,35 +1218,53 @@ In the example shown in :numref:`example-interrupt-tree`:
 * There are two nexus nodes; one at the ``PCI host bridge`` and one at
   the ``GPIO controller``.
 
-Properties for Interrupt Generating Devices
+..
+   Properties for Interrupt Generating Devices
+割り込み生成デバイスのプロパティ
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 interrupts
 ^^^^^^^^^^
 
-Property: ``interrupts``
+..
+   Property: ``interrupts``
+プロパティ: ``interrupts``
 
 Value type: ``<prop-encoded-array>`` encoded as arbitrary number of
 interrupt specifiers
 
-Description:
+..
+   Description:
 
-   The *interrupts* property of a device node defines the interrupt or
-   interrupts that are generated by the device. The value of the
-   *interrupts* property consists of an arbitrary number of interrupt
-   specifiers. The format of an interrupt specifier is defined by the
-   binding of the interrupt domain root.
+      The *interrupts* property of a device node defines the interrupt or
+      interrupts that are generated by the device. The value of the
+      *interrupts* property consists of an arbitrary number of interrupt
+      specifiers. The format of an interrupt specifier is defined by the
+      binding of the interrupt domain root.
 
-   *interrupts* is overridden by the *interrupts-extended*
-   property and normally only one or the other should be used.
+      *interrupts* is overridden by the *interrupts-extended*
+      property and normally only one or the other should be used.
+説明:
 
-Example:
+   デバイスノードの *interrupts* プロパティは、デバイスによって生成される1つまたは複数の割り込みを定義します。
+   *interrupts* プロパティの値は、任意の数の割り込み指定子で構成されます。
+   割り込み指定子の形式は、割り込みドメインルートのバインディングによって定義されます。
 
-   A common definition of an interrupt specifier in an open PIC–compatible
-   interrupt domain consists of two cells; an interrupt number and
-   level/sense information. See the following example, which defines a
-   single interrupt specifier, with an interrupt number of 0xA and
-   level/sense encoding of 8.
+   *interrupts* は *interrupts-extended* プロパティによってオーバーライドされ、通常はどちらか一方のみを使用する必要があります。
+
+..
+   Example:
+
+      A common definition of an interrupt specifier in an open PIC–compatible
+      interrupt domain consists of two cells; an interrupt number and
+      level/sense information. See the following example, which defines a
+      single interrupt specifier, with an interrupt number of 0xA and
+      level/sense encoding of 8.
+例:
+
+   オープンなPIC互換割り込みドメインでの割り込み指定子の一般的な定義は、割り込み番号とレベル/センス情報という2つのセルで構成されます。
+   次の例を参照してください。
+   この例では、割り込み番号が 0xA でレベル/センスエンコーディングが8の単一の割り込み指定子を定義しています。
 
       ``interrupts = <0xA 8>;``
 
@@ -1181,13 +1275,18 @@ Property: ``interrupt-parent``
 
 Value type: ``<phandle>``
 
-Description:
+..
+   Description:
 
-   Because the hierarchy of the nodes in the interrupt tree might not match
-   the devicetree, the *interrupt-parent* property is available to make
-   the definition of an interrupt parent explicit. The value is the phandle
-   to the interrupt parent. If this property is missing from a device, its
-   interrupt parent is assumed to be its devicetree parent.
+      Because the hierarchy of the nodes in the interrupt tree might not match
+      the devicetree, the *interrupt-parent* property is available to make
+      the definition of an interrupt parent explicit. The value is the phandle
+      to the interrupt parent. If this property is missing from a device, its
+      interrupt parent is assumed to be its devicetree parent.
+説明:
+
+   割り込みツリー内のノードの階層がデバイスツリーと一致しない可能性があるため、 *interrupt-parent* プロパティを使用して、割り込みの親の定義を明示的にすることができます。
+   値は、割り込みの親へのphandleです。このプロパティがデバイスにない場合、その割り込みの親はデバイスツリーの親であると見なされます。
 
 interrupts-extended
 ^^^^^^^^^^^^^^^^^^^
@@ -1196,13 +1295,17 @@ Property: ``interrupts-extended``
 
 Value type: ``<phandle> <prop-encoded-array>``
 
-Description:
+..
+   Description:
 
-   The *interrupts-extended* property lists the interrupt(s) generated by a
-   device.
-   *interrupts-extended* should be used instead of *interrupts* when a device
-   is connected to multiple interrupt controllers as it encodes a parent phandle
-   with each interrupt specifier.
+      The *interrupts-extended* property lists the interrupt(s) generated by a
+      device.
+      *interrupts-extended* should be used instead of *interrupts* when a device
+      is connected to multiple interrupt controllers as it encodes a parent phandle
+      with each interrupt specifier.
+説明:
+   *interrupts-extended* プロパティは、デバイスによって生成された割り込みを一覧表示します。
+   割り込み-デバイスが複数の割り込みコントローラーに接続されている場合は、各割り込み指定子で親phandleをエンコードするため、*interrupts* の代わりに *interrupts-extended* を使用する必要があります。
 
 Example:
 
@@ -1216,12 +1319,17 @@ Example:
       ``interrupts-extended = <&pic 0xA 8>, <&gic 0xda>;``
 
 
-The *interrupts* and *interrupts-extended* properties are mutually exclusive.
-A device node should use one or the other, but not both.
-Using both is only permissible when required for compatibility with software
-that does not understand *interrupts-extended*.
-If both *interrupts-extended* and *interrupts* are present then
-*interrupts-extended* takes precedence.
+..
+   The *interrupts* and *interrupts-extended* properties are mutually exclusive.
+   A device node should use one or the other, but not both.
+   Using both is only permissible when required for compatibility with software
+   that does not understand *interrupts-extended*.
+   If both *interrupts-extended* and *interrupts* are present then
+   *interrupts-extended* takes precedence.
+*interrupts* と *interrupts-extended* プロパティは相互に排他的です。
+デバイスノードはどちらか一方を使用する必要がありますが、両方を使用することはできません。
+両方の使用は、 *interrupts-extended* を理解しないソフトウェアとの互換性のために必要な場合にのみ許可されます。
+*interrupts-extended* と *interrupts* の両方が存在する場合は、割り込み拡張が優先されます。
 
 Properties for Interrupt Controllers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1566,15 +1674,20 @@ Description:
    The *#<specifier>-cells* property defines the number of cells required to
    encode a specifier for a domain.
 
-Specifier Mapping Example
+..
+   Specifier Mapping Example
+指定子マッピングの例
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following shows the representation of a fragment of a devicetree with
-two GPIO controllers and a sample specifier map for describing the
-GPIO routing of a few gpios on both of the controllers through a connector
-on a board to a device. The expansion device node is on one side of the
-connector node and the SoC with the two GPIO controllers is on the other
-side of the connector.
+..
+   The following shows the representation of a fragment of a devicetree with
+   two GPIO controllers and a sample specifier map for describing the
+   GPIO routing of a few gpios on both of the controllers through a connector
+   on a board to a device. The expansion device node is on one side of the
+   connector node and the SoC with the two GPIO controllers is on the other
+   side of the connector.
+以下は、2つのGPIOコントローラーを備えたデバイスツリーのフラグメントの表現と、ボード上のコネクターを介してデバイスへの両方のコントローラー上のいくつかのgpiosのGPIOルーティングを記述するための指定子マップのサンプルを示しています。
+拡張デバイスノードはコネクタノードの片側にあり、2つのGPIOコントローラを備えたSoCはコネクタの反対側にあります。
 
 .. _example-specifier-mapping:
 

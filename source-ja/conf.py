@@ -29,7 +29,7 @@ def setup(app):
 
 # -- Project information -----------------------------------------------------
 
-project = u'Devicetree Specification'
+project = u'デバイスツリー仕様書'
 copyright = u'2016,2017, devicetree.org'
 author = u'devicetree.org'
 
@@ -192,7 +192,7 @@ if '-' in release:
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'devicetree-specification.tex', u'Devicetree Specification',
+    (master_doc, 'devicetree-specification.tex', u'デバイスツリー仕様書',
      u'devicetree.org', 'manual'),
 ]
 
@@ -205,7 +205,7 @@ latex_logo = "devicetree-logo.png"
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'devicetree-specification', u'Devicetree Specification',
+    (master_doc, 'devicetree-specification', u'デバイスツリー仕様書',
      [author], 1)
 ]
 

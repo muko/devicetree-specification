@@ -2,30 +2,48 @@
 
 .. _chapter-fdt-structure:
 
-Flattened Devicetree (DTB) Format
+..
+    Flattened Devicetree (DTB) Format
+Flattened Devicetree（DTB）フォーマット 
 ==================================
 
-The Devicetree Blob (DTB) format is a flat binary encoding of devicetree data.
-It used to exchange devicetree data between software programs.
-For example, when booting an operating system, firmware will pass a DTB to the OS kernel.
+..
+    The Devicetree Blob (DTB) format is a flat binary encoding of devicetree data.
+    It used to exchange devicetree data between software programs.
+    For example, when booting an operating system, firmware will pass a DTB to the OS kernel.
+Devicetree Blob（DTB）形式は、デバイスツリーデータのフラットバイナリエンコーディングです。
+これは、ソフトウェアプログラム間でデバイスツリーデータを交換するために使用されていました。
+たとえば、オペレーティングシステムを起動すると、ファームウェアはDTBをOSカーネルに渡します。
 
-.. note::
+..
+    .. note::
 
-   IEEE1275 Open Firmware [IEEE1275] does not define the DTB format.
-   On most Open Firmware compliant platforms the devicetree is extracted by calling firmware methods
-   to walk through the tree structure.
+    IEEE1275 Open Firmware [IEEE1275] does not define the DTB format.
+    On most Open Firmware compliant platforms the devicetree is extracted by calling firmware methods
+    to walk through the tree structure.
 
-The DTB format encodes the devicetree data within a single, linear, pointerless data structure.
-It consists of a small header
-(see :numref:`sect-fdt-header`),
-followed by three variable sized sections:
-the memory reservation block (see :numref:`sect-fdt-memory-reservation-block`),
-the structure block (see :numref:`sect-fdt-structure-block`),
-and the strings block (see :numref:`sect-fdt-strings-block`).
-These should be present in the flattened devicetree in that order.
-Thus, the devicetree structure as a whole, when loaded into memory at address,
-will resemble the diagram in :numref:`figure_device_tree_structure`
-(lower addresses are at the top of the diagram).
+.. 註::
+
+    IEEE1275 Open Firmware [IEEE1275] は、DTBフォーマットを定義していません。
+    ほとんどのOpenFirmware準拠プラットフォームでは、ファームウェアメソッドを呼び出してツリー構造をウォークスルーすることでデバイスツリーが抽出されます。
+
+..
+    The DTB format encodes the devicetree data within a single, linear, pointerless data structure.
+    It consists of a small header
+    (see :numref:`sect-fdt-header`),
+    followed by three variable sized sections:
+    the memory reservation block (see :numref:`sect-fdt-memory-reservation-block`),
+    the structure block (see :numref:`sect-fdt-structure-block`),
+    and the strings block (see :numref:`sect-fdt-strings-block`).
+    These should be present in the flattened devicetree in that order.
+    Thus, the devicetree structure as a whole, when loaded into memory at address,
+    will resemble the diagram in :numref:`figure_device_tree_structure`
+    (lower addresses are at the top of the diagram).
+DTB形式は、単一の線形のポインターレスデータ構造内でデバイスツリーデータをエンコードします。
+これは、小さなヘッダー（:numref:`sect-fdt-header` を参照）と、それに続く3つの可変サイズのセクションで構成されます。
+メモリ予約ブロック（:numref:`sect-fdt-memory-reservation-block` を参照）、構造ブロック（:numref:`sect-fdt-structure-block` を参照）、および文字列ブロック（:numref:`sect-fdt-strings-block` を参照）。
+これらは、フラット化されたデバイスツリーにこの順序で存在する必要があります。
+したがって、デバイスツリー構造全体は、アドレスでメモリにロードされると、 :numref:`figure_device_tree_structure`` の図のようになります（下のアドレスは図の上部にあります）。
 
 .. _figure_device_tree_structure:
 .. digraph:: tree
@@ -46,10 +64,11 @@ will resemble the diagram in :numref:`figure_device_tree_structure`
       strings block |
       (free space)" ]
 
-The (free space) sections may not be present, though in some cases they
-might be required to satisfy the alignment constraints of the individual
-blocks (see :numref:`sect-fdt-alignment`).
-
+..
+    The (free space) sections may not be present, though in some cases they
+    might be required to satisfy the alignment constraints of the individual
+    blocks (see :numref:`sect-fdt-alignment`).
+（free space）セクションは存在しない場合がありますが、場合によっては、個々のブロックの配置制約を満たす必要がある場合があります（:numref:`sect-fdt-alignment`を参照）。
 .. _sect-fdt-versioning:
 
 Versioning
