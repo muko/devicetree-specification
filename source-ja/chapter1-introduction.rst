@@ -81,19 +81,28 @@
     **Organization of this Document**
 **本文書の構成**
 
-* :numref:`Chapter %s <chapter-introduction>` introduces the architecture being
-  specified by |spec|.
-* :numref:`Chapter %s <chapter-devicetree>` introduces the devicetree concept
-  and describes its logical structure and standard properties.
-* :numref:`Chapter %s <chapter-device-node-requirements>` specifies the
-  definition of a base set of device nodes required by |spec|-compliant
-  devicetrees.
-* :numref:`Chapter %s <chapter-device-bindings>` describes device bindings for
-  certain classes of devices and specific device types.
-* :numref:`Chapter %s <chapter-fdt-structure>` specifies the DTB encoding of devicetrees.
-* :numref:`Chapter %s <chapter-devicetree-source-format>` specifies the DTS source language.
+..
+    * :numref:`Chapter %s <chapter-introduction>` introduces the architecture being
+    specified by |spec|.
+    * :numref:`Chapter %s <chapter-devicetree>` introduces the devicetree concept
+    and describes its logical structure and standard properties.
+    * :numref:`Chapter %s <chapter-device-node-requirements>` specifies the
+    definition of a base set of device nodes required by |spec|-compliant
+    devicetrees.
+    * :numref:`Chapter %s <chapter-device-bindings>` describes device bindings for
+    certain classes of devices and specific device types.
+    * :numref:`Chapter %s <chapter-fdt-structure>` specifies the DTB encoding of devicetrees.
+    * :numref:`Chapter %s <chapter-devicetree-source-format>` specifies the DTS source language.
+* :numref:`第 %s 章 <chapter-introduction>` では、 |spec| で指定されているアーキテクチャを紹介します。 
+* :numref:`第 %s 章 <chapter-devicetree>` では、デバイスツリーの概念を紹介し、その論理構造と標準プロパティについて説明しています。 
+* :numref:`第 %s 章 <chapter-device-node-requirements>` では、 |spec| 準拠のデバイスツリーに必要なデバイスノードの基本セットの定義を指定します。 
+* :numref:`第 %s 章 <chapter-device-bindings>` では、特定のクラスのデバイスおよび特定のデバイスタイプのデバイスバインディングについて説明しています。
+* :numref:`第 %s 章 <chapter-fdt-structure>` では、デバイスツリーのDTBエンコーディングを指定します。 
+* :numref:`第 %s 章 <chapter-devicetree-source-format>` では、DTSソース言語を指定します。
 
-**Conventions Used in this Document**
+..
+    **Conventions Used in this Document**
+**本文書で使用されている規則**
 
 The word *shall* is used to indicate mandatory requirements strictly to
 be followed in order to conform to the standard and from which no

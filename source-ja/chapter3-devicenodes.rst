@@ -41,36 +41,70 @@
 デバイスツリーには単一のルートノードがあり、他のすべてのデバイスノードはその子孫です。
 ルートノードへのフルパスは ``/`` です。
 
+..
+   .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
+   .. table:: Root Node Properties
+
+      =================== ===== ================= ===============================================
+      Property Name       Usage Value Type        Definition
+      =================== ===== ================= ===============================================
+      ``#address-cells``  R     ``<u32>``         Specifies the number of ``<u32>`` cells to
+                                                represent the address in the ``reg`` property in
+                                                children of root.
+      ``#size-cells``     R     ``<u32>``         Specifies the number of ``<u32>`` cells to
+                                                represent the size in the ``reg`` property in
+                                                children of root.
+      ``model``           R     ``<string>``      Specifies a string that uniquely identifies
+                                                the model of the system board. The recommended
+                                                format is "manufacturer,model-number".
+      ``compatible``      R     ``<stringlist>``  Specifies a list of platform architectures
+                                                with which this platform is compatible. This
+                                                property can be used by operating systems in
+                                                selecting platform specific code. The
+                                                recommended form of the property value is:
+
+                                                ``"manufacturer,model"``
+
+                                                For example:
+
+                                                ``compatible = "fsl,mpc8572ds"``
+      ``serial-number``   O     ``<string>``      Specifies a string representing the device's
+                                                serial number.
+      ``chassis-type``    OR    ``<string>``      Specifies a string that identifies the form-factor
+                                                of the system. The property value can be one of:
+
+                                                * ``"desktop"``
+                                                * ``"laptop"``
+                                                * ``"convertible"``
+                                                * ``"server"``
+                                                * ``"tablet"``
+                                                * ``"handset"``
+                                                * ``"watch"``
+                                                * ``"embedded"``
+      Usage legend: R=Required, O=Optional, OR=Optional but Recommended, SD=See Definition
+      ===========================================================================================
 .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
-.. table:: Root Node Properties
+.. table:: ルートノードのプロパティ
 
    =================== ===== ================= ===============================================
    Property Name       Usage Value Type        Definition
    =================== ===== ================= ===============================================
-   ``#address-cells``  R     ``<u32>``         Specifies the number of ``<u32>`` cells to
-                                               represent the address in the ``reg`` property in
-                                               children of root.
-   ``#size-cells``     R     ``<u32>``         Specifies the number of ``<u32>`` cells to
-                                               represent the size in the ``reg`` property in
-                                               children of root.
-   ``model``           R     ``<string>``      Specifies a string that uniquely identifies
-                                               the model of the system board. The recommended
-                                               format is "manufacturer,model-number".
-   ``compatible``      R     ``<stringlist>``  Specifies a list of platform architectures
-                                               with which this platform is compatible. This
-                                               property can be used by operating systems in
-                                               selecting platform specific code. The
-                                               recommended form of the property value is:
+   ``#address-cells``  R     ``<u32>``         ルートの子の *reg* プロパティのアドレスを表す ``<u32>`` セル数を指定します。
+   ``#size-cells``     R     ``<u32>``         ルートの子の *reg* プロパティのサイズを表す ``<u32>`` セル数を指定します。
+   ``model``           R     ``<string>``      システム基板のモデルを一意に識別する文字列を指定します。
+                                               推奨される形式は "manufacturer,model-number" です。
+   ``compatible``      R     ``<stringlist>``  このプラットフォームと互換性のあるプラットフォームアーキテクチャのリストを指定します。
+                                               このプロパティは、オペレーティングシステムがプラットフォーム固有のコードを選択する際に使用できます。
+                                               プロパティ値の推奨される形式は次のとおりです。
 
                                                ``"manufacturer,model"``
 
-                                               For example:
+                                               例:
 
                                                ``compatible = "fsl,mpc8572ds"``
-   ``serial-number``   O     ``<string>``      Specifies a string representing the device's
-                                               serial number.
-   ``chassis-type``    OR    ``<string>``      Specifies a string that identifies the form-factor
-                                               of the system. The property value can be one of:
+   ``serial-number``   O     ``<string>``      デバイスのシリアル番号を表す文字列を指定します。
+   ``chassis-type``    OR    ``<string>``      システムのフォームファクターを識別する文字列を指定します。
+                                               プロパティ値は次のいずれかになります。
 
                                                * ``"desktop"``
                                                * ``"laptop"``
@@ -83,23 +117,36 @@
    Usage legend: R=Required, O=Optional, OR=Optional but Recommended, SD=See Definition
    ===========================================================================================
 
+
 .. note:: All other standard properties
    (:numref:`sect-standard-properties`) are allowed but are optional.
 
-``/aliases`` node
+..
+   ``/aliases`` node
+``/aliases`` ノード
 -----------------
 
-A devicetree may have an aliases node (``/aliases``) that defines one or
-more alias properties. The alias node shall be at the root of the devicetree
-and have the node name ``/aliases``.
+..
+   A devicetree may have an aliases node (``/aliases``) that defines one or
+   more alias properties. The alias node shall be at the root of the devicetree
+   and have the node name ``/aliases``.
+デバイスツリーには、1つ以上のエイリアスプロパティを定義するエイリアスノード（``/aliases``）が含まれる場合があります。
+エイリアスノードはデバイスツリーのルートにあり、ノード名は ``/aliases`` です。
 
-Each property of the ``/aliases`` node defines an alias. The property name
-specifies the alias name. The property value specifies the full path to
-a node in the devicetree. For example, the property serial0 =
-``"/simple-bus@fe000000/serial@llc500"`` defines the alias ``serial0``.
+..
+   Each property of the ``/aliases`` node defines an alias. The property name
+   specifies the alias name. The property value specifies the full path to
+   a node in the devicetree. For example, the property serial0 =
+   ``"/simple-bus@fe000000/serial@llc500"`` defines the alias ``serial0``.
+``/aliases`` ノードの各プロパティは、エイリアスを定義します。
+プロパティ名はエイリアス名を指定します。
+プロパティ値は、デバイスツリー内のノードへのフルパスを指定します。
+たとえば、プロパティ serial0 = ``"/simple-bus@fe000000/serial@llc500"`` は、エイリアス ``serial0`` を定義します。
 
-Alias names shall be a lowercase text strings of 1 to 31 characters from
-the following set of characters.
+..
+   Alias names shall be a lowercase text strings of 1 to 31 characters from
+   the following set of characters.
+エイリアス名は、次の文字セットの1〜31文字の小文字のテキスト文字列でなければなりません。
 
 .. tabularcolumns:: | c p{8cm} |
 .. table:: Valid characters for alias names
@@ -112,13 +159,19 @@ the following set of characters.
    \-        dash
    ========= ================
 
-An alias value is a device path and is encoded as a string. The value
-represents the full path to a node, but the path does not need to refer
-to a leaf node.
+..
+   An alias value is a device path and is encoded as a string. The value
+   represents the full path to a node, but the path does not need to refer
+   to a leaf node.
+エイリアス値はデバイスパスであり、文字列としてエンコードされます。
+値はノードへのフルパスを表しますが、パスはリーフノードを参照する必要はありません。 
 
-A client program may use an alias property name to refer to a full
-device path as all or part of its string value. A client program, when
-considering a string as a device path, shall detect and use the alias.
+..
+   A client program may use an alias property name to refer to a full
+   device path as all or part of its string value. A client program, when
+   considering a string as a device path, shall detect and use the alias.
+クライアントプログラムは、エイリアスプロパティ名を使用して、デバイスの完全なパスをその文字列値のすべてまたは一部として参照する場合があります。
+クライアントプログラムは、文字列をデバイスパスと見なす場合、エイリアスを検出して使用する必要があります。
 
 **Example**
 
@@ -492,29 +545,47 @@ one for multimedia processing (named ``multimedia@77000000``, 64MiB).
 ``/chosen`` ノードは、システム内の実際のデバイスを表すものではありませんが、実行時にシステムファームウェアによって選択または指定されたパラメーターを記述します。
 ルートノードの子になります。
 
+..
+   .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
+   .. table:: ``/chosen`` Node Properties
+
+      ======================= ===== ===================== ===============================================
+      Property Name           Usage Value Type            Definition
+      ======================= ===== ===================== ===============================================
+      ``bootargs``            O     ``<string>``          A string that specifies the boot arguments for
+                                                         the client program. The value could
+                                                         potentially be a null string if no boot
+                                                         arguments are required.
+      ``stdout-path``         O     ``<string>``          A string that specifies the full path to the
+                                                         node representing the device to be used for
+                                                         boot console output. If the character ":" is
+                                                         present in the value it terminates the path.
+                                                         The value may be an alias.
+                                                         If the stdin-path property is not specified,
+                                                         stdout-path should be assumed to define the
+                                                         input device.
+      ``stdin-path``          O     ``<string>``          A string that specifies the full path to the
+                                                         node representing the device to be used for
+                                                         boot console input. If the character ":" is
+                                                         present in the value it terminates the path.
+                                                         The value may be an alias.
+      Usage legend: R=Required, O=Optional, OR=Optional but Recommended, SD=See Definition
+      ===================================================================================================
 .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
-.. table:: ``/chosen`` Node Properties
+.. table:: ``/chosen`` ノードのプロパティ
 
    ======================= ===== ===================== ===============================================
    Property Name           Usage Value Type            Definition
    ======================= ===== ===================== ===============================================
-   ``bootargs``            O     ``<string>``          A string that specifies the boot arguments for
-                                                       the client program. The value could
-                                                       potentially be a null string if no boot
-                                                       arguments are required.
-   ``stdout-path``         O     ``<string>``          A string that specifies the full path to the
-                                                       node representing the device to be used for
-                                                       boot console output. If the character ":" is
-                                                       present in the value it terminates the path.
-                                                       The value may be an alias.
-                                                       If the stdin-path property is not specified,
-                                                       stdout-path should be assumed to define the
-                                                       input device.
-   ``stdin-path``          O     ``<string>``          A string that specifies the full path to the
-                                                       node representing the device to be used for
-                                                       boot console input. If the character ":" is
-                                                       present in the value it terminates the path.
-                                                       The value may be an alias.
+   ``bootargs``            O     ``<string>``          クライアントプログラムのブート引数を指定する文字列。
+                                                       ブート引数が不要な場合、値は潜在的に null 文字列になる可能性があります。
+   ``stdout-path``         O     ``<string>``          ブートコンソール出力に使用されるデバイスを表すノードへのフルパスを指定する文字列。
+                                                       値に文字 ":" が含まれている場合は、パスを終了します。
+                                                       値はエイリアスである可能性があります。
+                                                       stdin-path プロパティが指定されていない場合は、入力デバイスを定義するために stdout-path を想定する必要があります。
+   ``stdin-path``          O     ``<string>``          ブートコンソール入力に使用されるデバイスを表すノードへのフルパスを指定する文字列。
+                                                       値に文字 ":" が含まれている場合は、パスを終了します。
+                                                       値はエイリアスである可能性があります。
    Usage legend: R=Required, O=Optional, OR=Optional but Recommended, SD=See Definition
    ===================================================================================================
 
@@ -522,7 +593,9 @@ one for multimedia processing (named ``multimedia@77000000``, 64MiB).
    (:numref:`sect-standard-properties`) are allowed but are optional.
 
 
-**Example**
+..
+   **Example**
+**例**
 
 .. code-block:: dts
 
@@ -543,9 +616,12 @@ one for multimedia processing (named ``multimedia@77000000``, 64MiB).
 ``/cpus`` Node Properties
 -------------------------
 
-A ``/cpus`` node is required for all devicetrees. It does not represent a
-real device in the system, but acts as a container for child ``cpu`` nodes
-which represent the systems CPUs.
+..
+   A ``/cpus`` node is required for all devicetrees. It does not represent a
+   real device in the system, but acts as a container for child ``cpu`` nodes
+   which represent the systems CPUs.
+``/cpus`` ノードはすべてのデバイスツリーに必要です。
+これは、システム内の実際のデバイスを表すものではありませんが、システムのCPUを表す子 ``cpu`` ノードのコンテナーとして機能します。
 
 .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
 .. table:: ``/cpus`` Node Properties
@@ -576,18 +652,25 @@ For an example, see :numref:`sect-cpu-node-example`.
 ``/cpus/cpu*`` Node Properties
 ------------------------------
 
-A ``cpu`` node represents a hardware execution block that is sufficiently
-independent that it is capable of running an operating system without
-interfering with other CPUs possibly running other operating systems.
+..
+   A ``cpu`` node represents a hardware execution block that is sufficiently
+   independent that it is capable of running an operating system without
+   interfering with other CPUs possibly running other operating systems.
+``cpu`` ノードは、他のオペレーティングシステムを実行している可能性のある他のCPUに干渉することなく、オペレーティングシステムを実行できるように、十分に独立したハードウェア実行ブロックを表します。
 
-Hardware threads that share an MMU would generally be represented under
-one ``cpu`` node. If other more complex CPU topographies are designed, the
-binding for the CPU must describe the topography (e.g. threads that
-don’t share an MMU).
+..
+   Hardware threads that share an MMU would generally be represented under
+   one ``cpu`` node. If other more complex CPU topographies are designed, the
+   binding for the CPU must describe the topography (e.g. threads that
+   don’t share an MMU).
+MMU を共有するハードウェアスレッドは、通常、1つの ``cpu`` ノードで表されます。
+他のより複雑なCPUトポグラフィが設計されている場合、CPUのバインディングは、トポグラフィ（MMU を共有しないスレッドなど）を記述する必要があります。
 
-CPUs and threads are numbered through a unified number-space that should
-match as closely as possible the interrupt controller’s numbering of
-CPUs/threads.
+..
+   CPUs and threads are numbered through a unified number-space that should
+   match as closely as possible the interrupt controller’s numbering of
+   CPUs/threads.
+CPUとスレッドは、割り込みコントローラーのCPU/スレッドの番号付けと可能な限り一致する必要がある統一された番号スペースを介して番号付けされます。
 
 Properties that have identical values across ``cpu`` nodes may be placed in
 the ``/cpus`` node instead. A client program must first examine a specific

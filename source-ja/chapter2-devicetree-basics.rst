@@ -457,22 +457,94 @@ In :numref:`example-nodenames`:
    :numref:`property-values-table` describes the set of basic value types defined by the |spec|.
 :numref:`property-values-table` は、 |spec| で定義された基本的な値型のセットを記述します。
 
+..
+   .. tabularcolumns:: | p{4cm} p{12cm} |
+   .. _property-values-table:
+   .. table:: Property values
+      :class: longtable
+
+      ======================== ==================================================================
+      Value                    Description
+      ======================== ==================================================================
+      ``<empty>``              Value is empty. Used for conveying true-false information, when
+                              the presence or absence of the property itself is sufficiently
+                              descriptive.
+      ``<u32>``                A 32-bit integer in big-endian format. Example: the 32-bit value
+                              0x11223344 would be represented in memory as:
+
+                                 ::
+
+                                    address    11
+                                    address+1  22
+                                    address+2  33
+                                    address+3  44
+      ``<u64>``                Represents a 64-bit integer in big-endian format. Consists of
+                              two ``<u32>`` values where the first value contains the most
+                              significant bits of the integer and the second value contains
+                              the least significant bits.
+
+                              Example: the 64-bit value 0x1122334455667788 would be
+                              represented as two cells as: ``<0x11223344 0x55667788>``.
+
+                              The value would be represented in memory as:
+
+                                 ::
+
+                                       address  11
+                                    address+1  22
+                                    address+2  33
+                                    address+3  44
+                                    address+4  55
+                                    address+5  66
+                                    address+6  77
+                                    address+7  88
+      ``<string>``             Strings are printable and null-terminated. Example: the string
+                              "hello" would be represented in memory as:
+
+                                 ::
+
+                                       address  68  'h'
+                                    address+1  65  'e'
+                                    address+2  6C  'l'
+                                    address+3  6C  'l'
+                                    address+4  6F  'o'
+                                    address+5  00  '\0'
+      ``<prop-encoded-array>`` Format is specific to the property. See the property definition.
+      ``<phandle>``            A ``<u32>`` value. A *phandle* value is a way to reference another
+                              node in the devicetree. Any node that can be referenced defines
+                              a phandle property with a unique ``<u32>`` value. That number
+                              is used for the value of properties with a phandle value
+                              type.
+      ``<stringlist>``         A list of ``<string>`` values concatenated together.
+
+                              Example: The string list "hello","world" would be represented in
+                              memory as:
+
+                                 ::
+
+                                       address  68  'h'
+                                       address+1  65  'e'
+                                       address+2  6C  'l'
+                                       address+3  6C  'l'
+                                       address+4  6F  'o'
+                                       address+5  00  '\0'
+                                       address+6  77  'w'
+                                       address+7  6f  'o'
+                                       address+8  72  'r'
+                                       address+9  6C  'l'
+                                    address+10  64  'd'
+                                    address+11  00  '\0'
+      ======================== ==================================================================
 .. tabularcolumns:: | p{4cm} p{12cm} |
 .. _property-values-table:
-.. table:: Property values
+.. table:: プロパティ値
    :class: longtable
 
    ======================== ==================================================================
-..   Value                    Description
    値                       説明
    ======================== ==================================================================
-..   ``<empty>``              Value is empty. Used for conveying true-false information, when
-..                            the presence or absence of the property itself is sufficiently
-..                            descriptive.
    ``<empty>``              値は空です。
                             プロパティ自体の有無が十分に説明的である場合に、真偽の情報を伝達するために使用されます。
-..   ``<u32>``                A 32-bit integer in big-endian format. Example: the 32-bit value
-..                            0x11223344 would be represented in memory as:
    ``<u32>``                ビッグエンディアン形式の32ビット整数。
                             例: 32ビット値0x11223344は、メモリ内で次のように表されます。
 
@@ -482,15 +554,12 @@ In :numref:`example-nodenames`:
                                   address+1  22
                                   address+2  33
                                   address+3  44
-   ``<u64>``                Represents a 64-bit integer in big-endian format. Consists of
-                            two ``<u32>`` values where the first value contains the most
-                            significant bits of the integer and the second value contains
-                            the least significant bits.
+   ``<u64>``                ビッグエンディアン形式の64ビット整数を表します。
+                            2つの ``<u32>`` 値で構成され、最初の値には整数の最上位ビットが含まれ、2番目の値には最下位ビットが含まれます。
 
-                            Example: the 64-bit value 0x1122334455667788 would be
-                            represented as two cells as: ``<0x11223344 0x55667788>``.
+                            例: 64ビット値0x1122334455667788は、2つのセルとして ``<0x11223344 0x55667788>`` として表されます。
 
-                            The value would be represented in memory as:
+                            値はメモリ内で次のように表されます。
 
                                ::
 
@@ -502,8 +571,8 @@ In :numref:`example-nodenames`:
                                   address+5  66
                                   address+6  77
                                   address+7  88
-   ``<string>``             Strings are printable and null-terminated. Example: the string
-                            "hello" would be represented in memory as:
+   ``<string>``             文字列はプリント可能で、null終端させます。
+                            例: 文字列 "hello" は、メモリ内で次のように表されます。
 
                                ::
 
@@ -513,16 +582,15 @@ In :numref:`example-nodenames`:
                                   address+3  6C  'l'
                                   address+4  6F  'o'
                                   address+5  00  '\0'
-   ``<prop-encoded-array>`` Format is specific to the property. See the property definition.
-   ``<phandle>``            A ``<u32>`` value. A *phandle* value is a way to reference another
-                            node in the devicetree. Any node that can be referenced defines
-                            a phandle property with a unique ``<u32>`` value. That number
-                            is used for the value of properties with a phandle value
-                            type.
-   ``<stringlist>``         A list of ``<string>`` values concatenated together.
+   ``<prop-encoded-array>`` 形式はプロパティに固有です。
+                            プロパティの定義を参照してください。
+   ``<phandle>``            ``<u32>`` 値。
+                            *phandle* 値は、デバイスツリー内の別のノードを参照する方法です。
+                            参照できるノードはすべて、一意の ``<u32>`` 値を持つ phandle プロパティを定義します。
+                            その番号は、phandle 値タイプのプロパティの値に使用されます。
+   ``<stringlist>``         連結された ``<string>`` 値のリスト。
 
-                            Example: The string list "hello","world" would be represented in
-                            memory as:
+                            例: 文字列リスト "hello", "world" は、メモリ内で次のように表されます。
 
                                ::
 
@@ -717,10 +785,7 @@ phandle
          reg = <0x10000000 0x100>;
       };
 
-..
-         A *phandle* value of 1 is defined. Another device node could reference
-         the pic node with a phandle value of 1:
-      1のphandle値が定義されています。
+      phandle値に 1 が定義されています。
       別のデバイスノードは、 *phandle* 値が1のpicノードを参照できます。
 
       .. code-block:: dts
@@ -743,9 +808,13 @@ phandle
 status
 ~~~~~~
 
-Property name: ``status``
+..
+   Property name: ``status``
+プロパティ名: ``status``
 
-Value type: ``<string>``
+..
+   Value type: ``<string>``
+値のタイプ: ``<string>``
 
 ..
    Description:
@@ -755,70 +824,106 @@ Value type: ``<string>``
       with the value of ``"okay"``.
       Valid values are listed and defined in :numref:`table-prop-status-values`.
 説明:
-``status`` プロパティは、デバイスの動作ステータスを示します。
-``status`` プロパティの欠如は、プロパティが ``"okay"`` の値で存在するかのように扱われる必要があります。
-有効な値は、 :numref:`table-prop-status-values` にリストされて定義されています。
+   ``status`` プロパティは、デバイスの動作ステータスを示します。
+   ``status`` プロパティの欠如は、プロパティが ``"okay"`` の値で存在するかのように扱われる必要があります。
+   有効な値は、 :numref:`table-prop-status-values` にリストされて定義されています。
 
+..
+   .. tabularcolumns:: | l J |
+   .. _table-prop-status-values:
+   .. table:: Values for status property
+
+      ============== ==============================================================
+      Value          Description
+      ============== ==============================================================
+      ``"okay"``     Indicates the device is operational.
+      -------------- --------------------------------------------------------------
+      ``"disabled"`` Indicates that the device is not presently operational, but it
+                     might become operational in the future (for example, something
+                     is not plugged in, or switched off).
+                     Refer to the device binding for details on what disabled means
+                     for a given device.
+      -------------- --------------------------------------------------------------
+      ``"reserved"`` Indicates that the device is operational, but should not be
+                     used. Typically this is used for devices that are controlled
+                     by another software component, such as platform firmware.
+      -------------- --------------------------------------------------------------
+      ``"fail"``     Indicates that the device is not operational. A serious error
+                     was detected in the device, and it is unlikely to become
+                     operational without repair.
+      -------------- --------------------------------------------------------------
+      ``"fail-sss"`` Indicates that the device is not operational. A serious error
+                     was detected in the device and it is unlikely to become
+                     operational without repair. The *sss* portion of the value is
+                     specific to the device and indicates the error condition
+                     detected.
+      ============== ==============================================================
 .. tabularcolumns:: | l J |
 .. _table-prop-status-values:
-.. table:: Values for status property
+.. table:: ステータスプロパティの値
 
    ============== ==============================================================
-   Value          Description
+   値              説明
    ============== ==============================================================
-..   ``"okay"``     Indicates the device is operational.
    ``"okay"``     デバイスが動作可能であることを示します。
    -------------- --------------------------------------------------------------
-..   ``"disabled"`` Indicates that the device is not presently operational, but it
-..                  might become operational in the future (for example, something
-..                  is not plugged in, or switched off).
    ``"disabled"`` デバイスが現在動作していないが、将来動作する可能性があることを示します（たとえば、何かが接続されていないか、スイッチがオフになっています）。 
-..                  Refer to the device binding for details on what disabled means
-..                  for a given device.
                   特定のデバイスの無効化の意味の詳細については、デバイスバインディングを参照してください。
    -------------- --------------------------------------------------------------
-..   ``"reserved"`` Indicates that the device is operational, but should not be
-..                  used. Typically this is used for devices that are controlled
-..                  by another software component, such as platform firmware.
    ``"reserved"`` デバイスが動作可能であることを示しますが、使用しないでください。
                   通常、これは、プラットフォームファームウェアなどの別のソフトウェアコンポーネントによって制御されるデバイスに使用されます。
    -------------- --------------------------------------------------------------
-   ``"fail"``     Indicates that the device is not operational. A serious error
-                  was detected in the device, and it is unlikely to become
-                  operational without repair.
+   ``"fail"``     デバイスが動作していないことを示します。
+                  デバイスで重大なエラーが検出されたため、修復せずに動作する可能性はほとんどありません。
    -------------- --------------------------------------------------------------
-   ``"fail-sss"`` Indicates that the device is not operational. A serious error
-                  was detected in the device and it is unlikely to become
-                  operational without repair. The *sss* portion of the value is
-                  specific to the device and indicates the error condition
-                  detected.
+   ``"fail-sss"`` デバイスが動作していないことを示します。
+                  デバイスで重大なエラーが検出されたため、修復せずに動作する可能性はほとんどありません。
+                  値の *sss* 部分はデバイスに固有であり、検出されたエラー状態を示します。
    ============== ==============================================================
 
-#address-cells and #size-cells
+..
+   #address-cells and #size-cells
+#address-cells と #size-cells
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Property name: ``#address-cells``, ``#size-cells``
+..
+   Property name: ``#address-cells``, ``#size-cells``
+プロパティ名: ``#address-cells``, ``#size-cells``
 
-Value type: ``<u32>``
+..
+   Value type: ``<u32>``
+値のタイプ: ``<u32>``
 
-Description:
+..
+   Description:
 
-   The *#address-cells* and *#size-cells* properties may be used in any
-   device node that has children in the devicetree hierarchy and describes
-   how child device nodes should be addressed. The *#address-cells*
-   property defines the number of ``<u32>`` cells used to encode the address
-   field in a child node's *reg* property. The *#size-cells* property
-   defines the number of ``<u32>`` cells used to encode the size field in a
-   child node’s *reg* property.
+      The *#address-cells* and *#size-cells* properties may be used in any
+      device node that has children in the devicetree hierarchy and describes
+      how child device nodes should be addressed. The *#address-cells*
+      property defines the number of ``<u32>`` cells used to encode the address
+      field in a child node's *reg* property. The *#size-cells* property
+      defines the number of ``<u32>`` cells used to encode the size field in a
+      child node’s *reg* property.
 
-   The *#address-cells* and *#size-cells* properties are not inherited from
-   ancestors in the devicetree. They shall be explicitly defined.
+      The *#address-cells* and *#size-cells* properties are not inherited from
+      ancestors in the devicetree. They shall be explicitly defined.
 
-   A |spec|-compliant boot program shall supply *#address-cells* and
-   *#size-cells* on all nodes that have children.
+      A |spec|-compliant boot program shall supply *#address-cells* and
+      *#size-cells* on all nodes that have children.
 
-   If missing, a client program should assume a default value of 2 for
-   *#address-cells*, and a value of 1 for *#size-cells*.
+      If missing, a client program should assume a default value of 2 for
+      *#address-cells*, and a value of 1 for *#size-cells*.
+説明:
+   *#address-cells* プロパティと *#size-cells* プロパティは、デバイスツリー階層に子があり、子デバイスノードのアドレス指定方法を説明する任意のデバイスノードで使用できます。
+   *#address-cells* プロパティは、子ノードの *reg* プロパティのアドレスフィールドをエンコードするために使用される ``<u32>`` セルの数を定義します。
+   *#size-cells* プロパティは、子ノードの *reg* プロパティのサイズフィールドをエンコードするために使用される ``<u32>`` セルの数を定義します。
+
+   *#address-cells* プロパティと *#size-cells* プロパティは、デバイスツリーの祖先から継承されません。
+   それらは明示的に定義されなければなりません。
+
+   |spec| 準拠のブートプログラムは、子を持つすべてのノードに *#address-cells* と *#size-cells* を提供する必要があります。
+
+   欠落している場合、クライアントプログラムはデフォルト値として *#address-cells* に値 2 を、*#size-cells* に値 1 を想定する必要があります。
 
 Example:
 
@@ -851,9 +956,13 @@ Example:
 reg
 ~~~
 
-Property name: ``reg``
+..
+   Property name: ``reg``
+プロパティ名: ``reg``
 
-Property value: ``<prop-encoded-array>`` encoded as an arbitrary number of (*address*, *length*) pairs.
+..
+   Property value: ``<prop-encoded-array>`` encoded as an arbitrary number of (*address*, *length*) pairs.
+プロパティ値: 任意の数の（*アドレス*、*長さ*）のペアとしてエンコードされた ``<prop-encoded-array>``
 
 ..
    Description:
@@ -880,12 +989,18 @@ Property value: ``<prop-encoded-array>`` encoded as an arbitrary number of (*add
    アドレスと長さを指定するために必要な *<u32>* セルの数はバス固有であり、デバイスノードの親の *#address-cells* プロパティと *#size-cells* プロパティによって指定されます。
    親ノードが *#size-cells* に値0を指定する場合、 *reg* の値の長さフィールドは省略されます。
 
-Example:
+..
+   Example:
 
-   Suppose a device within a system-on-a-chip had two blocks of registers, a
-   32-byte block at offset 0x3000 in the SOC and a 256-byte block at offset
-   0xFE00. The *reg* property would be encoded as follows (assuming
-   *#address-cells* and *#size-cells* values of 1):
+      Suppose a device within a system-on-a-chip had two blocks of registers, a
+      32-byte block at offset 0x3000 in the SOC and a 256-byte block at offset
+      0xFE00. The *reg* property would be encoded as follows (assuming
+      *#address-cells* and *#size-cells* values of 1):
+
+         ``reg = <0x3000 0x20 0xFE00 0x100>;``
+例:
+   システムオンチップ内のデバイスに2つのレジスタブロックがあり、SOCのオフセット0x3000に32バイトのブロックがあり、オフセット0xFE00に256バイトのブロックがあるとします。
+   *reg* プロパティは次のようにエンコードされます（*#address-cells* と *#size-cells* の値が 1 であると想定）。
 
       ``reg = <0x3000 0x20 0xFE00 0x100>;``
 
@@ -894,56 +1009,83 @@ Example:
 virtual-reg
 ~~~~~~~~~~~
 
-Property name: ``virtual-reg``
+..
+   Property name: ``virtual-reg``
+プロパティ名: ``virtual-reg``
 
-Value type: ``<u32>``
+..
+   Value type: ``<u32>``
+値のタイプ: ``<u32>``
 
-Description:
+..
+   Description:
 
-   The *virtual-reg* property specifies an effective address that maps to
-   the first physical address specified in the *reg* property of the device
-   node. This property enables boot programs to provide client programs
-   with virtual-to-physical mappings that have been set up.
+      The *virtual-reg* property specifies an effective address that maps to
+      the first physical address specified in the *reg* property of the device
+      node. This property enables boot programs to provide client programs
+      with virtual-to-physical mappings that have been set up.
+説明:
+   *virtual-reg* プロパティは、デバイスノードの *reg* プロパティで指定された最初の物理アドレスにマップする実効アドレスを指定します。
+   このプロパティにより、ブートプログラムは、設定された仮想から物理へのマッピングをクライアントプログラムに提供できます。
 
 .. _sect-standard-properties-ranges:
 
 ranges
 ~~~~~~
 
-Property name: ``ranges``
+..
+   Property name: ``ranges``
+プロパティ名: ``ranges``
 
-Value type: ``<empty>`` or ``<prop-encoded-array>`` encoded as an arbitrary number of
-(*child-bus-address*, *parent-bus-address*, *length*) triplets.
+..
+   Value type: ``<empty>`` or ``<prop-encoded-array>`` encoded as an arbitrary number of
+   (*child-bus-address*, *parent-bus-address*, *length*) triplets.
+値のタイプ: ``<empty>`` または、任意の数の（子バスアドレス、親バスアドレス、長さ）のトリプレットとしてエンコードされた ``<prop-encoded-array>``
+..
+   Description:
 
-Description:
+      The *ranges* property provides a means of defining a mapping or
+      translation between the address space of the bus (the child address
+      space) and the address space of the bus node’s parent (the parent
+      address space).
 
-   The *ranges* property provides a means of defining a mapping or
-   translation between the address space of the bus (the child address
-   space) and the address space of the bus node’s parent (the parent
-   address space).
+      The format of the value of the *ranges* property is an arbitrary number
+      of triplets of (*child-bus-address*, *parent-bus-address*, *length*)
 
-   The format of the value of the *ranges* property is an arbitrary number
-   of triplets of (*child-bus-address*, *parent-bus-address*, *length*)
+      * The *child-bus-address* is a physical address within the child bus'
+        address space. The number of cells to represent the address is bus
+        dependent and can be determined from the *#address-cells* of this node
+        (the node in which the *ranges* property appears).
+      * The *parent-bus-address* is a physical address within the parent bus'
+        address space. The number of cells to represent the parent address is
+        bus dependent and can be determined from the *#address-cells* property
+        of the node that defines the parent’s address space.
+      * The *length* specifies the size of the range in the child’s address space. The number
+        of cells to represent the size can be determined from the *#size-cells*
+        of this node (the node in which the *ranges* property appears).
 
-   * The *child-bus-address* is a physical address within the child bus'
-     address space. The number of cells to represent the address is bus
-     dependent and can be determined from the *#address-cells* of this node
-     (the node in which the *ranges* property appears).
-   * The *parent-bus-address* is a physical address within the parent bus'
-     address space. The number of cells to represent the parent address is
-     bus dependent and can be determined from the *#address-cells* property
-     of the node that defines the parent’s address space.
-   * The *length* specifies the size of the range in the child’s address space. The number
-     of cells to represent the size can be determined from the *#size-cells*
-     of this node (the node in which the *ranges* property appears).
+      If the property is defined with an ``<empty>`` value, it specifies that the
+      parent and child address space is identical, and no address translation
+      is required.
 
-   If the property is defined with an ``<empty>`` value, it specifies that the
-   parent and child address space is identical, and no address translation
-   is required.
+      If the property is not present in a bus node, it is assumed that no
+      mapping exists between children of the node and the parent address
+      space.
+説明:
+   *ranges* プロパティは、バスのアドレス空間（子アドレス空間）とバスノードの親のアドレス空間（親アドレス空間）の間のマッピングまたは変換を定義する手段を提供します。
 
-   If the property is not present in a bus node, it is assumed that no
-   mapping exists between children of the node and the parent address
-   space.
+   *ranges* プロパティの値の形式は、任意の数の（*子バスアドレス*、*親バスアドレス*、*長さ*）のトリプレットです。
+
+   * *子バスアドレス* は、子バスのアドレス空間内の物理アドレスです。
+     アドレスを表すセルの数はバスに依存し、このノード（*ranges* プロパティが表示されるノード）の *#address-cells* から決定できます。 
+   * *親バスアドレス* は、親バスのアドレス空間内の物理アドレスです。
+     親アドレスを表すセルの数はバスに依存し、親のアドレス空間を定義するノードの *#address-cells* プロパティから決定できます。
+   * *長さ* は、子のアドレス空間の範囲のサイズを指定します。
+     サイズを表すセルの数は、このノード（*ranges* プロパティが表示されるノード）の *#size-cells* から決定できます。
+
+   プロパティが ``<empty>`` 値で定義されている場合、親と子のアドレススペースが同一であり、アドレス変換は不要であることを指定します。
+
+   プロパティがバスノードに存在しない場合、ノードの子と親アドレス空間の間にマッピングが存在しないと見なされます。
 
 Address Translation Example:
 
@@ -1110,23 +1252,35 @@ Description:
 割り込みドメインは、割り込み指定子が解釈されるコンテキストです。
 ドメインのルートは、 (1) 割り込みコントローラーまたは (2) 割り込みネクサスのいずれかです。
 
-#. An *interrupt controller* is a physical device and will need a driver
-   to handle interrupts routed through it. It may also cascade into
-   another interrupt domain. An interrupt controller is specified by the
-   presence of an *interrupt-controller* property on that node in the
-   devicetree.
+..
+   #. An *interrupt controller* is a physical device and will need a driver
+      to handle interrupts routed through it. It may also cascade into
+      another interrupt domain. An interrupt controller is specified by the
+      presence of an *interrupt-controller* property on that node in the
+      devicetree.
+#. *割り込みコントローラー* は物理デバイスであり、それを介してルーティングされる割り込みを処理するためのドライバーが必要になります。
+   また、別の割り込みドメインにカスケードされる場合もあります。
+   割り込みコントローラーは、デバイスツリー内のそのノードに *interrupt-controller* プロパティが存在することによって指定されます。
 
-#. An *interrupt nexus* defines a translation between one interrupt
-   domain and another. The translation is based on both domain-specific
-   and bus-specific information. This translation between domains is
-   performed with the *interrupt-map* property. For example, a PCI
-   controller device node could be an interrupt nexus that defines a
-   translation from the PCI interrupt namespace (INTA, INTB, etc.) to an
-   interrupt controller with Interrupt Request (IRQ) numbers.
+..
+   #. An *interrupt nexus* defines a translation between one interrupt
+      domain and another. The translation is based on both domain-specific
+      and bus-specific information. This translation between domains is
+      performed with the *interrupt-map* property. For example, a PCI
+      controller device node could be an interrupt nexus that defines a
+      translation from the PCI interrupt namespace (INTA, INTB, etc.) to an
+      interrupt controller with Interrupt Request (IRQ) numbers.
+#. *割り込みネクサス* は、ある割り込みドメインと別の割り込みドメイン間の変換を定義します。
+   変換は、ドメイン固有の情報とバス固有の情報の両方に基づいています。
+   ドメイン間のこの変換は、 *interrupt-map* プロパティを使用して実行されます。
+   たとえば、PCIコントローラーデバイスノードは、PCI割り込みネームスペース (INTA、INTBなど) から割り込み要求 (IRQ) 番号を持つ割り込みコントローラーへの変換を定義する割り込みネクサスである可能性があります。
 
-The root of the interrupt tree is determined when traversal of the
-interrupt tree reaches an interrupt controller node without an
-*interrupts* property and thus no explicit interrupt parent.
+..
+   The root of the interrupt tree is determined when traversal of the
+   interrupt tree reaches an interrupt controller node without an
+   *interrupts* property and thus no explicit interrupt parent.
+割り込みツリーのルートは、割り込みツリーのトラバースが *interrupts* プロパティなしで割り込みコントローラーノードに到達したときに決定されます。
+したがって、明示的な割り込みの親はありません。
 
 See :numref:`example-interrupt-tree` for an example of a graphical
 representation of a devicetree with interrupt parent relationships shown. It

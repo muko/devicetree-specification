@@ -71,31 +71,45 @@ DTB形式は、単一の線形のポインターレスデータ構造内でデ�
 （free space）セクションは存在しない場合がありますが、場合によっては、個々のブロックの配置制約を満たす必要がある場合があります（:numref:`sect-fdt-alignment`を参照）。
 .. _sect-fdt-versioning:
 
-Versioning
+..
+    Versioning
+バージョニング 
 ----------
 
-Several versions of the flattened devicetree structure have been defined since
-the original definition of the format. Fields in the header give the version,
-so that the client program can determine if the devicetree is encoded in a
-compatible format.
+..
+    Several versions of the flattened devicetree structure have been defined since
+    the original definition of the format. Fields in the header give the version,
+    so that the client program can determine if the devicetree is encoded in a
+    compatible format.
+フォーマットの元の定義以降、フラット化されたデバイスツリー構造のいくつかのバージョンが定義されています。
+ヘッダーのフィールドはバージョンを示し、クライアントプログラムがデバイスツリーが互換性のある形式でエンコードされているかどうかを判断できるようにします。
 
-This document describes only version 17 of the format. |spec| compliant boot
-programs shall provide a devicetree of version 17 or later, and should provide
-a devicetree of a version that is backwards compatible with version 16.
-|spec| compliant client programs shall accept devicetrees of any version
-backwards compatible with version 17 and may accept other versions as well.
+..
+    This document describes only version 17 of the format. |spec| compliant boot
+    programs shall provide a devicetree of version 17 or later, and should provide
+    a devicetree of a version that is backwards compatible with version 16.
+    |spec| compliant client programs shall accept devicetrees of any version
+    backwards compatible with version 17 and may accept other versions as well.
+本文書では、このフォーマットのバージョン17についてのみ説明します。
+|spec| 準拠したブートプログラムは、バージョン17以降のデバイスツリーを提供する必要があり、バージョン16と下位互換性のあるバージョンのデバイスツリーを提供する必要があります。
+|spec| 準拠するクライアントプログラムは、バージョン17と下位互換性のある任意のバージョンのデバイスツリーを受け入れるものとし、他のバージョンも受け入れることができます。
 
 .. note:: The version is with respect to the binary structure of the device
    tree, not its content.
 
 .. _sect-fdt-header:
 
-Header
+..
+    Header
+ヘッダー
 ------
 
-The layout of the header for the devicetree is defined by the following
-C structure. All the header fields are 32-bit integers, stored in
-big-endian format.
+..
+    The layout of the header for the devicetree is defined by the following
+    C structure. All the header fields are 32-bit integers, stored in
+    big-endian format.
+デバイスツリーのヘッダーのレイアウトは、次のC構造によって定義されます。
+すべてのヘッダーフィールドは32ビット整数であり、ビッグエンディアン形式で格納されます。
 
 **Flattened Devicetree Header Fields**
 

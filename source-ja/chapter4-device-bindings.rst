@@ -25,16 +25,21 @@
 たとえば、新しいバスタイプは、シンプルバスバインディングの拡張として定義できます。
 この場合、互換性のあるプロパティには、各バインディングを識別するいくつかの文字列が含まれます（最も具体的なものから最も一般的なものまで）（:numref:`sect-standard-properties-compatible`, compatible を参照）。
 
-Binding Guidelines
+..
+   Binding Guidelines
+バインディングガイドライン
 ------------------
 
 General Principles
 ~~~~~~~~~~~~~~~~~~
 
-When creating a new devicetree representation for a device, a binding
-should be created that fully describes the required properties and value
-of the device. This set of properties shall be sufficiently descriptive
-to provide device drivers with needed attributes of the device.
+..
+   When creating a new devicetree representation for a device, a binding
+   should be created that fully describes the required properties and value
+   of the device. This set of properties shall be sufficiently descriptive
+   to provide device drivers with needed attributes of the device.
+デバイスの新しいデバイスツリー表現を作成するときは、デバイスの必要なプロパティと値を完全に説明するバインディングを作成する必要があります。
+この一連のプロパティは、デバイスドライバにデバイスの必要な属性を提供するために十分に説明的である必要があります。
 
 Some recommended practices include:
 
@@ -66,9 +71,12 @@ Some recommended practices include:
 Miscellaneous Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section defines a list of helpful properties that might be
-applicable to many types of devices and device classes. They are defined
-here to facilitate standardization of names and usage.
+..
+   This section defines a list of helpful properties that might be
+   applicable to many types of devices and device classes. They are defined
+   here to facilitate standardization of names and usage.
+このセクションでは、多くのタイプのデバイスおよびデバイスクラスに適用できる有用なプロパティのリストを定義します。
+これらは、名前と使用法の標準化を容易にするためにここで定義されています。
 
 ``clock-frequency`` Property
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^

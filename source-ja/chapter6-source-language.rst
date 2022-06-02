@@ -62,19 +62,32 @@ phandle値またはノードへのフルパスを明示的に指定する代わ�
 ラベルは、ラベル名にコロン（':'）を追加することによって作成されます。
 参照は、ラベル名の前にアンパサンド（'&'）を付けることによって作成されます。
 
+..
+        .. tabularcolumns:: | c p{8cm} |
+        .. _label-characters:
+        .. table:: Valid characters for DTS labels
+
+        ========= ================
+        Character Description
+        ========= ================
+        ``0-9``   digit
+        ``a-z``   lowercase letter
+        ``A-Z``   uppercase letter
+        ``_``     underscore
+        ========= ================
+
 .. tabularcolumns:: | c p{8cm} |
 .. _label-characters:
-.. table:: Valid characters for DTS labels
+.. table:: DTSラベルの有効な文字 
 
    ========= ================
-   Character Description
+   文字       説明
    ========= ================
-   ``0-9``   digit
-   ``a-z``   lowercase letter
-   ``A-Z``   uppercase letter
-   ``_``     underscore
+   ``0-9``   数字
+   ``a-z``   小文字
+   ``A-Z``   大文字
+   ``_``     アンダースコア
    ========= ================
-
 ..
         Node and property definitions
 ノードとプロパティの定義
