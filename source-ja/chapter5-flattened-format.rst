@@ -420,29 +420,45 @@ offset from the beginning of the devicetree blob.
 
 .. _sect-fdt-alignment:
 
-Alignment
+..
+    Alignment
+アラインメント
 ---------
 
-The devicetree blob shall be located at an 8-byte-aligned address. To maintain
-backwards compatibilty for 32-bit machines, 4-byte alignment is supported by
-some software, but this is not |spec|-compliant.
+..
+    The devicetree blob shall be located at an 8-byte-aligned address. To maintain
+    backwards compatibilty for 32-bit machines, 4-byte alignment is supported by
+    some software, but this is not |spec|-compliant.
+デバイスツリーBLOBは、8バイトにアラインされたアドレスに配置する必要があります。
+32ビットマシンの下位互換性を維持するために、一部のソフトウェアでは4バイトアライメントがサポートされていますが、これは |spec| に準拠していません。
 
-For the data in the memory reservation and structure blocks to be used
-without unaligned memory accesses, they shall lie at suitably aligned
-memory addresses. Specifically, the memory reservation block shall be
-aligned to an 8-byte boundary and the structure block to a 4-byte
-boundary.
+..
+    For the data in the memory reservation and structure blocks to be used
+    without unaligned memory accesses, they shall lie at suitably aligned
+    memory addresses. Specifically, the memory reservation block shall be
+    aligned to an 8-byte boundary and the structure block to a 4-byte
+    boundary.
+メモリ予約および構造ブロック内のデータを、整列されていないメモリアクセスなしで使用するには、それらは適切に整列されたメモリアドレスにある必要があります。
+具体的には、メモリ予約ブロックを8バイト境界に、構造ブロックを4バイト境界に揃える必要があります。
 
-Furthermore, the devicetree blob as a whole can be relocated without
-destroying the alignment of the subblocks.
+..
+    Furthermore, the devicetree blob as a whole can be relocated without
+    destroying the alignment of the subblocks.
+さらに、サブブロックの配置を破壊することなく、デバイスツリーBLOB全体を再配置できます。
 
-As described in the previous sections, the structure and strings blocks
-shall have aligned offsets from the beginning of the devicetree blob.
-To ensure the in-memory alignment of the blocks, it is sufficient to
-ensure that the devicetree as a whole is loaded at an address aligned
-to the largest alignment of any of the subblocks, that is, to an 8-byte
-boundary. A |spec| compliant boot
-program shall load the devicetree blob at such an aligned address
-before passing it to the client program. If an |spec| client program
-relocates the devicetree blob in memory, it should only do so to
-another 8-byte aligned address.
+..
+    As described in the previous sections, the structure and strings blocks
+    shall have aligned offsets from the beginning of the devicetree blob.
+    To ensure the in-memory alignment of the blocks, it is sufficient to
+    ensure that the devicetree as a whole is loaded at an address aligned
+    to the largest alignment of any of the subblocks, that is, to an 8-byte
+    boundary. A |spec| compliant boot
+    program shall load the devicetree blob at such an aligned address
+    before passing it to the client program. If an |spec| client program
+    relocates the devicetree blob in memory, it should only do so to
+    another 8-byte aligned address.
+前のセクションで説明したように、構造体ブロックと文字列ブロックは、デバイスツリーブロブの先頭からオフセットを揃える必要があります。
+ブロックのメモリ内アラインメントを確実にするには、デバイスツリー全体が、サブブロックのいずれかの最大アラインメント、つまり8バイト境界にアラインメントされたアドレスにロードされるようにするだけで十分です。
+|spec| 準拠したブートプログラムは、デバイスツリーブロブをクライアントプログラムに渡す前に、そのような位置合わせされたアドレスにロードする必要があります。
+|spec| の場合クライアントプログラムは、デバイスツリーブロブをメモリに再配置します。
+これは、別の8バイトに整列されたアドレスにのみ再配置する必要があります。

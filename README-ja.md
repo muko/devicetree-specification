@@ -85,24 +85,38 @@ Make commands:
 
 Output goes in ./build subdirectory.
 
-## License ##
-This project is licensed under the Apache V2 license. More information can be found 
-in the LICENSE and NOTICE file or online at:
+..
+    ## License ##
+## ライセンス ##
+..
+    This project is licensed under the Apache V2 license. More information can be found 
+    in the LICENSE and NOTICE file or online at:
+このプロジェクトは、Apache V2 ライセンスの下でライセンスされています。
+詳細については、LICENSE および NOTICE ファイルまたはオンラインの次の場所にあります。
 
 http://www.apache.org/licenses/LICENSE-2.0
 
 ## Contributions ##
-Please submit all patches to the mailing list devicetree-spec@vger.kernel.org.
-Contributions to the Devicetree Specification are managed by the gatekeepers,
-Grant Likely <grant.likely@secretlab.ca> and Rob Herring <robh@kernel.org>
+..
+    Please submit all patches to the mailing list devicetree-spec@vger.kernel.org.
+    Contributions to the Devicetree Specification are managed by the gatekeepers,
+    Grant Likely <grant.likely@secretlab.ca> and Rob Herring <robh@kernel.org>
+すべてのパッチをメーリングリスト devicetree-spec@vger.kernel.org に送信してください。
+デバイスツリー仕様への貢献は、ゲートキーパーである Grant Likely <grant.likely@secretlab.ca> と Rob Herring <robh@kernel.org> によって管理されています。
 
-Anyone can contribute to the Devicetree Specification. Contributions to this project should conform 
-to the `Developer Certificate of Origin` as defined at http://elinux.org/Developer_Certificate_Of_Origin. 
-Commits to this project need to contain the following line to indicate the submitter accepts the DCO:
+..
+    Anyone can contribute to the Devicetree Specification. Contributions to this project should conform 
+    to the `Developer Certificate of Origin` as defined at http://elinux.org/Developer_Certificate_Of_Origin. 
+    Commits to this project need to contain the following line to indicate the submitter accepts the DCO:
+誰でもデバイスツリー仕様に貢献できます。
+このプロジェクトへの貢献は、 http：//elinux.org/Developer_Certificate_Of_Origin で定義されている `Developer Certificate of Origin` に準拠している必要があります。
+このプロジェクトへのコミットには、送信者が DCO を受け入れることを示す次の行を含める必要があります。
 ```
 Signed-off-by: Your Name <your_email@domain.com>
 ```
-By contributing in this way, you agree to the terms as follows:
+..
+    By contributing in this way, you agree to the terms as follows:
+このように貢献することにより、次の条件に同意したことになります。
 ```
 Developer Certificate of Origin
 Version 1.1

@@ -925,9 +925,37 @@ status
 
    欠落している場合、クライアントプログラムはデフォルト値として *#address-cells* に値 2 を、*#size-cells* に値 1 を想定する必要があります。
 
-Example:
+..
+   Example:
 
-   See the following devicetree excerpt:
+      See the following devicetree excerpt:
+
+      .. code-block:: dts
+
+         soc {
+            #address-cells = <1>;
+            #size-cells = <1>;
+
+            serial@4600 {
+               compatible = "ns16550";
+               reg = <0x4600 0x100>;
+               clock-frequency = <0>;
+               interrupts = <0xA 0x8>;
+               interrupt-parent = <&ipic>;
+            };
+         };
+
+      In this example, the *#address-cells* and *#size-cells* properties of the ``soc`` node
+      are both set to 1. This setting specifies that one cell is required to
+      represent an address and one cell is required to represent the size of
+      nodes that are children of this node.
+
+      The serial device *reg* property necessarily follows this specification
+      set in the parent (``soc``) node—the address is represented by a single cell
+      (0x4600), and the size is represented by a single cell (0x100).
+例:
+
+   次のデバイスツリーの抜粋を参照してください。
 
    .. code-block:: dts
 
@@ -944,14 +972,11 @@ Example:
          };
       };
 
-   In this example, the *#address-cells* and *#size-cells* properties of the ``soc`` node
-   are both set to 1. This setting specifies that one cell is required to
-   represent an address and one cell is required to represent the size of
-   nodes that are children of this node.
+   この例では、 ``soc`` ノードの *#address-cells* プロパティと *#size-cells* プロパティの両方が 1 に設定されています。
+   この設定は、このノードの子は、アドレスを表すために1つのセルが必要であり、ノードのサイズを表すために1つのセルが必要であることを指定します。 
 
-   The serial device *reg* property necessarily follows this specification
-   set in the parent (``soc``) node—the address is represented by a single cell
-   (0x4600), and the size is represented by a single cell (0x100).
+   シリアルデバイスの *reg* プロパティは、親 (``soc``) ノードで設定されたこの仕様に従う必要があります。
+   アドレスは単一のセル (0x4600) で表され、サイズは単一のセル (0x100) で表されます。
 
 reg
 ~~~
@@ -1041,6 +1066,7 @@ ranges
    Value type: ``<empty>`` or ``<prop-encoded-array>`` encoded as an arbitrary number of
    (*child-bus-address*, *parent-bus-address*, *length*) triplets.
 値のタイプ: ``<empty>`` または、任意の数の（子バスアドレス、親バスアドレス、長さ）のトリプレットとしてエンコードされた ``<prop-encoded-array>``
+
 ..
    Description:
 
@@ -1087,7 +1113,38 @@ ranges
 
    プロパティがバスノードに存在しない場合、ノードの子と親アドレス空間の間にマッピングが存在しないと見なされます。
 
-Address Translation Example:
+..
+   Address Translation Example:
+
+      .. code-block:: dts
+
+         soc {
+            compatible = "simple-bus";
+            #address-cells = <1>;
+            #size-cells = <1>;
+            ranges = <0x0 0xe0000000 0x00100000>;
+
+            serial@4600 {
+               device_type = "serial";
+               compatible = "ns16550";
+               reg = <0x4600 0x100>;
+               clock-frequency = <0>;
+               interrupts = <0xA 0x8>;
+               interrupt-parent = <&ipic>;
+            };
+         };
+
+      The ``soc`` node specifies a *ranges* property of
+
+         ``<0x0 0xe0000000 0x00100000>;``
+
+      This property value specifies that for a 1024 KB range of address space,
+      a child node addressed at physical 0x0 maps to a parent address of
+      physical 0xe0000000. With this mapping, the ``serial`` device node can
+      be addressed by a load or store at address 0xe0004600, an offset of
+      0x4600 (specified in *reg*) plus the 0xe0000000 mapping specified in
+      *ranges*.
+アドレス変換の例:
 
    .. code-block:: dts
 
@@ -1107,38 +1164,59 @@ Address Translation Example:
           };
        };
 
-   The ``soc`` node specifies a *ranges* property of
+   ``soc`` ノードは次の範囲プロパティを指定します。
 
       ``<0x0 0xe0000000 0x00100000>;``
 
-   This property value specifies that for a 1024 KB range of address space,
-   a child node addressed at physical 0x0 maps to a parent address of
-   physical 0xe0000000. With this mapping, the ``serial`` device node can
-   be addressed by a load or store at address 0xe0004600, an offset of
-   0x4600 (specified in *reg*) plus the 0xe0000000 mapping specified in
-   *ranges*.
+   このプロパティ値は、1024 KBの範囲のアドレス空間に対して、物理 0x0 でアドレス指定された子ノードが物理 0xe0000000 の親アドレスにマップされることを指定します。
+   このマッピングを使用すると、シリアルデバイスノードは、アドレス 0xe0004600 、オフセット 0x4600 (*reg* で指定)、および *ranges* で指定された 0xe0000000 マッピングでロードまたはストアによってアドレス指定できます。
 
 dma-ranges
 ~~~~~~~~~~
 
-Property name: ``dma-ranges``
+..
+   Property name: ``dma-ranges``
+プロパティ名: ``dma-ranges``
 
-Value type: ``<empty>`` or ``<prop-encoded-array>`` encoded as an arbitrary number of
-(*child-bus-address*, *parent-bus-address*, *length*) triplets.
+..
+   Value type: ``<empty>`` or ``<prop-encoded-array>`` encoded as an arbitrary number of
+   (*child-bus-address*, *parent-bus-address*, *length*) triplets.
+値のタイプ: ``<empty>``または任意の数の (*child-bus-address*, *parent-bus-address*, *length*) トリプレットとしてエンコードされた ``<prop-encoded-array>``。
 
-Description:
+..
+   Description:
 
-   The *dma-ranges* property is used to describe the direct memory access
-   (DMA) structure of a memory-mapped bus whose devicetree parent can be
-   accessed from DMA operations originating from the bus. It provides a
-   means of defining a mapping or translation between the physical address
-   space of the bus and the physical address space of the parent of the
-   bus.
+      The *dma-ranges* property is used to describe the direct memory access
+      (DMA) structure of a memory-mapped bus whose devicetree parent can be
+      accessed from DMA operations originating from the bus. It provides a
+      means of defining a mapping or translation between the physical address
+      space of the bus and the physical address space of the parent of the
+      bus.
 
-   The format of the value of the *dma-ranges* property is an arbitrary
-   number of triplets of (*child-bus-address*, *parent-bus-address*,
-   *length*). Each triplet specified describes a contiguous DMA address
-   range.
+      The format of the value of the *dma-ranges* property is an arbitrary
+      number of triplets of (*child-bus-address*, *parent-bus-address*,
+      *length*). Each triplet specified describes a contiguous DMA address
+      range.
+
+      * The *child-bus-address* is a physical address within the child bus'
+      address space. The number of cells to represent the address depends
+      on the bus and can be determined from the *#address-cells* of this
+      node (the node in which the *dma-ranges* property appears).
+      * The *parent-bus-address* is a physical address within the parent bus'
+      address space. The number of cells to represent the parent address is
+      bus dependent and can be determined from the *#address-cells*
+      property of the node that defines the parent’s address space.
+      * The *length* specifies the size of the range in the child’s address
+      space. The number of cells to represent the size can be determined
+      from the *#size-cells* of this node (the node in which the dma-ranges
+      property appears).
+説明:
+
+   *dma-ranges* プロパティは、バスに由来するDMA操作からデバイスツリーの親にアクセスできるメモリマップドバスのダイレクトメモリアクセス (DMA) 構造を記述するために使用されます。
+   これは、バスの物理アドレス空間とバスの親の物理アドレス空間の間のマッピングまたは変換を定義する手段を提供します。
+
+   *dma-ranges* プロパティの値の形式は、 (*child-bus-address*, *parent-bus-address*, *length*) の任意の数のトリプレットです。
+   指定された各トリプレットは、連続する DMA アドレス範囲を表します。
 
    * The *child-bus-address* is a physical address within the child bus'
      address space. The number of cells to represent the address depends
@@ -1153,18 +1231,27 @@ Description:
      from the *#size-cells* of this node (the node in which the dma-ranges
      property appears).
 
+
 dma-coherent
 ~~~~~~~~~~~~
 
-Property name: ``dma-coherent``
+..
+   Property name: ``dma-coherent``
+プロパティ名: ``dma-coherent``
 
-Value type: ``<empty>``
+..
+   Value type: ``<empty>``
+値のタイプ: ``<empty>``
 
-Description:
-   For architectures which are by default non-coherent for I/O, the
-   *dma-coherent* property is used to indicate a device is capable of
-   coherent DMA operations. Some architectures have coherent DMA by default
-   and this property is not applicable.
+..
+   Description:
+      For architectures which are by default non-coherent for I/O, the
+      *dma-coherent* property is used to indicate a device is capable of
+      coherent DMA operations. Some architectures have coherent DMA by default
+      and this property is not applicable.
+説明:
+   デフォルトで I/O に対して非コヒーレントであるアーキテクチャの場合、 *dma-coherent* プロパティは、デバイスがコヒーレントDMA操作が可能であることを示すために使用されます。
+   一部のアーキテクチャにはデフォルトでコヒーレントDMAがあり、このプロパティは適用されません。
 
 name (deprecated)
 ~~~~~~~~~~~~~~~~~
@@ -1282,10 +1369,13 @@ Description:
 割り込みツリーのルートは、割り込みツリーのトラバースが *interrupts* プロパティなしで割り込みコントローラーノードに到達したときに決定されます。
 したがって、明示的な割り込みの親はありません。
 
-See :numref:`example-interrupt-tree` for an example of a graphical
-representation of a devicetree with interrupt parent relationships shown. It
-shows both the natural structure of the devicetree as well as where each node
-sits in the logical interrupt tree.
+..
+   See :numref:`example-interrupt-tree` for an example of a graphical
+   representation of a devicetree with interrupt parent relationships shown. It
+   shows both the natural structure of the devicetree as well as where each node
+   sits in the logical interrupt tree.
+割り込みの親関係が示されているデバイスツリーのグラフィック表現の例については、:numref:`example-interrupt-tree` を参照してください。
+これは、デバイスツリーの自然な構造と、各ノードが論理割り込みツリーのどこにあるかを示しています。
 
 .. _example-interrupt-tree:
 .. digraph:: tree
@@ -1425,9 +1515,14 @@ interrupt specifiers
 interrupt-parent
 ^^^^^^^^^^^^^^^^
 
-Property: ``interrupt-parent``
+..
+   Property: ``interrupt-parent``
+プロパティ: ``interrupt-parent``
 
-Value type: ``<phandle>``
+
+..
+   Value type: ``<phandle>``
+値のタイプ: ``<phandle>``
 
 ..
    Description:
@@ -1445,9 +1540,13 @@ Value type: ``<phandle>``
 interrupts-extended
 ^^^^^^^^^^^^^^^^^^^
 
-Property: ``interrupts-extended``
+..
+   Property: ``interrupts-extended``
+プロパティ: ``interrupts-extended``
 
-Value type: ``<phandle> <prop-encoded-array>``
+..
+   Value type: ``<phandle> <prop-encoded-array>``
+値のタイプ: ``<phandle> <prop-encoded-array>``
 
 ..
    Description:
@@ -1461,7 +1560,8 @@ Value type: ``<phandle> <prop-encoded-array>``
    *interrupts-extended* プロパティは、デバイスによって生成された割り込みを一覧表示します。
    割り込み-デバイスが複数の割り込みコントローラーに接続されている場合は、各割り込み指定子で親phandleをエンコードするため、*interrupts* の代わりに *interrupts-extended* を使用する必要があります。
 
-Example:
+..
+   Example:
 
    This example shows how a device with two interrupt outputs connected to two
    separate interrupt controllers would describe the connection using an
@@ -1469,6 +1569,12 @@ Example:
    ``pic`` is an interrupt controller with an *#interrupt-cells* specifier
    of 2, while ``gic`` is an interrupt controller with an *#interrupts-cells*
    specifier of 1.
+
+      ``interrupts-extended = <&pic 0xA 8>, <&gic 0xda>;``
+例:
+
+   この例は、2つの割り込み出力が2つの別々の割り込みコントローラーに接続されているデバイスが、*interrupts-extended* プロパティを使用して接続を記述する方法を示しています。
+   ``pic`` は *#interrupt-cells* 指定子が 2 の割り込みコントローラーであり、 ``gic`` は *#interrupts-cells* 指定子が 1 の割り込みコントローラーです。
 
       ``interrupts-extended = <&pic 0xA 8>, <&gic 0xda>;``
 
@@ -1819,14 +1925,23 @@ Description:
 #<specifier>-cells
 ^^^^^^^^^^^^^^^^^^
 
-Property: ``#<specifier>-cells``
+..
+   Property: ``#<specifier>-cells``
+プロパティ: ``#<specifier>-cells``
 
-Value type: ``<u32>``
+..
+   Value type: ``<u32>``
+値のタイプ: ``<u32>``
 
-Description:
 
-   The *#<specifier>-cells* property defines the number of cells required to
-   encode a specifier for a domain.
+..
+   Description:
+
+      The *#<specifier>-cells* property defines the number of cells required to
+      encode a specifier for a domain.
+説明:
+
+   *#<specifier>-cells* プロパティは、ドメインの指定子をエンコードするために必要なセルの数を定義します。
 
 ..
    Specifier Mapping Example
@@ -1872,48 +1987,78 @@ Description:
         };
 
 
-Each row in the gpio-map table consists of three parts: a child unit
-specifier, which is mapped to a *gpio-controller*
-node with a parent specifier.
+..
+   Each row in the gpio-map table consists of three parts: a child unit
+   specifier, which is mapped to a *gpio-controller*
+   node with a parent specifier.
+gpio-map テーブルの各行は、3 つの部分で構成されています。
+子ユニット指定子は、親指定子を使用して *gpio-controller* ノードにマップされます。
 
-* For example, the first row of the specifier-map table specifies the
-  mapping for GPIO 0 of the connector. The components of that row are shown
-  here
+..
+   * For example, the first row of the specifier-map table specifies the
+   mapping for GPIO 0 of the connector. The components of that row are shown
+   here
 
-  | child specifier: ``0 0``
-  | specifier parent: ``&soc_gpio1``
-  | parent specifier: ``1 0``
+   | child specifier: ``0 0``
+   | specifier parent: ``&soc_gpio1``
+   | parent specifier: ``1 0``
 
-  * The child specifier is ``<0 0>``, which specifies GPIO 0 in the connector
-    with a *flags* field of ``0``. This takes two 32-bit cells as specified
-    by the *#gpio-cells* property of the connector node, which is the
-    child specifier domain.
+   * The child specifier is ``<0 0>``, which specifies GPIO 0 in the connector
+      with a *flags* field of ``0``. This takes two 32-bit cells as specified
+      by the *#gpio-cells* property of the connector node, which is the
+      child specifier domain.
 
-  * The specifier parent is specified by a phandle which points to the
-    specifier parent of the connector, the first GPIO controller in the SoC.
+   * The specifier parent is specified by a phandle which points to the
+      specifier parent of the connector, the first GPIO controller in the SoC.
 
-  * The parent specifier is ``<1 0>``. The number of cells to
-    represent the gpio specifier (two cells) is determined by the
-    *#gpio-cells* property on the specifier parent, the soc_gpio1
-    node.
+   * The parent specifier is ``<1 0>``. The number of cells to
+      represent the gpio specifier (two cells) is determined by the
+      *#gpio-cells* property on the specifier parent, the soc_gpio1
+      node.
 
-    * The value ``<1 0>`` is a value specified by the device binding for
-      the GPIO controller. The value ``<1>`` specifies the
-      GPIO pin number on the GPIO controller to which GPIO 0 on the connector
-      is wired. The value ``<0>`` specifies the flags (active low,
-      active high, etc.).
+      * The value ``<1 0>`` is a value specified by the device binding for
+         the GPIO controller. The value ``<1>`` specifies the
+         GPIO pin number on the GPIO controller to which GPIO 0 on the connector
+         is wired. The value ``<0>`` specifies the flags (active low,
+         active high, etc.).
+* 例えば、specifier-mapテーブルの最初の行は、コネクタの GPIO 0 のマッピングを指定します。
+  その行のコンポーネントをここに示します
 
-In this example, the *gpio-map-mask* property has a value of ``<0xf 0>``.
-This mask is applied to a child unit specifier before performing a lookup in
-the *gpio-map* table. Similarly, the *gpio-map-pass-thru* property has a value
-of ``<0x0 0x1>``. This mask is applied to a child unit specifier when mapping
-it to the parent unit specifier. Any bits set in this mask are cleared out of
-the parent unit specifier and copied over from the child unit specifier
-to the parent unit specifier.
+  | 子指定子: ``0 0``
+  | 指定子の親: ``&soc_gpio1``
+  | 親指定子: ``1 0``
 
-To perform a lookup of the connector's specifier source number for GPIO 2
-from the expansion device's reset-gpios property, the following steps would be
-performed:
+  * 子指定子は ``<0 0>`` であり、 *flags* フィールドが ``0`` のコネクタで GPIO 0 を指定します。
+    これは、子指定子ドメインであるコネクタノードの *#gpio-cells* プロパティで指定された2つの32ビットセルを取ります。 
+
+  * 指定子の親は、コネクタの指定子の親、つまりSoCの最初の GPIO コントローラーを指す phandle によって指定されます。
+
+  * 親指定子は ``<1 0>`` です。
+    gpio 指定子（2つのセル）を表すセルの数は、指定子の親である soc_gpio1 ノードの *#gpio-cells* プロパティによって決定されます。
+
+    * 値 ``<1 0>`` は、GPIO コントローラーのデバイスバインディングによって指定された値です。
+    値 ``<1>`` は、コネクタの GPIO 0 が配線されている GPIO コントローラの GPIO ピン番号を指定します。
+    値 ``<0>`` は、フラグ（アクティブロー、アクティブハイなど）を指定します。
+
+..
+   In this example, the *gpio-map-mask* property has a value of ``<0xf 0>``.
+   This mask is applied to a child unit specifier before performing a lookup in
+   the *gpio-map* table. Similarly, the *gpio-map-pass-thru* property has a value
+   of ``<0x0 0x1>``. This mask is applied to a child unit specifier when mapping
+   it to the parent unit specifier. Any bits set in this mask are cleared out of
+   the parent unit specifier and copied over from the child unit specifier
+   to the parent unit specifier.
+この例では、*gpio-map-mask* プロパティの値は ``<0xf0>`` です。
+このマスクは、 *gpio-map* テーブルでルックアップを実行する前に子ユニット指定子に適用されます。
+同様に、 *gpio-map-pass-thru* プロパティの値は ``<0x0 0x1>`` です。
+このマスクは、子ユニット指定子を親ユニット指定子にマッピングするときに適用されます。
+このマスクに設定されたビットはすべて、親ユニット指定子からクリアされ、子ユニット指定子から親ユニット指定子にコピーされます。
+
+..
+   To perform a lookup of the connector's specifier source number for GPIO 2
+   from the expansion device's reset-gpios property, the following steps would be
+   performed:
+拡張デバイスの reset-gpios プロパティから GPIO 2 のコネクタの指定元ソース番号のルックアップを実行するには、次の手順を実行します。
 
 *  The child specifier forms the value ``<2 GPIO_ACTIVE_LOW>``.
 

@@ -155,23 +155,113 @@ This specification partially supersedes the |epapr| [EPAPR]_ specification.
 general concepts, as well as Power ISA specific bindings.
 The text of this document was derived from |epapr|, but either removes architecture specific bindings, or moves them into an appendix.
 
-32-bit and 64-bit Support
+..
+    32-bit and 64-bit Support
+32ビットおよび64ビットのサポート
 -------------------------
 
-The |spec| supports CPUs with both 32-bit and 64-bit addressing
-capabilities. Where applicable, sections of the |spec| describe any
-requirements or considerations for 32-bit and 64-bit addressing.
+..
+    The |spec| supports CPUs with both 32-bit and 64-bit addressing
+    capabilities. Where applicable, sections of the |spec| describe any
+    requirements or considerations for 32-bit and 64-bit addressing.
+|spec| 32ビットと64ビットの両方のアドレス指定機能を備えたCPUをサポートします。
+該当する場合、 |spec| のセクション32ビットおよび64ビットアドレス指定の要件または考慮事項について説明します。
 
-
-Definition of Terms
+..
+    Definition of Terms
+用語定義
 -------------------
 
+..
+    .. glossary::
+
+    AMP
+        Asymmetric Multiprocessing. Computer available CPUs are partitioned into
+        groups, each running a distinct operating system image. The CPUs
+        may or may not be identical.
+
+    boot CPU
+        The first CPU which a boot program directs to a client program’s
+        entry point.
+
+    Book III-E
+        Embedded Environment. Section of the Power ISA defining supervisor
+        instructions and related facilities used in embedded Power processor
+        implementations.
+
+    boot program
+        Used to generically refer to a software component that initializes
+        the system state and executes another software component referred to
+        as a client program. Examples of a boot program include: firmware,
+        bootloaders, and hypervisors.
+
+    client program
+        Program that typically contains application or operating system
+        software. Examples of a client program include: bootloaders,
+        hypervisors, operating systems, and special purpose programs.
+
+    cell
+        A unit of information consisting of 32 bits.
+
+    DMA
+        Direct memory access
+
+    DTB
+        Devicetree blob. Compact binary representation of the devicetree.
+
+    DTC
+        Devicetree compiler. An open source tool used to create DTB files
+        from DTS files.
+
+    DTS
+        Devicetree syntax. A textual representation of a devicetree
+        consumed by the DTC. See Appendix A Devicetree Source Format
+        (version 1).
+
+    effective address
+        Memory address as computed by processor storage access or branch
+        instruction.
+
+    physical address
+        Address used by the processor to access external device, typically a
+        memory controller.
+
+    Power ISA
+        Power Instruction Set Architecture.
+
+    interrupt specifier
+        A property value that describes an interrupt. Typically information
+        that specifies an interrupt number and sensitivity and triggering
+        mechanism is included.
+
+    secondary CPU
+        CPUs other than the boot CPU that belong to the client program are
+        considered *secondary CPUs*.
+
+    SMP
+        Symmetric multiprocessing. A computer architecture where two or more
+        identical CPUs can share memory and IO and operate under a single operating
+        system.
+
+    SoC
+        System on a chip. A single computer chip integrating one or more CPU
+        core as well as number of other peripherals.
+
+    unit address
+        The part of a node name specifying the node’s address in the address
+        space of the parent node.
+
+    quiescent CPU
+        A quiescent CPU is in a state where it cannot interfere with the
+        normal operation of other CPUs, nor can its state be affected by the
+        normal operation of other running CPUs, except by an explicit method
+        for enabling or re-enabling the quiescent CPU.
 .. glossary::
 
    AMP
-       Asymmetric Multiprocessing. Computer available CPUs are partitioned into
-       groups, each running a distinct operating system image. The CPUs
-       may or may not be identical.
+       非対称型マルチプロセッシング。
+       コンピューターで使用可能なCPUはグループに分割され、それぞれが個別のオペレーティングシステムイメージを実行します。
+       CPUは同一である場合とそうでない場合があります。
 
    boot CPU
        The first CPU which a boot program directs to a client program’s
@@ -194,22 +284,23 @@ Definition of Terms
        hypervisors, operating systems, and special purpose programs.
 
    cell
-       A unit of information consisting of 32 bits.
+       32ビットで構成される情報の単位。
 
    DMA
-       Direct memory access
+       ダイレクトメモリアクセス
 
    DTB
-       Devicetree blob. Compact binary representation of the devicetree.
+       デバイスツリーブロブ。
+       デバイスツリーのコンパクトなバイナリ表現。
 
    DTC
-       Devicetree compiler. An open source tool used to create DTB files
-       from DTS files.
+       デバイスツリーコンパイラ。
+       DTSファイルからDTBファイルを作成するために使用されるオープンソースツール。
 
    DTS
-       Devicetree syntax. A textual representation of a devicetree
-       consumed by the DTC. See Appendix A Devicetree Source Format
-       (version 1).
+       デバイスツリー構文。
+       DTCによって消費されるデバイスツリーのテキスト表現。
+       付録Aデバイスツリーソースフォーマット（バージョン1）を参照してください。
 
    effective address
        Memory address as computed by processor storage access or branch
@@ -223,29 +314,24 @@ Definition of Terms
        Power Instruction Set Architecture.
 
    interrupt specifier
-       A property value that describes an interrupt. Typically information
-       that specifies an interrupt number and sensitivity and triggering
-       mechanism is included.
+       割り込みを説明するプロパティ値。
+       通常、割り込み番号と感度、トリガーメカニズムを指定する情報が含まれています。
 
    secondary CPU
        CPUs other than the boot CPU that belong to the client program are
        considered *secondary CPUs*.
 
    SMP
-       Symmetric multiprocessing. A computer architecture where two or more
-       identical CPUs can share memory and IO and operate under a single operating
-       system.
+       対称マルチプロセッシング。
+       2つ以上の同一のCPUがメモリとIOを共有し、単一のオペレーティングシステムで動作できるコンピュータアーキテクチャ。
 
    SoC
-       System on a chip. A single computer chip integrating one or more CPU
-       core as well as number of other peripherals.
+       チップ上のシステム。
+       1つまたは複数のCPUコアと他の多数の周辺機器を統合する単一のコンピューターチップ。
 
    unit address
        The part of a node name specifying the node’s address in the address
        space of the parent node.
 
    quiescent CPU
-       A quiescent CPU is in a state where it cannot interfere with the
-       normal operation of other CPUs, nor can its state be affected by the
-       normal operation of other running CPUs, except by an explicit method
-       for enabling or re-enabling the quiescent CPU.
+       静止CPUは、他のCPUの通常の動作に干渉できない状態にあり、静止CPUを有効または再度有効にする明示的な方法を除いて、他の実行中のCPUの通常の動作の影響を受けることもありません。

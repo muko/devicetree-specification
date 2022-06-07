@@ -68,7 +68,9 @@ Some recommended practices include:
 
 .. _sect-misc-properties:
 
-Miscellaneous Properties
+..
+   Miscellaneous Properties
+その他のプロパティ
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 ..
@@ -78,63 +80,110 @@ Miscellaneous Properties
 このセクションでは、多くのタイプのデバイスおよびデバイスクラスに適用できる有用なプロパティのリストを定義します。
 これらは、名前と使用法の標準化を容易にするためにここで定義されています。
 
-``clock-frequency`` Property
+..
+   ``clock-frequency`` Property
+``clock-frequency`` プロパティ
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+..
+   .. tabularcolumns:: | l J |
+   .. table:: ``clock-frequency`` Property
+
+      =========== ==============================================================
+      Property    ``clock-frequency``
+      =========== ==============================================================
+      Value type  ``<prop-encoded-array>``
+      Description Specifies the frequency of a clock in Hz. The value is a
+                  ``<prop-encoded-array>`` in one of two forms:
+
+                  a 32-bit integer consisting of one ``<u32>`` specifying the
+                  frequency
+
+                  a 64-bit integer represented as a ``<u64>`` specifying the
+                  frequency
+      =========== ==============================================================
 .. tabularcolumns:: | l J |
-.. table:: ``clock-frequency`` Property
+.. table:: ``clock-frequency`` プロパティ
 
    =========== ==============================================================
-   Property    ``clock-frequency``
+   プロパティ     ``clock-frequency``
    =========== ==============================================================
-   Value type  ``<prop-encoded-array>``
-   Description Specifies the frequency of a clock in Hz. The value is a
-               ``<prop-encoded-array>`` in one of two forms:
+   値のタイプ     ``<prop-encoded-array>``
+   説明         クロックの周波数をHzで指定します。
+               値は、次の2つの形式のいずれかの ``<prop-encoded-array>`` です。
 
-               a 32-bit integer consisting of one ``<u32>`` specifying the
-               frequency
+               周波数を指定する1つの ``<u32>`` で構成される32ビット整数
 
-               a 64-bit integer represented as a ``<u64>`` specifying the
-               frequency
+               周波数を指定する ``<u64>`` として表される64ビット整数
    =========== ==============================================================
 
-``reg-shift`` Property
+..
+   ``reg-shift`` Property
+``reg-shift`` プロパティ
 ^^^^^^^^^^^^^^^^^^^^^^
 
+..
+   .. tabularcolumns:: | l J |
+   .. table:: ``reg-shift`` Property
+
+      =========== ==============================================================
+      Property    ``reg-shift``
+      =========== ==============================================================
+      Value type  ``<u32>``
+      Description The ``reg-shift`` property provides a mechanism to represent
+                  devices that are identical in most respects except for the
+                  number of bytes between registers. The ``reg-shift`` property
+                  specifies in bytes how far the discrete device registers are
+                  separated from each other. The individual register location
+                  is calculated by using following formula: "registers address"
+                  << reg-shift. If unspecified, the default value is 0.
+
+                  For example, in a system where 16540 UART registers are
+                  located at addresses 0x0, 0x4, 0x8, 0xC, 0x10, 0x14, 0x18,
+                  and 0x1C, a ``reg-shift = <2>``
+                  property would be used to specify register locations.
+      =========== ==============================================================
 .. tabularcolumns:: | l J |
-.. table:: ``reg-shift`` Property
+.. table:: ``reg-shift`` プロパティ
 
    =========== ==============================================================
-   Property    ``reg-shift``
+   プロパティ     ``reg-shift``
    =========== ==============================================================
-   Value type  ``<u32>``
-   Description The ``reg-shift`` property provides a mechanism to represent
-               devices that are identical in most respects except for the
-               number of bytes between registers. The ``reg-shift`` property
-               specifies in bytes how far the discrete device registers are
-               separated from each other. The individual register location
-               is calculated by using following formula: "registers address"
-               << reg-shift. If unspecified, the default value is 0.
+   値のタイプ     ``<u32>``
+   説明         ``reg-shift`` プロパティは、レジスタ間のバイト数を除いて、ほとんどの点で同一のデバイスを表すメカニズムを提供します。
+               ``reg-shift`` プロパティは、ディスクリートデバイスレジスタが互いにどれだけ離れているかをバイト単位で指定します。
+               個々のレジスタの場所は、式 「レジスタアドレス」<< reg-shift を使用して計算されます。
+               指定しない場合、デフォルト値は0です。
 
-               For example, in a system where 16540 UART registers are
-               located at addresses 0x0, 0x4, 0x8, 0xC, 0x10, 0x14, 0x18,
-               and 0x1C, a ``reg-shift = <2>``
-               property would be used to specify register locations.
+               例えば、16540 UARTレジスタがアドレス 0x0、0x4、0x8、0xC、0x10、0x14、0x18、および0x1Cに配置されているシステムでは、 ``reg-shift=<2>`` プロパティを使用してレジスタの場所を指定します。
    =========== ==============================================================
 
-``label`` Property
+..
+   ``label`` Property
+``label`` プロパティ
 ^^^^^^^^^^^^^^^^^^
 
+..
+   .. tabularcolumns:: | l J |
+   .. table:: ``label`` Property
+
+      =========== ==============================================================
+      Property    ``label``
+      =========== ==============================================================
+      Value type  ``<string>``
+      Description The label property defines a human readable string describing
+                  a device. The binding for a given device specifies the exact
+                  meaning of the property for that device.
+      =========== ==============================================================
 .. tabularcolumns:: | l J |
-.. table:: ``label`` Property
+.. table:: ``label`` プロパティ
 
    =========== ==============================================================
-   Property    ``label``
+   プロパティ     ``label``
    =========== ==============================================================
-   Value type  ``<string>``
-   Description The label property defines a human readable string describing
-               a device. The binding for a given device specifies the exact
-               meaning of the property for that device.
+   値のタイプ     ``<string>``
+   説明         label プロパティは、デバイスを説明する人間が読める文字列を定義します。
+               特定のデバイスのバインディングは、そのデバイスのプロパティの正確な意味を指定します。
    =========== ==============================================================
 
 Serial devices
@@ -228,66 +277,118 @@ the devicetree using following properties.
    (:numref:`sect-standard-properties`) are allowed but are optional.
 
 
-Network devices
+..
+   Network devices
+ネットワークデバイス
 ---------------
 
-Network devices are packet oriented communication devices. Devices in
-this class are assumed to implement the data link layer (layer 2) of the
-seven-layer OSI model and use Media Access Control (MAC) addresses.
-Examples of network devices include Ethernet, FDDI, 802.11, and
-Token-Ring.
+..
+   Network devices are packet oriented communication devices. Devices in
+   this class are assumed to implement the data link layer (layer 2) of the
+   seven-layer OSI model and use Media Access Control (MAC) addresses.
+   Examples of network devices include Ethernet, FDDI, 802.11, and
+   Token-Ring.
+ネットワークデバイスは、パケット指向の通信デバイスです。
+このクラスのデバイスは、7層OSIモデルのデータリンク層（レイヤー2）を実装し、Media Access Control (MAC) アドレスを使用すると想定されています。
+ネットワークデバイスの例には、イーサネット、FDDI、802.11、およびトークンリングが含まれます。
 
-Network Class Binding
+..
+   Network Class Binding
+ネットワーククラスバインディング
 ~~~~~~~~~~~~~~~~~~~~~
 
-``address-bits`` Property
+..
+   ``address-bits`` Property
+``address-bits`` プロパティ
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
+..
+   .. tabularcolumns:: | l J |
+   .. table:: ``address-bits`` Property
+
+      =========== ==============================================================
+      Property    ``address-bits``
+      =========== ==============================================================
+      Value type  ``<u32>``
+      Description Specifies number of address bits required to address the
+                  device described by this node. This property specifies number
+                  of bits in MAC address. If unspecified, the default value is 48.
+      Example     ``address-bits = <48>;``
+      =========== ==============================================================
 .. tabularcolumns:: | l J |
-.. table:: ``address-bits`` Property
+.. table:: ``address-bits`` プロパティ
 
    =========== ==============================================================
-   Property    ``address-bits``
+   プロパティ     ``address-bits``
    =========== ==============================================================
-   Value type  ``<u32>``
-   Description Specifies number of address bits required to address the
-               device described by this node. This property specifies number
-               of bits in MAC address. If unspecified, the default value is 48.
-   Example     ``address-bits = <48>;``
+   値のタイプ     ``<u32>``
+   説明         このノードによって記述されたデバイスをアドレス指定するために必要なアドレスビット数を指定します。
+               このプロパティは、MAC アドレスのビット数を指定します。
+               指定しない場合、デフォルト値は 48 です。
+   例           ``address-bits = <48>;``
    =========== ==============================================================
 
-``local-mac-address`` Property
+..
+   ``local-mac-address`` Property
+``local-mac-address`` プロパティ
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+..
+   .. tabularcolumns:: | l J |
+   .. table:: ``local-mac-address`` Property
+
+      =========== ==============================================================
+      Property    ``local-mac-address``
+      =========== ==============================================================
+      Value type  ``<prop-encoded-array>`` encoded as an array of hex numbers
+      Description Specifies MAC address that was assigned to the network device
+                  described by the node containing this property.
+      Example     ``local-mac-address = [ 00 00 12 34 56 78 ];``
+      =========== ==============================================================
 .. tabularcolumns:: | l J |
-.. table:: ``local-mac-address`` Property
+.. table:: ``local-mac-address`` プロパティ
 
    =========== ==============================================================
-   Property    ``local-mac-address``
+   プロパティ     ``local-mac-address``
    =========== ==============================================================
-   Value type  ``<prop-encoded-array>`` encoded as an array of hex numbers
-   Description Specifies MAC address that was assigned to the network device
-               described by the node containing this property.
-   Example     ``local-mac-address = [ 00 00 12 34 56 78 ];``
+   値のタイプ     16進数の配列としてエンコードされた ``<prop-encoded-array>``
+   説明         このプロパティを含むノードによって記述されたネットワークデバイスに割り当てられた MAC アドレスを指定します。
+   例           ``local-mac-address = [ 00 00 12 34 56 78 ];``
    =========== ==============================================================
 
-``mac-address`` Property
+
+..
+   ``mac-address`` Property
+``mac-address`` プロパティ
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
+..
+   .. tabularcolumns:: | l J |
+   .. table:: ``mac-address`` Property
+
+      =========== ==============================================================
+      Property    ``mac-address``
+      =========== ==============================================================
+      Value type  ``<prop-encoded-array>`` encoded as an array of hex numbers
+      Description Specifies the MAC address that was last used by the boot
+                  program. This property should be used in cases where the MAC
+                  address assigned to the device by the boot program is
+                  different from the local-mac-address property. This property
+                  shall be used only if the value differs from
+                  local-mac-address property value.
+      Example     ``mac-address = [ 02 03 04 05 06 07 ];``
+      =========== ==============================================================
 .. tabularcolumns:: | l J |
-.. table:: ``mac-address`` Property
+.. table:: ``mac-address`` プロパティ
 
    =========== ==============================================================
-   Property    ``mac-address``
+   プロパティ     ``mac-address``
    =========== ==============================================================
-   Value type  ``<prop-encoded-array>`` encoded as an array of hex numbers
-   Description Specifies the MAC address that was last used by the boot
-               program. This property should be used in cases where the MAC
-               address assigned to the device by the boot program is
-               different from the local-mac-address property. This property
-               shall be used only if the value differs from
-               local-mac-address property value.
-   Example     ``mac-address = [ 02 03 04 05 06 07 ];``
+   値のタイプ     16進数の配列としてエンコードされた ``<prop-encoded-array>``
+   説明         ブートプログラムによって最後に使用された MAC アドレスを指定します。
+               このプロパティは、ブートプログラムによってデバイスに割り当てられた MAC アドレスが local-mac-address プロパティと異なる場合に使用する必要があります。
+               このプロパティは、値が local-mac-address プロパティ値と異なる場合にのみ使用されます。
+   例           ``mac-address = [ 02 03 04 05 06 07 ];``
    =========== ==============================================================
 
 ``max-frame-size`` Property

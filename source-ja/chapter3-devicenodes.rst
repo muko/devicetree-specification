@@ -359,15 +359,21 @@ and ``ranges`` should be empty so that address translation logic works correctly
 /reserved-memory/ child nodes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Each child of the reserved-memory node specifies one or more regions of
-reserved memory. Each child node may either use a ``reg`` property to
-specify a specific range of reserved memory, or a ``size`` property with
-optional constraints to request a dynamically allocated block of memory.
+..
+   Each child of the reserved-memory node specifies one or more regions of
+   reserved memory. Each child node may either use a ``reg`` property to
+   specify a specific range of reserved memory, or a ``size`` property with
+   optional constraints to request a dynamically allocated block of memory.
+予約済みメモリノードの各子は、予約済みメモリの1つ以上の領域を指定します。
+各子ノードは、 ``reg`` プロパティを使用して予約済みメモリの特定の範囲を指定するか、オプションの制約を使用して ``size`` プロパティを使用して動的に割り当てられたメモリブロックを要求できます。
 
-Following the generic-names recommended practice, node names should
-reflect the purpose of the node (ie. "*framebuffer*" or "*dma-pool*").
-Unit address (``@<address>``) should be appended to the name if the node
-is a static allocation.
+..
+   Following the generic-names recommended practice, node names should
+   reflect the purpose of the node (ie. "*framebuffer*" or "*dma-pool*").
+   Unit address (``@<address>``) should be appended to the name if the node
+   is a static allocation.
+総称名の推奨プラクティスに従って、ノード名はノードの目的（つまり、 "*framebuffer*" または "*dma-pool*"）を反映する必要があります。
+ノードが静的割り当ての場合は、名前にユニットアドレス（``@<address>``）を追加する必要があります。
 
 A reserved memory node requires either a ``reg`` property for static
 allocations, or a ``size`` property for dynamics allocations.
@@ -672,21 +678,161 @@ MMU を共有するハードウェアスレッドは、通常、1つの ``cpu`` 
    CPUs/threads.
 CPUとスレッドは、割り込みコントローラーのCPU/スレッドの番号付けと可能な限り一致する必要がある統一された番号スペースを介して番号付けされます。
 
-Properties that have identical values across ``cpu`` nodes may be placed in
-the ``/cpus`` node instead. A client program must first examine a specific
-``cpu`` node, but if an expected property is not found then it should look
-at the parent ``/cpus`` node. This results in a less verbose representation
-of properties which are identical across all CPUs.
+..
+   Properties that have identical values across ``cpu`` nodes may be placed in
+   the ``/cpus`` node instead. A client program must first examine a specific
+   ``cpu`` node, but if an expected property is not found then it should look
+   at the parent ``/cpus`` node. This results in a less verbose representation
+   of properties which are identical across all CPUs.
+``cpu`` ノード間で同じ値を持つプロパティは、代わりに ``/cpus`` ノードに配置できます。
+クライアントプログラムは最初に特定の ``cpu`` ノードを調べる必要がありますが、期待されるプロパティが見つからない場合は、親の ``/cpus`` ノードを調べる必要があります。
+これにより、すべてのCPUで同一のプロパティの表現がより簡潔になります。
 
-The node name for every CPU node should be ``cpu``.
+..
+   The node name for every CPU node should be ``cpu``.
+すべてのCPUノードのノード名は ``cpu`` である必要があります。
 
-General Properties of ``/cpus/cpu*`` nodes
+..
+   General Properties of ``/cpus/cpu*`` nodes
+``/cpus/cpu*`` ノードの一般的なプロパティ
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following table describes the general properties of ``cpu`` nodes. Some
-of the properties described in :numref:`table-cpu-node-props` are select
-standard properties with specific applicable detail.
+..
+   The following table describes the general properties of ``cpu`` nodes. Some
+   of the properties described in :numref:`table-cpu-node-props` are select
+   standard properties with specific applicable detail.
+次の表に、 ``cpu`` ノードの一般的なプロパティを示します。
+:numref:`table-cpu-node-props` で説明されているプロパティの一部は、特定の適用可能な詳細を備えた選択された標準プロパティです。
 
+..
+   .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
+   .. _table-cpu-node-props:
+   .. table:: ``/cpus/cpu*`` Node General Properties
+      :class: longtable
+
+      ====================== ===== ================== ===============================================
+      Property Name          Usage Value Type         Definition
+      ====================== ===== ================== ===============================================
+      ``device_type``        | R   | ``<string>``     Value shall be ``"cpu"``.
+      ``reg``                R     array              The value of *reg* is a ``<prop-encoded-array>``
+                                                      that defines a unique CPU/thread id for the
+                                                      CPU/threads represented by the CPU node.
+
+                                                      If a CPU supports more than one thread (i.e.
+                                                      multiple streams of execution) the *reg*
+                                                      property is an array with 1 element per
+                                                      thread. The *#address-cells* on the ``/cpus`` node
+                                                      specifies how many cells each element of the
+                                                      array takes. Software can determine the number
+                                                      of threads by dividing the size of *reg* by
+                                                      the parent node's *#address-cells*.
+
+                                                      If a CPU/thread can be the target of an
+                                                      external interrupt the *reg* property value
+                                                      must be a unique CPU/thread id that is
+                                                      addressable by the interrupt controller.
+
+                                                      If a CPU/thread cannot be the target of an
+                                                      external interrupt, then *reg* must be unique
+                                                      and out of bounds of the range addressed by
+                                                      the interrupt controller
+
+                                                      If a CPU/thread's PIR (pending interrupt register)
+                                                      is modifiable, a client
+                                                      program should modify PIR to match the *reg*
+                                                      property value. If PIR cannot be modified and
+                                                      the PIR value is distinct from the interrupt
+                                                      controller number space, the CPUs binding may
+                                                      define a binding-specific representation of
+                                                      PIR values if desired.
+      ``clock-frequency``    | R   | array            Specifies the current clock speed of the CPU
+                                                      in Hertz. The value is a ``<prop-encoded-array>``
+                                                      in one of two forms:
+
+                                                      * A 32-bit integer consisting of one ``<u32>``
+                                                      specifying the frequency.
+                                                      * A 64-bit integer represented as a ``<u64>``
+                                                      specifying the frequency.
+
+      ``timebase-frequency`` | R   | array            Specifies the current frequency at which the
+                                                      timebase and decrementer registers are updated
+                                                      (in Hertz). The value is a
+                                                      <prop-encoded-array> in one of two forms:
+
+                                                      * A 32-bit integer consisting of one ``<u32>``
+                                                      specifying the frequency.
+                                                      * A 64-bit integer represented as a ``<u64>``.
+
+      ``status``             SD    ``<string>``       A standard property describing the state of a
+                                                      CPU. This property shall be present for nodes
+                                                      representing CPUs in a symmetric
+                                                      multiprocessing (SMP) configuration. For a CPU
+                                                      node the meaning of the ``"okay"``, ``"disabled"``
+                                                      and ``"fail"`` values are as follows:
+
+                                                      ``"okay"`` :
+                                                         The CPU is running.
+
+                                                      ``"disabled"`` :
+                                                         The CPU is in a quiescent state.
+
+                                                      ``"fail"`` :
+                                                         The CPU is not operational or does not exist.
+
+                                                      A quiescent CPU is in a state where it cannot
+                                                      interfere with the normal operation of other
+                                                      CPUs, nor can its state be affected by the
+                                                      normal operation of other running CPUs, except
+                                                      by an explicit method for enabling or
+                                                      re-enabling the quiescent CPU (see the
+                                                      enable-method property).
+
+                                                      In particular, a running CPU shall be able to
+                                                      issue broadcast TLB invalidates without
+                                                      affecting a quiescent CPU.
+
+                                                      Examples: A quiescent CPU could be in a spin
+                                                      loop, held in reset, and electrically isolated
+                                                      from the system bus or in another
+                                                      implementation dependent state.
+
+                                                      A CPU with ``"fail"`` status does not affect the
+                                                      system in any way.
+                                                      The status is assigned to nodes for which no
+                                                      corresponding CPU exists.
+      ``enable-method``      | SD  | ``<stringlist>`` Describes the method by which a CPU in a
+                                                      disabled state is enabled. This property is
+                                                      required for CPUs with a status property with
+                                                      a value of ``"disabled"``. The value consists of
+                                                      one or more strings that define the method to
+                                                      release this CPU. If a client program
+                                                      recognizes any of the methods, it may use it.
+                                                      The value shall be one of the following:
+
+                                                      ``"spin-table"`` :
+                                                         The CPU is enabled with the
+                                                         spin table method defined in the |spec|.
+
+                                                      ``"[vendor],[method]"`` :
+                                                         Implementation dependent string that
+                                                         describes the method by which a CPU is
+                                                         released from a ``"disabled"`` state. The
+                                                         required format is: ``"[vendor],[method]"``,
+                                                         where vendor is a string describing the name of
+                                                         the manufacturer and method is a string
+                                                         describing the vendor specific mechanism.
+
+                                                      Example: ``"fsl,MPC8572DS"``
+
+                                                      .. note:: Other methods may be added to later
+                                                         revisions of the |spec| specification.
+      ``cpu-release-addr``   | SD  | ``<u64>``        The cpu-release-addr property is required for
+                                                      cpu nodes that have an enable-method property
+                                                      value of ``"spin-table"``. The value specifies the
+                                                      physical address of a spin table entry that
+                                                      releases a secondary CPU from its spin loop.
+      Usage legend: R=Required, O=Optional, OR=Optional but Recommended, SD=See Definition
+      ===============================================================================================
 .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
 .. _table-cpu-node-props:
 .. table:: ``/cpus/cpu*`` Node General Properties
@@ -695,19 +841,12 @@ standard properties with specific applicable detail.
    ====================== ===== ================== ===============================================
    Property Name          Usage Value Type         Definition
    ====================== ===== ================== ===============================================
-   ``device_type``        | R   | ``<string>``     Value shall be ``"cpu"``.
-   ``reg``                R     array              The value of *reg* is a ``<prop-encoded-array>``
-                                                   that defines a unique CPU/thread id for the
-                                                   CPU/threads represented by the CPU node.
-
-                                                   If a CPU supports more than one thread (i.e.
-                                                   multiple streams of execution) the *reg*
-                                                   property is an array with 1 element per
-                                                   thread. The *#address-cells* on the ``/cpus`` node
-                                                   specifies how many cells each element of the
-                                                   array takes. Software can determine the number
-                                                   of threads by dividing the size of *reg* by
-                                                   the parent node's *#address-cells*.
+   ``device_type``        | R   | ``<string>``     値は ``cpu`` にしなければならない。
+   ``reg``                R     array              ``reg`` の値は、CPUノードによって表されるCPU/スレッドの一意のCPU/スレッドIDを定義する ``<prop-encoded-array>`` です。
+   
+                                                   CPUが複数のスレッド（つまり、複数の実行ストリーム）をサポートしている場合、 *reg* プロパティはスレッドごとに1つの要素を持つ配列です。
+                                                   ``/cpus``ノードの *#address-cells* は、配列の各要素が取るセルの数を指定します。
+                                                   ソフトウェアは、regのサイズを親ノードの *#address-cells* で割ることにより、スレッドの数を判別できます。
 
                                                    If a CPU/thread can be the target of an
                                                    external interrupt the *reg* property value
@@ -745,33 +884,22 @@ standard properties with specific applicable detail.
                                                      specifying the frequency.
                                                    * A 64-bit integer represented as a ``<u64>``.
 
-   ``status``             SD    ``<string>``       A standard property describing the state of a
-                                                   CPU. This property shall be present for nodes
-                                                   representing CPUs in a symmetric
-                                                   multiprocessing (SMP) configuration. For a CPU
-                                                   node the meaning of the ``"okay"``, ``"disabled"``
-                                                   and ``"fail"`` values are as follows:
+   ``status``             SD    ``<string>``       CPUの状態を説明する標準プロパティ。
+                                                   このプロパティは、対称型マルチプロセッシング（SMP）構成のCPUを表すノードに存在します。
+                                                   CPUノードの場合、 ``"okay"``, ``"disabled"``, ``"fail"`` の値の意味は次のとおりです。
 
                                                    ``"okay"`` :
-                                                      The CPU is running.
+                                                      CPUが実行されています。
 
                                                    ``"disabled"`` :
-                                                      The CPU is in a quiescent state.
+                                                      CPUは静止状態です。
 
                                                    ``"fail"`` :
-                                                      The CPU is not operational or does not exist.
+                                                      CPUが動作していないか、存在しません。
 
-                                                   A quiescent CPU is in a state where it cannot
-                                                   interfere with the normal operation of other
-                                                   CPUs, nor can its state be affected by the
-                                                   normal operation of other running CPUs, except
-                                                   by an explicit method for enabling or
-                                                   re-enabling the quiescent CPU (see the
-                                                   enable-method property).
+                                                   静止CPUは、他のCPUの通常の動作に干渉できない状態にあり、静止CPUを有効または再度有効にする明示的な方法を除いて、他の実行中のCPUの通常の動作の影響を受けることもありません（enable-methodプロパティを参照）。
 
-                                                   In particular, a running CPU shall be able to
-                                                   issue broadcast TLB invalidates without
-                                                   affecting a quiescent CPU.
+                                                   特に、実行中のCPUは、静止しているCPUに影響を与えることなく、ブロードキャストTLB無効化を発行できる必要があります。
 
                                                    Examples: A quiescent CPU could be in a spin
                                                    loop, held in reset, and electrically isolated

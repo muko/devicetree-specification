@@ -167,38 +167,78 @@ phandle値またはノードへのフルパスを明示的に指定する代わ�
            within parenthesis.
 -  値は、括弧内に算術式、ビット式、または論理式として表すことができます。
 
+..
+        ::
+
+        Arithmetic operators
+
+        +   add
+        -   subtract
+        *   multiply
+        /   divide
+        %   modulo
 ::
 
-    Arithmetic operators
+    算術演算子
 
-    +   add
-    -   subtract
-    *   multiply
-    /   divide
-    %   modulo
+    +   加算
+    -   減算
+    *   乗算
+    /   除算
+    %   剰余演算
 
+..
+        ::
+
+        Bitwise operators
+
+        &    and
+        |    or
+        ^    exclusive or
+        ~    not
+        <<  left shift
+        >>  right shift
 ::
 
-    Bitwise operators
+    ビット演算子
 
     &    and
     |    or
     ^    exclusive or
     ~    not
-    <<  left shift
-    >>  right shift
+    <<  左シフト
+    >>  右シフト
 
+..
+        ::
+
+        Logical operators
+
+        &&   and
+        ||   or
+        !    not
 ::
 
-    Logical operators
+    論理演算子
 
-    &&   and
-    ||   or
-    !    not
+    &&   論理積
+    ||   論理和
+    !    否定
 
+..
+        ::
+
+        Relational operators
+
+        <    less than
+        >    greater than
+        <=   less than or equal
+        >=   greater than or equal
+        ==   equal
+        !=   not equal
 ::
 
-    Relational operators
+    関係演算子
 
     <    less than
     >    greater than
@@ -207,11 +247,17 @@ phandle値またはノードへのフルパスを明示的に指定する代わ�
     ==   equal
     !=   not equal
 
+..
+        ::
+
+        Ternary operators
+
+        ?:   (condition ? value_if_true : value_if_false)
 ::
 
-    Ternary operators
+    三項演算子
 
-    ?:   (condition ? value_if_true : value_if_false)
+    ?:   (条件 ? value_if_true : value_if_false)
 
 ..
         -  A 64-bit value is represented with two 32-bit cells. Example:
