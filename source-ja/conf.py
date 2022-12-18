@@ -73,13 +73,13 @@ master_doc = 'index'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "ja"
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
 #today = ''
 # Else, today_fmt is used as the format for a strftime call.
-today_fmt = '%d %B %Y'
+today_fmt = '%Y-%B-%d'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -117,6 +117,9 @@ html_theme = 'alabaster'
 html_theme_options = {
         'github_user': 'devicetree-org',
         'github_repo': 'devicetree-specification',
+        'font_family': '-apple-system,BlinkMacSystemFont,"Helvetica Neue","游ゴシック Medium",YuGothic,YuGothicM,メイリオ,Meiryo,sans-serif',
+        'head_font_family': '-apple-system,BlinkMacSystemFont,"Helvetica Neue","游ゴシック Medium",YuGothic,YuGothicM,メイリオ,Meiryo,sans-serif',
+        'caption_font_family': '-apple-system,BlinkMacSystemFont,"Helvetica Neue","游ゴシック Medium",YuGothic,YuGothicM,メイリオ,Meiryo,sans-serif',
 }
 
 # The name of an image file (relative to this directory) to place at the top

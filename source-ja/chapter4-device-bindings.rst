@@ -1,9 +1,13 @@
 .. SPDX-License-Identifier: Apache-2.0
 
+..
+   .. _chapter-device-bindings:
+
+   Device Bindings
+   ===============
+
 .. _chapter-device-bindings:
 
-..
-   Device Bindings
 デバイスバインディング
 ===============
 
@@ -41,30 +45,48 @@ General Principles
 デバイスの新しいデバイスツリー表現を作成するときは、デバイスの必要なプロパティと値を完全に説明するバインディングを作成する必要があります。
 この一連のプロパティは、デバイスドライバにデバイスの必要な属性を提供するために十分に説明的である必要があります。
 
-Some recommended practices include:
+..
+   Some recommended practices include:
+推奨されるプラクティスには次のようなものがあります。 
 
-1. Define a compatible string using the conventions described in
-   :numref:`sect-standard-properties-compatible`.
+..
+   1. Define a compatible string using the conventions described in
+      :numref:`sect-standard-properties-compatible`.
+1. :numref:`sect-standard-properties-compatible` で説明されている規則を使用して、互換性のある文字列を定義します。
 
-2. Use the standard properties (defined in
-   :numref:`sect-standard-properties` and
-   :numref:`sect-interrupts`) as
-   applicable for the new device. This usage typically includes the
-   ``reg`` and ``interrupts`` properties at a minimum.
+..
+   2. Use the standard properties (defined in
+      :numref:`sect-standard-properties` and
+      :numref:`sect-interrupts`) as
+      applicable for the new device. This usage typically includes the
+      ``reg`` and ``interrupts`` properties at a minimum.
+2. 新しいデバイスに適用可能な標準プロパティ (:numref:`sect-standard-properties` および :numref:`sect-interrupts` で定義) を使用します。
+   通常、この使用法には、少なくとも ``reg`` および ``interrupts`` プロパティが含まれます。
 
-3. Use the conventions specified in :numref:`chapter-device-bindings`
-   (Device Bindings) if the new device fits into one the |spec| defined
-   device classes.
+..
+   3. Use the conventions specified in :numref:`chapter-device-bindings`
+      (Device Bindings) if the new device fits into one the |spec| defined
+      device classes.
+3. 新しいデバイスが |spec| で定義されたデバイス クラスの 1 つに適合する場合は、 :numref:`chapter-device-bindings` (デバイス バインディング) で指定されている規則を使用します。
 
-4. Use the miscellaneous property conventions specified in
-   :numref:`sect-misc-properties`, if applicable.
+..
+   4. Use the miscellaneous property conventions specified in
+      :numref:`sect-misc-properties`, if applicable.
+4. 該当する場合は、  :numref:`sect-misc-properties` で指定されたその他のプロパティ規則を使用します。
 
-5. If new properties are needed by the binding, the recommended format
-   for property names is: ``"<company>,<property-name>"``, where ``<company>``
-   is an OUI or short unique string like a stock ticker that identifies
-   the creator of the binding.
+..
+   5. If new properties are needed by the binding, the recommended format
+      for property names is: ``"<company>,<property-name>"``, where ``<company>``
+      is an OUI or short unique string like a stock ticker that identifies
+      the creator of the binding.
 
    Example: ``"ibm,ppc-interrupt-server#s"``
+
+5. バインディングで新しいプロパティが必要な場合、プロパティ名の推奨形式は ``"<company>,<property-name>"`` です。
+   ここで、 ``<company>``は、OUI または、その作成者を識別する株式ティッカーのような短い一意の文字列でバインディングの作成者を識別します。
+
+   例: ``"ibm,ppc-interrupt-server#s"``
+
 
 .. _sect-misc-properties:
 
@@ -406,52 +428,111 @@ the devicetree using following properties.
    Example     ``max-frame-size = <1518>;``
    =========== ==============================================================
 
-Ethernet specific considerations
+..
+   Ethernet specific considerations
+イーサネット固有の考慮事項
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Network devices based on the IEEE 802.3 collections of LAN standards
-(collectively referred to as Ethernet) may be represented in the devicetree
-using following properties, in addition to properties specified of
-the network device class.
+..
+   Network devices based on the IEEE 802.3 collections of LAN standards
+   (collectively referred to as Ethernet) may be represented in the devicetree
+   using following properties, in addition to properties specified of
+   the network device class.
+LAN 規格の IEEE 802.3 コレクション (まとめてイーサネットと呼ばれる) に基づくネットワーク デバイスは、ネットワーク デバイス クラスで指定されたプロパティに加えて、次のプロパティを使用してデバイス ツリーで表すことができます。
 
-The properties listed in this section augment the properties listed in
-the network device class.
+..
+   The properties listed in this section augment the properties listed in
+   the network device class.
+このセクションにリストされているプロパティは、ネットワーク デバイス クラスにリストされているプロパティを補強します。
 
-``max-speed`` Property
+..
+   ``max-speed`` Property
+``max-speed`` プロパティ
 ^^^^^^^^^^^^^^^^^^^^^^
 
+..
+   .. tabularcolumns:: | l J |
+   .. table:: ``max-speed`` Property
+
+      =========== ==============================================================
+      Property    ``max-speed``
+      =========== ==============================================================
+      Value type  ``<u32>``
+      Description Specifies maximum speed (specified in megabits per second)
+                  supported the device.
+      Example     ``max-speed = <1000>;``
+      =========== ==============================================================
 .. tabularcolumns:: | l J |
-.. table:: ``max-speed`` Property
+.. table:: ``max-speed`` プロパティ
 
    =========== ==============================================================
    Property    ``max-speed``
    =========== ==============================================================
    Value type  ``<u32>``
-   Description Specifies maximum speed (specified in megabits per second)
-               supported the device.
+   Description デバイスがサポートする最大速度 (メガビット/秒で指定) を指定します。
    Example     ``max-speed = <1000>;``
    =========== ==============================================================
 
-``phy-connection-type`` Property
+..
+   ``phy-connection-type`` Property
+``phy-connection-type`` プロパティ
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+..
+   .. tabularcolumns:: | l J |
+   .. table:: ``phy-connection-type`` Property
+
+      =========== ==============================================================
+      Property    ``phy-connection-type``
+      =========== ==============================================================
+      Value type  ``<string>``
+      Description Specifies interface type between the Ethernet device and a
+                  physical layer (PHY) device. The value of this property is
+                  specific to the implementation.
+
+                  Recommended values are shown in the following table.
+      Example     ``phy-connection-type = "mii";``
+      =========== ==============================================================
 .. tabularcolumns:: | l J |
-.. table:: ``phy-connection-type`` Property
+.. table:: ``phy-connection-type`` プロパティ
 
    =========== ==============================================================
    Property    ``phy-connection-type``
    =========== ==============================================================
    Value type  ``<string>``
-   Description Specifies interface type between the Ethernet device and a
-               physical layer (PHY) device. The value of this property is
-               specific to the implementation.
+   Description イーサネット デバイスと物理層 (PHY) デバイス間のインターフェイス タイプを指定します。
+               このプロパティの値は、実装に固有です。
 
-               Recommended values are shown in the following table.
+               推奨値を次の表に示します。
    Example     ``phy-connection-type = "mii";``
    =========== ==============================================================
 
+..
+   .. tabularcolumns:: | l J |
+   .. table:: Defined values for the ``phy-connection-type`` Property
+
+      ================================================= ============
+      Connection type                                   Value
+      ================================================= ============
+      Media Independent Interface                       ``mii``
+      Reduced Media Independent Interface               ``rmii``
+      Gigabit Media Independent Interface               ``gmii``
+      Reduced Gigabit Media Independent                 ``rgmii``
+      rgmii with internal delay                         ``rgmii-id``
+      rgmii with internal delay on TX only              ``rgmii-txid``
+      rgmii with internal delay on RX only              ``rgmii-rxid``
+      Ten Bit Interface                                 ``tbi``
+      Reduced Ten Bit Interface                         ``rtbi``
+      Serial Media Independent Interface                ``smii``
+      Serial Gigabit Media Independent Interface        ``sgmii``
+      Reverse Media Independent Interface               ``rev-mii``
+      10 Gigabits Media Independent Interface           ``xgmii``
+      Multimedia over Coaxial                           ``moca``
+      Quad Serial Gigabit Media Independent Interface   ``qsgmii``
+      Turbo Reduced Gigabit Media Independent Interface ``trgmii``
+      ================================================= ============
 .. tabularcolumns:: | l J |
-.. table:: Defined values for the ``phy-connection-type`` Property
+.. table:: ``phy-connection-type`` プロパティの定義済みの値
 
    ================================================= ============
    Connection type                                   Value
@@ -474,20 +555,34 @@ the network device class.
    Turbo Reduced Gigabit Media Independent Interface ``trgmii``
    ================================================= ============
 
-``phy-handle`` Property
+..
+   ``phy-handle`` Property
+``phy-handle`` プロパティ
 ^^^^^^^^^^^^^^^^^^^^^^^
 
+..
+   .. tabularcolumns:: | l J |
+   .. table:: ``phy-handle`` Property
+
+      =========== ==============================================================
+      Property    ``phy-handle``
+      =========== ==============================================================
+      Value type  ``<phandle>``
+      Description Specifies a reference to a node representing a physical layer
+                  (PHY) device connected to this Ethernet device. This property
+                  is required in case where the Ethernet device is connected a
+                  physical layer device.
+      Example     ``phy-handle = <&PHY0>;``
+      =========== ==============================================================
 .. tabularcolumns:: | l J |
-.. table:: ``phy-handle`` Property
+.. table:: ``phy-handle`` プロパティ
 
    =========== ==============================================================
    Property    ``phy-handle``
    =========== ==============================================================
    Value type  ``<phandle>``
-   Description Specifies a reference to a node representing a physical layer
-               (PHY) device connected to this Ethernet device. This property
-               is required in case where the Ethernet device is connected a
-               physical layer device.
+   Description このイーサネット デバイスに接続されている物理層 (PHY) デバイスを表すノードへの参照を指定します。
+               このプロパティは、イーサネット デバイスが物理層デバイスに接続されている場合に必要です。
    Example     ``phy-handle = <&PHY0>;``
    =========== ==============================================================
 

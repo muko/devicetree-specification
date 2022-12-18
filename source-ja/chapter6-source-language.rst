@@ -1,8 +1,13 @@
 .. SPDX-License-Identifier: Apache-2.0
 
+..
+        .. _chapter-devicetree-source-format:
+
+        Devicetree Source (DTS) Format (version 1)
+        ================================================
+
 .. _chapter-devicetree-source-format:
 
-.. Devicetree Source (DTS) Format (version 1)
 デバイスツリーソース (DTS) フォーマット (バージョン 1)
 ================================================
 

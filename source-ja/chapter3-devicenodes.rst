@@ -1,9 +1,13 @@
 .. SPDX-License-Identifier: Apache-2.0
 
+..
+   .. _chapter-device-node-requirements:
+
+   Device Node Requirements
+   ========================
+
 .. _chapter-device-node-requirements:
 
-..
-   Device Node Requirements
 デバイスノードの要件
 ========================
 
@@ -118,8 +122,10 @@
    ===========================================================================================
 
 
-.. note:: All other standard properties
-   (:numref:`sect-standard-properties`) are allowed but are optional.
+..
+   .. note:: All other standard properties
+      (:numref:`sect-standard-properties`) are allowed but are optional.
+.. note:: 他のすべての標準プロパティ (:numref:`sect-standard-properties`) は許可されていますが、オプションです。
 
 ..
    ``/aliases`` node
@@ -148,16 +154,29 @@
    the following set of characters.
 エイリアス名は、次の文字セットの1〜31文字の小文字のテキスト文字列でなければなりません。
 
+..
+   .. tabularcolumns:: | c p{8cm} |
+   .. table:: Valid characters for alias names
+
+      ========= ================
+      Character Description
+      ========= ================
+      0-9       digit
+      a-z       lowercase letter
+      \-        dash
+      ========= ================
+
 .. tabularcolumns:: | c p{8cm} |
-.. table:: Valid characters for alias names
+.. table:: エイリアス名に有効な文字
 
    ========= ================
-   Character Description
+   文字       説明
    ========= ================
-   0-9       digit
-   a-z       lowercase letter
-   \-        dash
+   0-9       数字
+   a-z       小文字
+   \-        ダッシュ
    ========= ================
+
 
 ..
    An alias value is a device path and is encoded as a string. The value
@@ -173,7 +192,9 @@
 クライアントプログラムは、エイリアスプロパティ名を使用して、デバイスの完全なパスをその文字列値のすべてまたは一部として参照する場合があります。
 クライアントプログラムは、文字列をデバイスパスと見なす場合、エイリアスを検出して使用する必要があります。
 
-**Example**
+..
+   **Example**
+**例**
 
 .. code-block:: dts
 
@@ -182,9 +203,11 @@
         ethernet0 = "/simple-bus@fe000000/ethernet@31c000";
     };
 
-Given the alias ``serial0``, a client program can look at the ``/aliases`` node
-and determine the alias refers to the device path
-``/simple-bus@fe000000/serial@llc500``.
+..
+   Given the alias ``serial0``, a client program can look at the ``/aliases`` node
+   and determine the alias refers to the device path
+   ``/simple-bus@fe000000/serial@llc500``.
+エイリアス ``serial0`` を指定すると、クライアント プログラムは ``/aliases`` ノードを調べて、エイリアスがデバイス パス ``/simple-bus@fe000000/serial@llc500``0 を参照していると判断できます。
 
 ..
    ``/memory`` node
@@ -235,50 +258,88 @@ and determine the alias refers to the device path
    If the VLE storage attribute is supported, with VLE=0.
 VLEストレージ属性がサポートされている場合、VLE=0。
 
+..
+   .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
+   .. table:: ``/memory`` Node Properties
+
+      ======================= ===== ========================= ===============================================
+      Property Name           Usage Value Type                Definition
+      ======================= ===== ========================= ===============================================
+      ``device_type``         R      ``<string>``             Value shall be "memory"
+      ``reg``                 R      ``<prop-encoded-array>`` Consists of an arbitrary number of address and
+                                                            size pairs that specify the physical address
+                                                            and size of the memory ranges.
+      ``initial-mapped-area`` O      ``<prop-encoded-array>`` Specifies the address and size of the Initial
+                                                            Mapped Area
+
+                                                            Is a prop-encoded-array consisting of a
+                                                            triplet of (effective address, physical
+                                                            address, size). The effective and physical
+                                                            address shall each be 64-bit (``<u64>`` value),
+                                                            and the size shall be 32-bits (``<u32>`` value).
+      ``hotpluggable``        O      ``<empty>``              Specifies an explicit hint to the operating
+                                                            system that this memory may potentially be
+                                                            removed later.
+      Usage legend: R=Required, O=Optional, OR=Optional but Recommended, SD=See Definition
+      =======================================================================================================
+
 .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
-.. table:: ``/memory`` Node Properties
+.. table:: ``/memory`` ノードのプロパティ
 
    ======================= ===== ========================= ===============================================
    Property Name           Usage Value Type                Definition
    ======================= ===== ========================= ===============================================
-   ``device_type``         R      ``<string>``             Value shall be "memory"
-   ``reg``                 R      ``<prop-encoded-array>`` Consists of an arbitrary number of address and
-                                                           size pairs that specify the physical address
-                                                           and size of the memory ranges.
-   ``initial-mapped-area`` O      ``<prop-encoded-array>`` Specifies the address and size of the Initial
-                                                           Mapped Area
+   ``device_type``         R      ``<string>``             値は "memory" とするものとする
+   ``reg``                 R      ``<prop-encoded-array>`` メモリ範囲の物理アドレスとサイズを指定する任意の数のアドレスとサイズのペアで構成されます。
+   ``initial-mapped-area`` O      ``<prop-encoded-array>`` 初期マップ領域のアドレスとサイズを指定します
 
                                                            Is a prop-encoded-array consisting of a
                                                            triplet of (effective address, physical
                                                            address, size). The effective and physical
                                                            address shall each be 64-bit (``<u64>`` value),
                                                            and the size shall be 32-bits (``<u32>`` value).
-   ``hotpluggable``        O      ``<empty>``              Specifies an explicit hint to the operating
-                                                           system that this memory may potentially be
-                                                           removed later.
-   Usage legend: R=Required, O=Optional, OR=Optional but Recommended, SD=See Definition
+   ``hotpluggable``        O      ``<empty>``              このメモリが後で削除される可能性があるという明示的なヒントをオペレーティングシステムに指定します。
+   使用法の凡例: R=必須、O=オプション、OR=オプションだが推奨、SD=定義を参照
    =======================================================================================================
 
-.. note:: All other standard properties
-   (:numref:`sect-standard-properties`) are allowed but are optional.
+..
+   .. note:: All other standard properties
+      (:numref:`sect-standard-properties`) are allowed but are optional.
+.. note:: 他のすべての標準プロパティ
+   (:numref:`sect-standard-properties`) は許可されていますが、オプションです。
 
-``/memory`` node and UEFI
+
+..
+   ``/memory`` node and UEFI
+``/memory`` ノードと UEFI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When booting via [UEFI]_, the system memory map is obtained via the
-GetMemoryMap() UEFI boot time service as defined in [UEFI]_ § 7.2,
-and if present, the OS must ignore any ``/memory`` nodes.
+..
+   When booting via [UEFI]_, the system memory map is obtained via the
+   GetMemoryMap() UEFI boot time service as defined in [UEFI]_ § 7.2,
+   and if present, the OS must ignore any ``/memory`` nodes.
+[UEFI]_ 経由で起動する場合、システム メモリ マップは、[UEFI]_ § 7.2 で定義されている GetMemoryMap() UEFI 起動時サービスを介して取得されます。
+存在する場合、OS は ``/memory`` ノードを無視する必要があります。
 
-``/memory`` Examples
+..
+   ``/memory`` Examples
+``/memory`` の例
 ~~~~~~~~~~~~~~~~~~~~
 
-Given a 64-bit Power system with the following physical memory layout:
+..
+   Given a 64-bit Power system with the following physical memory layout:
+以下の物理メモリー・レイアウトを持つ 64 ビット Power システムがあるとします。
 
-* RAM: starting address 0x0, length 0x80000000 (2 GB)
-* RAM: starting address 0x100000000, length 0x100000000 (4 GB)
+..
+   * RAM: starting address 0x0, length 0x80000000 (2 GB)
+   * RAM: starting address 0x100000000, length 0x100000000 (4 GB)
+* RAM: 開始アドレス 0x0, 長さ 0x80000000 (2 GB)
+* RAM: 開始アドレス 0x100000000, 長さ 0x100000000 (4 GB)
 
-Memory nodes could be defined as follows, assuming ``#address-cells = <2>``
-and ``#size-cells = <2>``.
+..
+   Memory nodes could be defined as follows, assuming ``#address-cells = <2>``
+   and ``#size-cells = <2>``.
+``#address-cells = <2>`` および ``#size-cells = <2>`` と仮定すると、メモリ ノードは次のように定義できます。
 
 **Example #1**
 
@@ -303,11 +364,16 @@ and ``#size-cells = <2>``.
         reg = <0x000000001 0x00000000 0x00000001 0x00000000>;
     };
 
-The ``reg`` property is used to define the address and size of the two
-memory ranges. The 2 GB I/O region is skipped. Note that the
-``#address-cells`` and ``#size-cells`` properties of the root node specify a
-value of 2, which means that two 32-bit cells are required to define the
-address and length for the ``reg`` property of the memory node.
+..
+   The ``reg`` property is used to define the address and size of the two
+   memory ranges. The 2 GB I/O region is skipped. Note that the
+   ``#address-cells`` and ``#size-cells`` properties of the root node specify a
+   value of 2, which means that two 32-bit cells are required to define the
+   address and length for the ``reg`` property of the memory node.
+``reg`` プロパティは、2 つのメモリ範囲のアドレスとサイズを定義するために使用されます。
+2 GB の I/O 領域はスキップされます。
+ルート ノードの ``#address-cells`` プロパティと ``#size-cells`` プロパティの値が 2 を指定していることに注意してください。
+これは、メモリ ノードの ``reg`` プロパティのアドレスと長さを定義するために 2 つの 32 ビット セルが必要であることを意味します。
 
 ..
    ``/reserved-memory`` Node
@@ -331,32 +397,52 @@ address and length for the ``reg`` property of the memory node.
    with the following nodes:
 各メモリ領域のパラメータは、次のノードを使用してデバイスツリーにエンコードできます。
 
-/reserved-memory parent node
+..
+   /reserved-memory parent node
+/reserved-memory 親ノード
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+..
+   .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
+   .. table:: /reserved-memory Parent Node Properties
+
+      =================== ===== ================= ===============================================
+      Property Name       Usage Value Type        Definition
+      =================== ===== ================= ===============================================
+      ``#address-cells``  R     ``<u32>``         Specifies the number of ``<u32>`` cells to
+                                                represent the address in the ``reg`` property in
+                                                children of root.
+      ``#size-cells``     R     ``<u32>``         Specifies the number of ``<u32>`` cells to
+                                                represent the size in the ``reg`` property in
+                                                children of root.
+      ``ranges``          R     ``<prop encoded   This property represents the mapping between
+                              array>``          parent address to child address spaces (see
+                                                :numref:`sect-standard-properties-ranges`,
+                                                ranges).
+      Usage legend: R=Required, O=Optional, OR=Optional but Recommended, SD=See Definition
+      ===========================================================================================
+
 .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
-.. table:: /reserved-memory Parent Node Properties
+.. table:: /reserved-memory 親ノードのプロパティ
 
    =================== ===== ================= ===============================================
    Property Name       Usage Value Type        Definition
    =================== ===== ================= ===============================================
-   ``#address-cells``  R     ``<u32>``         Specifies the number of ``<u32>`` cells to
-                                               represent the address in the ``reg`` property in
-                                               children of root.
-   ``#size-cells``     R     ``<u32>``         Specifies the number of ``<u32>`` cells to
-                                               represent the size in the ``reg`` property in
-                                               children of root.
-   ``ranges``          R     ``<prop encoded   This property represents the mapping between
-                             array>``          parent address to child address spaces (see
-                                               :numref:`sect-standard-properties-ranges`,
-                                               ranges).
+   ``#address-cells``  R     ``<u32>``         ルートの子の ``reg`` プロパティでアドレスを表す ``<u32>`` セルの数を指定します。
+   ``#size-cells``     R     ``<u32>``         ルートの子の ``reg`` プロパティでサイズを表す ``<u32>`` セルの数を指定します。
+   ``ranges``          R     ``<prop encoded   このプロパティは、親アドレスから子アドレス空間へのマッピングを表します
+                             array>``           (:numref:`sect-standard-properties-ranges` 、範囲を参照)。
    Usage legend: R=Required, O=Optional, OR=Optional but Recommended, SD=See Definition
    ===========================================================================================
 
-``#address-cells`` and ``#size-cells`` should use the same values as for the root node,
-and ``ranges`` should be empty so that address translation logic works correctly.
+..
+   ``#address-cells`` and ``#size-cells`` should use the same values as for the root node,
+   and ``ranges`` should be empty so that address translation logic works correctly.
+``#address-cells`` と ``#size-cells`` はルート ノードと同じ値を使用する必要があり、アドレス変換ロジックが正しく機能するように範囲を空にする必要があります。
 
-/reserved-memory/ child nodes
+..
+   /reserved-memory/ child nodes
+/reserved-memory/ 子ノード
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ..
@@ -375,27 +461,75 @@ and ``ranges`` should be empty so that address translation logic works correctly
 総称名の推奨プラクティスに従って、ノード名はノードの目的（つまり、 "*framebuffer*" または "*dma-pool*"）を反映する必要があります。
 ノードが静的割り当ての場合は、名前にユニットアドレス（``@<address>``）を追加する必要があります。
 
-A reserved memory node requires either a ``reg`` property for static
-allocations, or a ``size`` property for dynamics allocations.
-Dynamic allocations may use ``alignment`` and ``alloc-ranges`` properties
-to constrain where the memory is allocated from.
-If both ``reg`` and ``size`` are present, then the region is treated as a
-static allocation with the ``reg`` property taking precedence and ``size``
-is ignored.
+..
+   A reserved memory node requires either a ``reg`` property for static
+   allocations, or a ``size`` property for dynamics allocations.
+   Dynamic allocations may use ``alignment`` and ``alloc-ranges`` properties
+   to constrain where the memory is allocated from.
+   If both ``reg`` and ``size`` are present, then the region is treated as a
+   static allocation with the ``reg`` property taking precedence and ``size``
+   is ignored.
+予約メモリノードには、静的割り当ての ``reg`` プロパティ、または動的割り当ての ``size`` プロパティが必要です。
+動的割り当てでは、アライメントと ``alloc-ranges`` プロパティを使用して、メモリの割り当て元を制限できます。
+``reg`` と ``size`` の両方が存在する場合、領域は ``reg`` プロパティが優先される静的割り当てとして扱われ、 ``size`` は無視されます。
 
+..
+   .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
+   .. table:: ``/reserved-memory/`` Child Node Properties
+
+      ======================= ===== ========================= ===============================================
+      Property Name           Usage Value Type                Definition
+      ======================= ===== ========================= ===============================================
+      ``reg``                 O      ``<prop-encoded-array>`` Consists of an arbitrary number of address and
+                                                            size pairs that specify the physical address
+                                                            and size of the memory ranges.
+      ``size``                O      ``<prop-encoded-array>`` Size in bytes of memory to reserve for
+                                                            dynamically allocated regions.
+                                                            Size of this property is based on parent node's
+                                                            ``#size-cells`` property.
+      ``alignment``           O      ``<prop-encoded-array>`` Address boundary for alignment of allocation.
+                                                            Size of this property is based on parent node's
+                                                            ``#size-cells`` property.
+      ``alloc-ranges``        O      ``<prop-encoded-array>`` Specifies regions of memory that are acceptable
+                                                            to allocate from.
+                                                            Format is (address, length pairs) tuples in
+                                                            same format as for ``reg`` properties.
+      ``compatible``          O      ``<stringlist>``         May contain the following strings:
+
+                                                            - ``shared-dma-pool``: This indicates a region of
+                                                               memory meant to be used as a shared pool of DMA
+                                                               buffers for a set of devices.
+                                                               It can be used by an operating system to
+                                                               instantiate the necessary pool management
+                                                               subsystem if necessary.
+
+                                                            - vendor specific string in the form
+                                                               ``<vendor>,[<device>-]<usage>``
+      ``no-map``              O      ``<empty>``              If present, indicates the operating system must
+                                                            not create a virtual mapping of the region as
+                                                            part of its standard mapping of system memory,
+                                                            nor permit speculative access to it under any
+                                                            circumstances other than under the control of
+                                                            the device driver using the region.
+      ``reusable``            O      ``<empty>``              The operating system can use the memory in this
+                                                            region with the limitation that the device
+                                                            driver(s) owning the region need to be able to
+                                                            reclaim it back.
+                                                            Typically that means that the operating system
+                                                            can use that region to store volatile or cached
+                                                            data that can be otherwise regenerated or
+                                                            migrated elsewhere.
+      Usage legend: R=Required, O=Optional, OR=Optional but Recommended, SD=See Definition
+      =======================================================================================================
 .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
-.. table:: ``/reserved-memory/`` Child Node Properties
+.. table:: ``/reserved-memory/`` 子ノードのプロパティ
 
    ======================= ===== ========================= ===============================================
    Property Name           Usage Value Type                Definition
    ======================= ===== ========================= ===============================================
-   ``reg``                 O      ``<prop-encoded-array>`` Consists of an arbitrary number of address and
-                                                           size pairs that specify the physical address
-                                                           and size of the memory ranges.
-   ``size``                O      ``<prop-encoded-array>`` Size in bytes of memory to reserve for
-                                                           dynamically allocated regions.
-                                                           Size of this property is based on parent node's
-                                                           ``#size-cells`` property.
+   ``reg``                 O      ``<prop-encoded-array>`` メモリ範囲の物理アドレスとサイズを指定する任意の数のアドレスとサイズのペアで構成されます。
+   ``size``                O      ``<prop-encoded-array>`` 動的に割り当てられた領域用に予約するメモリのサイズ (バイト単位)。
+                                                           このプロパティのサイズは、親ノードの ``#size-cells`` プロパティに基づきます。
    ``alignment``           O      ``<prop-encoded-array>`` Address boundary for alignment of allocation.
                                                            Size of this property is based on parent node's
                                                            ``#size-cells`` property.
@@ -434,33 +568,56 @@ is ignored.
 .. note:: All other standard properties
    (:numref:`sect-standard-properties`) are allowed but are optional.
 
-The ``no-map`` and ``reusable`` properties are mutually exclusive and both must
-not be used together in the same node.
+..
+   The ``no-map`` and ``reusable`` properties are mutually exclusive and both must
+   not be used together in the same node.
+``no-map`` プロパティと ``reusable`` プロパティは相互に排他的であり、両方を同じノードで一緒に使用することはできません。
 
-Linux implementation notes:
+..
+   Linux implementation notes:
+Linux の実装に関する注意事項: 
 
-- If a ``linux,cma-default`` property is present, then Linux will use the
-  region for the default pool of the contiguous memory allocator.
+..
+   - If a ``linux,cma-default`` property is present, then Linux will use the
+   region for the default pool of the contiguous memory allocator.
+- ``linux,cma-default`` プロパティが存在する場合、Linux は連続メモリ アロケータのデフォルトプールにリージョンを使用します。 
 
-- If a ``linux,dma-default`` property is present, then Linux will use the
-  region for the default pool of the consistent DMA allocator.
+..
+   - If a ``linux,dma-default`` property is present, then Linux will use the
+   region for the default pool of the consistent DMA allocator.
+- ``linux,dma-default`` プロパティが存在する場合、Linux は一貫性のある DMA アロケータのデフォルト プールにリージョンを使用します。
 
-Device node references to reserved memory
+..
+   Device node references to reserved memory
+予約済みメモリへのデバイスノード参照 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Regions in the ``/reserved-memory`` node may be referenced by other device
-nodes by adding a ``memory-region`` property to the device node.
+..
+   Regions in the ``/reserved-memory`` node may be referenced by other device
+   nodes by adding a ``memory-region`` property to the device node.
+``/reserved-memory`` ノードの領域は、デバイス ノードに ``memory-region`` プロパティを追加することで、他のデバイス ノードから参照できます。
 
+..
+   .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
+   .. table:: Properties for referencing reserved-memory regions
+
+      ======================= ===== ========================= ===============================================
+      Property Name           Usage Value Type                Definition
+      ======================= ===== ========================= ===============================================
+      ``memory-region``       O     ``<prop-encoded-array>``  phandle, specifier pairs to children of
+                                                            ``/reserved-memory``
+      ``memory-region-names`` O     ``<stringlist>>``         A list of names, one for each corresponding
+                                                            entry in the ``memory-region`` property
+      Usage legend: R=Required, O=Optional, OR=Optional but Recommended, SD=See Definition
+      =======================================================================================================
 .. tabularcolumns:: | p{4cm} p{0.75cm} p{4cm} p{6.5cm} |
-.. table:: Properties for referencing reserved-memory regions
+.. table:: 予約メモリ領域を参照するためのプロパティ
 
    ======================= ===== ========================= ===============================================
    Property Name           Usage Value Type                Definition
    ======================= ===== ========================= ===============================================
-   ``memory-region``       O     ``<prop-encoded-array>``  phandle, specifier pairs to children of
-                                                           ``/reserved-memory``
-   ``memory-region-names`` O     ``<stringlist>>``         A list of names, one for each corresponding
-                                                           entry in the ``memory-region`` property
+   ``memory-region``       O     ``<prop-encoded-array>``  phandle、``/reserved-memory`` の子に対する指定子のペア
+   ``memory-region-names`` O     ``<stringlist>>``         名前のリスト。 ``memory-region`` プロパティの対応するエントリごとに 1 つ
    Usage legend: R=Required, O=Optional, OR=Optional but Recommended, SD=See Definition
    =======================================================================================================
 

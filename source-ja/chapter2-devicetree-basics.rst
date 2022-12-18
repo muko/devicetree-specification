@@ -1,9 +1,13 @@
 .. SPDX-License-Identifier: Apache-2.0
 
+..
+   .. _chapter-devicetree:
+
+   The Devicetree
+   ==============
+
 .. _chapter-devicetree:
 
-..
-   The Devicetree
 デバイスツリー
 ==============
 
@@ -29,9 +33,9 @@
    certain device types or classes of devices.
    :numref:`Chapter %s <chapter-fdt-structure>` describes the in-memory encoding of the devicetree.
 この章では、デバイスツリーの論理構造について説明し、デバイスノードの説明に使用するプロパティの基本セットを指定します。
-:numref:`Chapter %s <chapter-device-node-requirements>` は、 |spec| 準拠のデバイスツリーに必要な特定のデバイスノードを指定します。
-:numref:`Chapter %s <chapter-device-bindings>` は、 |spec| で定義されたデバイスバインディング（特定のデバイスタイプまたはデバイスのクラスを表すための要件）について説明しています。
-:numref:`Chapter %s <chapter-fdt-structure>` は、デバイスツリーのメモリ内エンコーディングについて説明しています。
+:numref:`第 %s 章 <chapter-device-node-requirements>` は、 |spec| 準拠のデバイスツリーに必要な特定のデバイスノードを指定します。
+:numref:`第 %s 章 <chapter-device-bindings>` は、 |spec| で定義されたデバイスバインディング（特定のデバイスタイプまたはデバイスのクラスを表すための要件）について説明しています。
+:numref:`第 %s 章 <chapter-fdt-structure>` は、デバイスツリーのメモリ内エンコーディングについて説明しています。
 
 ..
    A devicetree is a tree data structure with nodes that describe the
@@ -150,7 +154,7 @@
    to 31 characters in length and consist solely of characters from the set
    of characters in :numref:`node-name-characters`.
 *node-name* コンポーネントは、ノードの名前を指定します。
-長さは1〜31文字で、:numref:`node-name-characters` の文字セットの文字のみで構成されます。
+長さは1〜31文字で、:numref:`node-name-characters` の文字セットの文字のみで構成されるものとします。
 
 .. tabularcolumns:: | c p{8cm} |
 .. _node-name-characters:
@@ -172,7 +176,7 @@
 ..
    The *node-name* shall start with a lower or uppercase character and
    should describe the general class of device.
-*node-name* は小文字または大文字で始まり、デバイスの一般的なクラスを説明する必要があります。
+*node-name* は小文字または大文字で始まるものとし、デバイスの一般的なクラスを説明する必要があります。
 
 ..
    The *unit-address* component of the name is specific to the bus type on
@@ -626,8 +630,8 @@ In :numref:`example-nodenames`:
    of specific devices and may also specify additional requirements.
 |spec| はデバイスノードの標準プロパティのセットを指定します。
 これらのプロパティについては、このセクションで詳しく説明します。
-|spec| で定義されたデバイスノード（:numref:`Chapter %s <chapter-device-node-requirements>` を参照）は、標準プロパティの使用に関する追加の要件または制約を指定する場合があります。
- :numref:`Chapter %s <chapter-device-bindings>` は、特定のデバイスの表現を説明し、追加の要件を指定する場合もあります。
+|spec| で定義されたデバイスノード（:numref:`第 %s 章 <chapter-device-node-requirements>` を参照）は、標準プロパティの使用に関する追加の要件または制約を指定する場合があります。
+ :numref:`第 %s 章 <chapter-device-bindings>` は、特定のデバイスの表現を説明し、追加の要件を指定する場合もあります。
 
 ..
    .. note:: All examples of devicetree nodes in this document use the
@@ -793,12 +797,15 @@ phandle
          another-device-node {
          interrupt-parent = <1>;
          };
-
-.. note:: Older versions of devicetrees may be encountered that contain a
-   deprecated form of this property called ``linux,phandle``. For
-   compatibility, a client program might want to support ``linux,phandle``
-   if a ``phandle`` property is not present. The meaning and use of the two
-   properties is identical.
+..
+   .. note:: Older versions of devicetrees may be encountered that contain a
+      deprecated form of this property called ``linux,phandle``. For
+      compatibility, a client program might want to support ``linux,phandle``
+      if a ``phandle`` property is not present. The meaning and use of the two
+      properties is identical.
+.. note:: ``linux,phandle`` と呼ばれるこのプロパティの廃止された形式を含む古いバージョンのデバイス ツリーが検出される場合があります。
+   互換性のために、 ``phandle`` プロパティが存在しない場合、クライアント プログラムは ``linux,phandle`` をサポートする必要がある場合があります。 
+   2 つのプロパティの意味と使用法は同じです。
 
 .. note:: Most devicetrees in :abbr:`DTS (Device Tree Syntax)` (see Appendix A) will not
    contain explicit phandle properties. The DTC tool automatically inserts
@@ -1181,7 +1188,7 @@ dma-ranges
 ..
    Value type: ``<empty>`` or ``<prop-encoded-array>`` encoded as an arbitrary number of
    (*child-bus-address*, *parent-bus-address*, *length*) triplets.
-値のタイプ: ``<empty>``または任意の数の (*child-bus-address*, *parent-bus-address*, *length*) トリプレットとしてエンコードされた ``<prop-encoded-array>``。
+値のタイプ: ``<empty>`` または任意の数の (*child-bus-address*, *parent-bus-address*, *length*) トリプレットとしてエンコードされた ``<prop-encoded-array>`` 。
 
 ..
    Description:
@@ -1218,18 +1225,12 @@ dma-ranges
    *dma-ranges* プロパティの値の形式は、 (*child-bus-address*, *parent-bus-address*, *length*) の任意の数のトリプレットです。
    指定された各トリプレットは、連続する DMA アドレス範囲を表します。
 
-   * The *child-bus-address* is a physical address within the child bus'
-     address space. The number of cells to represent the address depends
-     on the bus and can be determined from the *#address-cells* of this
-     node (the node in which the *dma-ranges* property appears).
-   * The *parent-bus-address* is a physical address within the parent bus'
-     address space. The number of cells to represent the parent address is
-     bus dependent and can be determined from the *#address-cells*
-     property of the node that defines the parent’s address space.
-   * The *length* specifies the size of the range in the child’s address
-     space. The number of cells to represent the size can be determined
-     from the *#size-cells* of this node (the node in which the dma-ranges
-     property appears).
+   * *child-bus-address* は、子バスのアドレス空間内の物理アドレスです。
+     アドレスを表すセルの数はバスによって異なり、このノード (*dma-ranges* プロパティが表示されるノード) の *#address-cells* から決定できます。 
+   * *parent-bus-address* は、親バスのアドレス空間内の物理アドレスです。
+     親アドレスを表すセルの数はバスに依存し、親のアドレス空間を定義するノードの *#address-cells* プロパティから決定できます。
+   * *length* は、子のアドレス空間の範囲のサイズを指定します。
+     サイズを表すセルの数は、このノード (*dma-ranges* プロパティが表示されるノード) の *#size-cells* から決定できます。
 
 
 dma-coherent
@@ -1474,8 +1475,10 @@ interrupts
    Property: ``interrupts``
 プロパティ: ``interrupts``
 
-Value type: ``<prop-encoded-array>`` encoded as arbitrary number of
-interrupt specifiers
+..
+   Value type: ``<prop-encoded-array>`` encoded as arbitrary number of
+   interrupt specifiers
+値のタイプ: 任意の数の割り込み指定子としてエンコードされた ``<prop-encoded-array>`` 
 
 ..
    Description:
@@ -1591,7 +1594,9 @@ interrupts-extended
 両方の使用は、 *interrupts-extended* を理解しないソフトウェアとの互換性のために必要な場合にのみ許可されます。
 *interrupts-extended* と *interrupts* の両方が存在する場合は、割り込み拡張が優先されます。
 
-Properties for Interrupt Controllers
+..
+   Properties for Interrupt Controllers
+割り込みコントローラのプロパティ
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #interrupt-cells

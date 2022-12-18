@@ -1,9 +1,13 @@
 .. SPDX-License-Identifier: Apache-2.0
 
+..
+    .. _chapter-introduction:
+
+    Introduction
+    ============
+
 .. _chapter-introduction:
 
-..
-    Introduction
 序
 ============
 
@@ -104,25 +108,37 @@
     **Conventions Used in this Document**
 **本文書で使用されている規則**
 
-The word *shall* is used to indicate mandatory requirements strictly to
-be followed in order to conform to the standard and from which no
-deviation is permitted (*shall* equals *is required to*).
+..
+    The word *shall* is used to indicate mandatory requirements strictly to
+    be followed in order to conform to the standard and from which no
+    deviation is permitted (*shall* equals *is required to*).
+*shall* (するものとする) という言葉は、標準に準拠するために厳密に従う必要があり、そこからの逸脱が許されない必須要件を示すために使用されます (*shall* と *is equals to* は同等です)。
 
-The word *should* is used to indicate that among several possibilities
-one is recommended as particularly suitable, without mentioning or
-excluding others; or that a certain course of action is preferred but
-not necessarily required; or that (in the negative form) a certain
-course of action is deprecated but not prohibited (*should* equals *is
-recommended that*).
+..
+    The word *should* is used to indicate that among several possibilities
+    one is recommended as particularly suitable, without mentioning or
+    excluding others; or that a certain course of action is preferred but
+    not necessarily required; or that (in the negative form) a certain
+    course of action is deprecated but not prohibited (*should* equals *is
+    recommended that*).
+*should* (すべきである) という言葉は、他の可能性に言及したり除外したりすることなく、いくつかの可能性の中で特に適切なものとして推奨されることを示すために使用されます。
+または、特定の行動方針が望ましいが、必ずしも必要ではないこと。または、（否定形で）特定の一連の行動が推奨されていないが、禁止されていないこと（*should* と *is recommended that* は同等です）。
 
-The word *may* is used to indicate a course of action permissible within
-the limits of the standard (*may* equals *is permitted*).
+..
+    The word *may* is used to indicate a course of action permissible within
+    the limits of the standard (*may* equals *is permitted*).
+*may* (してもよい) という言葉は、規格の範囲内で許容される一連の行動を示すために使用されます (*may* と *is permitted* は同等です)。
 
-Examples of devicetree constructs are frequently shown in *Devicetree
-Syntax* form. See :numref:`chapter-devicetree-source-format` for
-an overview of this syntax.
+..
+    Examples of devicetree constructs are frequently shown in *Devicetree
+    Syntax* form. See :numref:`chapter-devicetree-source-format` for
+    an overview of this syntax.
+デバイスツリー構造の例は、*デバイスツリー構文形式* で頻繁に示されます。
+この構文の概要については、 :numref:`chapter-devicetree-source-format` を参照してください。
 
-Relationship to IEEE™ 1275 and |epapr|
+..
+    Relationship to IEEE™ 1275 and |epapr|
+IEEE™ 1275 と |epapr| の関係
 --------------------------------------
 
 |spec| is loosely related to the IEEE 1275 Open Firmware
@@ -164,8 +180,8 @@ The text of this document was derived from |epapr|, but either removes architect
     The |spec| supports CPUs with both 32-bit and 64-bit addressing
     capabilities. Where applicable, sections of the |spec| describe any
     requirements or considerations for 32-bit and 64-bit addressing.
-|spec| 32ビットと64ビットの両方のアドレス指定機能を備えたCPUをサポートします。
-該当する場合、 |spec| のセクション32ビットおよび64ビットアドレス指定の要件または考慮事項について説明します。
+|spec| は32ビットと64ビットの両方のアドレス指定機能を備えたCPUをサポートします。
+該当する場合、 |spec| のセクションは32ビットおよび64ビットアドレス指定の要件または考慮事項について説明します。
 
 ..
     Definition of Terms
@@ -263,25 +279,21 @@ The text of this document was derived from |epapr|, but either removes architect
        コンピューターで使用可能なCPUはグループに分割され、それぞれが個別のオペレーティングシステムイメージを実行します。
        CPUは同一である場合とそうでない場合があります。
 
-   boot CPU
-       The first CPU which a boot program directs to a client program’s
-       entry point.
+   ブートCPU
+       ブートプログラムがクライアントプログラムのエントリポイントに指示する最初のCPU。
 
    Book III-E
        Embedded Environment. Section of the Power ISA defining supervisor
        instructions and related facilities used in embedded Power processor
        implementations.
 
-   boot program
-       Used to generically refer to a software component that initializes
-       the system state and executes another software component referred to
-       as a client program. Examples of a boot program include: firmware,
-       bootloaders, and hypervisors.
+   ブートプログラム
+       システム状態を初期化し、クライアントプログラムと呼ばれる別のソフトウェアコンポーネントを実行するソフトウェアコンポーネントを一般的に指すために使用されます。
+       ブートプログラムの例には、ファームウェア、ブートローダー、およびハイパーバイザーが含まれます。
 
-   client program
-       Program that typically contains application or operating system
-       software. Examples of a client program include: bootloaders,
-       hypervisors, operating systems, and special purpose programs.
+   クライアントプログラム
+       通常、アプリケーションまたはオペレーティングシステムソフトウェアを含むプログラム。
+       クライアントプログラムの例としては、ブートローダー、ハイパーバイザー、オペレーティングシステム、専用プログラムなどがあります。
 
    cell
        32ビットで構成される情報の単位。
@@ -330,8 +342,7 @@ The text of this document was derived from |epapr|, but either removes architect
        1つまたは複数のCPUコアと他の多数の周辺機器を統合する単一のコンピューターチップ。
 
    unit address
-       The part of a node name specifying the node’s address in the address
-       space of the parent node.
+       親ノードのアドレス空間でノードのアドレスを指定するノード名の部分。
 
    quiescent CPU
        静止CPUは、他のCPUの通常の動作に干渉できない状態にあり、静止CPUを有効または再度有効にする明示的な方法を除いて、他の実行中のCPUの通常の動作の影響を受けることもありません。
